@@ -2,3 +2,4 @@ JS -> framework react
 Sauvegarde info -> local
 Faire simple / souple
 CSS -> bootstrap
+Essaie en ligne

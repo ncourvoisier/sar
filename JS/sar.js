@@ -11,3 +11,15 @@ val2=document.forms["Requete"].elements["Table2"].value;
 document.forms["Requete"].elements["Table2"].value=0;
 console.log("Valeur deuxieme table ="+val2);
 }
+
+
+function createArray() {
+
+    var grille = new array();
+    var szGrille = grille.length;
+    grille[szGrille] = new array();
+
+    alert()
+
+
+}

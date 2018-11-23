@@ -27,34 +27,20 @@ input{
 
 select {
   display: inline-block;
-  width: 100%;
+  width: 5%;
   cursor: pointer;
-  padding: 10px 35px 10px 15px;
+  padding: 0% 1% 0% 1%;
   outline: 0;
   border: 0;
   border-radius: 0;
   background: #e6e6e6;
-  color: #666;
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
   font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+  font-size: 50%;
 }
 select::-ms-expand {
   display: none;
 }
-/*
-.select-custom:after {
-  content: "\25BC";
-  position: absolute;
-  top: 0;
-  right: 0;
-  font-size: 70%;
-  width: 30px;
-  text-align: center;
-  padding-top: 12px;
-  padding-bottom: 10px;
-  pointer-events: none;
-  color: #666666;
-}
-*/
+

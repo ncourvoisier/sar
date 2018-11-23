@@ -15,11 +15,42 @@ console.log("Valeur deuxieme table ="+val2);
 
 function createArray() {
 
-    var grille = new array();
-    var szGrille = grille.length;
-    grille[szGrille] = new array();
+    var nbLigne = prompt('Création d\'un nouveau tableau','nb ligne');
+    //console.log(nbLigne);
 
-    alert()
+    var grille = new Array();
+    for(var i=0; i<nbLigne; i++){
+        grille[i] = new Array();
+        //alert("Case "+ i + "-" + j +" : "+ grille[i][j]);
+    }
+
+    var ent = prompt('Saisir le nom des attribut','clé,...');
+    var line = new Array();
+    line = ent.split(' ');
+    var szLine = line.length;
+    for (var i=0; i<szLine; i++) {
+        console.log(line[i]);
+    }
+
+    /*var line1 = ["clé", "att1", "att2", "att3"];
+    var line2 = ["0", "val1", "val2", "val3"];
+
+    for (var i=0; i<2; i++) {
+        for (var j=0; j<4; j++) {
+            if (i === 0) {
+                grille[i][j] = line1[j];
+                continue;
+            }
+            grille[i][j] = line2[j];
+        }
+    }
+
+    for (var i=0; i<2; i++) {
+        for (var j=0; j<4; j++) {
+            console.dir(grille[i][j]);
+        }
+        console.log("\n");
+    }*/
 
 
 }

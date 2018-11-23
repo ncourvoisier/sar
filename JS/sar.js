@@ -17,6 +17,10 @@ function recupValeur(){
 	document.forms["Requete"].elements["Table2"].value=0;
 }
 
+function recupTable(){
+	console.log("Je passe ici");
+}
+
 
 function createArray() {
 

@@ -1,6 +1,8 @@
 h1{
-	color:blue;
-	font-size:500%;
+	color:#542323;
+	font-size:300%;
+	margin: auto;
+	border: 3px solid #542323;
 }
 p{
 	color:green;

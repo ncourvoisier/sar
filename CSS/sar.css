@@ -6,9 +6,12 @@ h1{
 	text-align: center;
 }
 p{
-	color:green;
+	color:#577482;
 	font-size:200%;
 }
 body{
 	background-color: #D6AD7C;
+}
+.encadrement{
+	border: 3px solid #577482;
 }

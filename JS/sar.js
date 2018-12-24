@@ -25,7 +25,7 @@ function createLine(IDTable){
 	console.log(output);
 	var trNew  = document.createElement('tr');
 
-	var Colonnes=document.getElementsByClassName('col');
+	var Colonnes=output.getElementsByClassName('col');
 	var nbColonnes=Colonnes.length;
 
 
@@ -48,10 +48,18 @@ function createLine(IDTable){
 function createColumn(IDTable){
 	var output = document.getElementById(IDTable),trs;
 	console.log(output);
-	var Colonnes=document.getElementsByClassName('col');
+	var Colonnes=output.getElementsByClassName('col');
 	console.log(Colonnes);
 	var nbColonnes=Colonnes.length;
 	console.log(nbColonnes);
+	var ligne=output.getElementsByTagName('tr');
+	console.log("Ligne");
+	console.log(ligne);
+	for(var i=1; i<ligne.length;i++){
+		var td = document.createElement('td');
+		td.appendChild(document.createTextNode('Défaut'));
+		ligne[i].appendChild(td);
+	}
 	var trNew  = document.createElement('th');
 	trNew.className = "col";
 	trNew.appendChild(document.createTextNode('Nouvelle colonne'));

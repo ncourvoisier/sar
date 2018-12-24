@@ -20,23 +20,22 @@ function recupValeur(){
 function recupTable(){
 	console.log("Je passe ici");
 }
-function createLine(){
+function createLine(IDTable){
 	var output = document.getElementById('table1'),trs;
 	console.log(output);
 	var trNew  = document.createElement('tr');
 
-	var thNavi = document.createElement('th');
-	var tdDevs = document.createElement('td');
-	var tdPart = document.createElement('td');
+	var Colonnes=document.getElementsByClassName('col');
+	var nbColonnes=Colonnes.length;
 
-	thNavi.setAttribute('scope', 'row');
-	thNavi.appendChild(document.createTextNode('A'));
-	tdDevs.appendChild(document.createTextNode('B'));
-	tdPart.appendChild(document.createTextNode('C'));
 
-	trNew.appendChild(thNavi);
-	trNew.appendChild(tdDevs);
-	trNew.appendChild(tdPart);
+	for (var i = 0; i < nbColonnes; i++) {
+		var td = document.createElement('td');
+		td.appendChild(document.createTextNode('Défaut'));
+		trNew.appendChild(td);	
+    }
+	//trNew.appendChild(tdDevs);
+	//trNew.appendChild(tdPart);
 
 	if (output) {
 	    trs = output.getElementsByTagName('tr');
@@ -46,16 +45,21 @@ function createLine(){
 	    }
 	}
 }
-function createColumn(){
-	var output = document.getElementById('table1'),trs;
+function createColumn(IDTable){
+	var output = document.getElementById(IDTable),trs;
 	console.log(output);
+	var Colonnes=document.getElementsByClassName('col');
+	console.log(Colonnes);
+	var nbColonnes=Colonnes.length;
+	console.log(nbColonnes);
 	var trNew  = document.createElement('th');
+	trNew.className = "col";
 	trNew.appendChild(document.createTextNode('Nouvelle colonne'));
 	if (output) {
 	    trs = output.getElementsByTagName('th');
 	    console.log(trs);
-	    if (trs[1]) { // Le <tr> de Chrome
-	        trs[1].parentNode.insertBefore(trNew, trs[1]);
+	    if (trs[nbColonnes-1]) { // Le <tr> de Chrome
+	        trs[nbColonnes-1].parentNode.insertBefore(trNew, trs[nbColonnes-1].nextSibling);
 	    }
 	}
 }

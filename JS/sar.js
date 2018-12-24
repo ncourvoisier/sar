@@ -20,8 +20,32 @@ function recupValeur(){
 function recupTable(){
 	console.log("Je passe ici");
 }
+function createLine(){
+	var output = document.getElementById('table1'),trs;
+	console.log(output);
+	var trNew  = document.createElement('tr');
 
+	var thNavi = document.createElement('th');
+	var tdDevs = document.createElement('td');
+	var tdPart = document.createElement('td');
 
+	thNavi.setAttribute('scope', 'row');
+	thNavi.appendChild(document.createTextNode('A'));
+	tdDevs.appendChild(document.createTextNode('B'));
+	tdPart.appendChild(document.createTextNode('C'));
+
+	trNew.appendChild(thNavi);
+	trNew.appendChild(tdDevs);
+	trNew.appendChild(tdPart);
+
+	if (output) {
+	    trs = output.getElementsByTagName('tr');
+
+	    if (trs[2]) { // Le <tr> de Chrome
+	        trs[2].parentNode.insertBefore(trNew, trs[2]);
+	    }
+	}
+}
 function createArray() {
 
     var nbLigne = prompt('Création d\'un nouveau tableau','nb ligne');

@@ -41,8 +41,21 @@ function createLine(){
 	if (output) {
 	    trs = output.getElementsByTagName('tr');
 
-	    if (trs[2]) { // Le <tr> de Chrome
-	        trs[2].parentNode.insertBefore(trNew, trs[2]);
+	    if (trs[1]) { // Le <tr> de Chrome
+	        trs[1].parentNode.insertBefore(trNew, trs[1]);
+	    }
+	}
+}
+function createColumn(){
+	var output = document.getElementById('table1'),trs;
+	console.log(output);
+	var trNew  = document.createElement('th');
+	trNew.appendChild(document.createTextNode('Nouvelle colonne'));
+	if (output) {
+	    trs = output.getElementsByTagName('th');
+	    console.log(trs);
+	    if (trs[1]) { // Le <tr> de Chrome
+	        trs[1].parentNode.insertBefore(trNew, trs[1]);
 	    }
 	}
 }

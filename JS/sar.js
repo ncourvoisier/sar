@@ -1,3 +1,5 @@
+var NombreTable=1;
+
 function recupValeur(){
 	if(document.forms["Requete"].elements["Table1"].value==0 || document.forms["Requete"].elements["Table2"].value==0 || document.forms["Requete"].elements["operateur"].value==0){
 		console.log("Erreur syntaxe");
@@ -20,8 +22,11 @@ function recupValeur(){
 function recupTable(){
 	console.log("Je passe ici");
 }
-function createLine(IDTable){
-	var output = document.getElementById('table1'),trs;
+function createLine(ID){
+	var StringID=ID.toString();
+	var IDTable="table"+StringID;
+	console.log(IDTable);
+	var output = document.getElementById(IDTable),trs;
 	console.log(output);
 	var trNew  = document.createElement('tr');
 
@@ -34,9 +39,6 @@ function createLine(IDTable){
 		td.appendChild(document.createTextNode('Défaut'));
 		trNew.appendChild(td);	
     }
-	//trNew.appendChild(tdDevs);
-	//trNew.appendChild(tdPart);
-
 	if (output) {
 	    trs = output.getElementsByTagName('tr');
 
@@ -45,7 +47,9 @@ function createLine(IDTable){
 	    }
 	}
 }
-function createColumn(IDTable){
+function createColumn(ID){
+	var StringID=ID.toString();
+	var IDTable="table"+StringID;
 	var output = document.getElementById(IDTable),trs;
 	console.log(output);
 	var Colonnes=output.getElementsByClassName('col');
@@ -70,6 +74,45 @@ function createColumn(IDTable){
 	        trs[nbColonnes-1].parentNode.insertBefore(trNew, trs[nbColonnes-1].nextSibling);
 	    }
 	}
+}
+function createArrayCedric() {
+	NombreTable++;
+	console.log(NombreTable);
+	var output = document.getElementById('EmplacementTables');
+	console.log(output);
+	var divNew  = document.createElement('div');
+	divNew.className = "EmplacementTable";
+	output.appendChild(divNew);
+	var ajoutLigneNew  = document.createElement('input');
+	ajoutLigneNew.type = "button" ;
+	ajoutLigneNew.value = "+L" ;
+	ajoutLigneNew.setAttribute("onClick","createLine("+NombreTable+")") ;
+	divNew.appendChild(ajoutLigneNew);
+	var ajoutColonneNew  = document.createElement('input');
+	ajoutColonneNew.type = "button" ;
+	ajoutColonneNew.value = "+C" ;
+	ajoutColonneNew.setAttribute("onClick","createColumn("+NombreTable+")") ;
+	divNew.appendChild(ajoutColonneNew);
+	var tabNew=document.createElement('table');
+	var StringID=NombreTable.toString();
+	var IDTable="table"+StringID;
+	tabNew.id=IDTable;
+	var theadNew=document.createElement('thead');
+	var trNew=document.createElement('tr');
+	var thNew=document.createElement('th');
+	thNew.className="col";
+	thNew.appendChild(document.createTextNode('Nouvelle colonne'));
+	trNew.appendChild(thNew);
+	theadNew.appendChild(trNew);
+	tabNew.appendChild(theadNew);
+	var tbodyNew=document.createElement('tbody');
+	var trBodyNew=document.createElement('tr');
+	var tdBodyNew=document.createElement('td');
+	tdBodyNew.appendChild(document.createTextNode('Défaut'));
+	trBodyNew.appendChild(tdBodyNew);
+	tbodyNew.appendChild(trBodyNew);
+	tabNew.appendChild(tbodyNew);
+	divNew.appendChild(tabNew);
 }
 function createArray() {
 

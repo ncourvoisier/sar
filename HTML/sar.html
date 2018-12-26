@@ -33,41 +33,44 @@
 			</span>
 		</p>
 	</form>
-
-	<form name="nvArray">
-		<input type="button" value="+" onclick="createArray()">
-	</form>
-	<form name="nvLigne">
-		<input type="button" value="+L" onclick="createLine('table1')">
-	</form>
-	<form name="nvColonne">
-		<input type="button" value="+C" onclick="createColumn('table1')">
-	</form>
-	<table id="table1">
-	    <thead>
-	        <tr>
-	            <th class="col">A</th>
-	            <th class="col">B</th>
-	            <th class="col">C</th>
-	        </tr>
-	    </thead>
-	    <tbody>
-	        <tr>
-	            <td>a</th>
-	            <td>b</td>
-	            <td>c</td>
-	        </tr>                
-	        <tr>
-	            <td>a</th>
-	            <td>b</td>
-	            <td>v</td>
-	        </tr>
-	        <tr>
-	            <td>a</th>
-	            <td>b</td>
-	            <td>c</td>
-	        </tr>
-	    </tbody>
-	</table>
+	<div id="EmplacementTables">
+			<form name="nvArray">
+				<input type="button" value="+" onclick="createArrayCedric()">
+			</form>
+			<div class="EmplacementTable">
+			<form name="nvLigne">
+				<input type="button" value="+L" onclick="createLine('1')">
+			</form>
+			<form name="nvColonne">
+				<input type="button" value="+C" onclick="createColumn('1')">
+			</form>
+			<table id="table1">
+			    <thead>
+			        <tr>
+			            <th class="col">A</th>
+			            <th class="col">B</th>
+			            <th class="col">C</th>
+			        </tr>
+			    </thead>
+			    <tbody>
+			        <tr>
+			            <td>a</td>
+			            <td>b</td>
+			            <td>c</td>
+			        </tr>                
+			        <tr>
+			            <td>a</td>
+			            <td>b</td>
+			            <td>v</td>
+			        </tr>
+			        <tr>
+			            <td>a</td>
+			            <td>b</td>
+			            <td>c</td>
+			        </tr>
+			    </tbody>
+			</table>
+		</div>
+	</div>
 </body>
 </html>

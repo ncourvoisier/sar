@@ -171,4 +171,5 @@ function createArray() {
 	divNew.appendChild(tabNew);
 	DeplacementHauteur=100+NombreTable*200;
 	divNew.style.top = DeplacementHauteur+'px';
+	divNew.draggable=true;
 }

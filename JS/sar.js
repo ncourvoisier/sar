@@ -1,6 +1,12 @@
 var NombreTable=1;
 var dragged = null; //L'élément en cours de drag
 //Lorsque dragged = null, il n'y a rien en cours de déplacement
+
+document.querySelector('#EmplacementTables').addEventListener('dragover', function(e) {
+    e.preventDefault(); // Annule l'interdiction de drop
+});
+
+
 function recupValeur(){
 	if(document.forms["Requete"].elements["Table1"].value==0 || document.forms["Requete"].elements["Table2"].value==0 || document.forms["Requete"].elements["operateur"].value==0){
 		console.log("Erreur syntaxe");
@@ -163,4 +169,6 @@ function createArray() {
 	tbodyNew.appendChild(trBodyNew);
 	tabNew.appendChild(tbodyNew);
 	divNew.appendChild(tabNew);
+	DeplacementHauteur=100+NombreTable*200;
+	divNew.style.top = DeplacementHauteur+'px';
 }

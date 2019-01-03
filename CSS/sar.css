@@ -17,7 +17,7 @@ span{
 }
 /*BOUTON OK*/
 input{
-	width:4%;
+	width:40px;
 	background:#cc0000;
 	font:bold 75% Arial;
 	border-radius:50%;
@@ -51,4 +51,8 @@ table, th, td {
 .EmplacementTable{
 	border: 1px solid black;
 	background: #E06666;
+	position: absolute;
+}
+#EmplacementTables{
+	height: 800px;
 }

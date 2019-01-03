@@ -1,5 +1,6 @@
 var NombreTable=1;
-
+var dragged = null; //L'élément en cours de drag
+//Lorsque dragged = null, il n'y a rien en cours de déplacement
 function recupValeur(){
 	if(document.forms["Requete"].elements["Table1"].value==0 || document.forms["Requete"].elements["Table2"].value==0 || document.forms["Requete"].elements["operateur"].value==0){
 		console.log("Erreur syntaxe");
@@ -22,6 +23,55 @@ function recupValeur(){
 function recupTable(){
 	console.log("Je passe ici");
 }
+
+function placeDiv(x_pos, y_pos,ID) {
+  //var d = document.getElementById(ID);
+  //d.style.position = "absolute";
+  //d.style.left = x_pos+'px';
+  //d.style.top = y_pos+'px';
+ addEvent(ID,'mousemove',drag_onmousemove);
+ //addEvent(ID,'mouseup',drag_onmouseup);
+}
+
+
+
+
+function start_drag(objet,event)
+{
+  dragged = objet; //On le place comme objet en cours
+  //des lignes à rajouter dans start_drag:
+	event.returnValue = false; //Pour Internet Explorer
+	if( event.preventDefault ) event.preventDefault();
+}
+
+function drag_onmousemove(event)  //Lorsque la souris se déplace
+{
+  if( dragged ) //s'il n'y a pas d'élément en cours de déplacement, inutile de le déplacer :) 
+  {
+    var x = event.clientX;
+    var y = event.clientY;
+    dragged.style.position = 'absolute';
+    dragged.style.left = x + 'px';
+    dragged.style.top = y + 'px';
+  }
+}
+
+function drag_onmouseup(event)  //Lorsque le bouton de la souris est relâché
+{
+  dragged = null; //On arrête le drag & drop
+}
+
+//Ma petite fonction "magique" pour ajouter des évènements
+function addEvent(obj,event,fct)
+{
+  if( obj.attachEvent)
+     obj.attachEvent('on' + event,fct);
+  else
+     obj.addEventListener(event,fct,true);
+}
+
+
+
 function createLine(ID){
 	var StringID=ID.toString();
 	var IDTable="table"+StringID;
@@ -75,7 +125,7 @@ function createColumn(ID){
 	    }
 	}
 }
-function createArrayCedric() {
+function createArray() {
 	NombreTable++;
 	console.log(NombreTable);
 	var output = document.getElementById('EmplacementTables');
@@ -113,45 +163,4 @@ function createArrayCedric() {
 	tbodyNew.appendChild(trBodyNew);
 	tabNew.appendChild(tbodyNew);
 	divNew.appendChild(tabNew);
-}
-function createArray() {
-
-    var nbLigne = prompt('Création d\'un nouveau tableau','nb ligne');
-    //console.log(nbLigne);
-
-    var grille = new Array();
-    for(var i=0; i<nbLigne; i++){
-        grille[i] = new Array();
-        //alert("Case "+ i + "-" + j +" : "+ grille[i][j]);
-    }
-
-    var ent = prompt('Saisir le nom des attribut','clé,...');
-    var line = new Array();
-    line = ent.split(' ');
-    var szLine = line.length;
-    for (var i=0; i<szLine; i++) {
-        console.log(line[i]);
-    }
-
-    /*var line1 = ["clé", "att1", "att2", "att3"];
-    var line2 = ["0", "val1", "val2", "val3"];
-
-    for (var i=0; i<2; i++) {
-        for (var j=0; j<4; j++) {
-            if (i === 0) {
-                grille[i][j] = line1[j];
-                continue;
-            }
-            grille[i][j] = line2[j];
-        }
-    }
-
-    for (var i=0; i<2; i++) {
-        for (var j=0; j<4; j++) {
-            console.dir(grille[i][j]);
-        }
-        console.log("\n");
-    }*/
-
-
 }

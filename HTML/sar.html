@@ -35,15 +35,16 @@
 	</form>
 	<div id="EmplacementTables">
 			<form name="nvArray">
-				<input type="button" value="+" onclick="createArrayCedric()">
+				<input type="button" value="+" onclick="createArray()">
 			</form>
-			<div class="EmplacementTable">
+			<div class="EmplacementTable" id="EmplacementTable1">
 			<form name="nvLigne">
 				<input type="button" value="+L" onclick="createLine('1')">
 			</form>
 			<form name="nvColonne">
 				<input type="button" value="+C" onclick="createColumn('1')">
 			</form>
+			<input type="button" value="Dep" onclick="placeDiv(100,100,EmplacementTable1)">
 			<table id="table1">
 			    <thead>
 			        <tr>

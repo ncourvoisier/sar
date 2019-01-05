@@ -12,17 +12,23 @@ dragDrop = {
 	initialMouseY: undefined,
 	startX: undefined,
 	startY: undefined,
-	dXKeys: undefined,
-	dYKeys: undefined,
 	draggedObject: undefined,
+	toDragObject: undefined,
 	initElement: function (element) {
 		if (typeof element == 'string')
 			element = document.getElementById(element);
-		element.onmousedown = dragDrop.startDragMouse;
+		zone_drag=element.getElementsByClassName("drag");
+		dragDrop.toDragObject=element;
+		console.log(zone_drag[0]);
+		zone_drag[0].onmousedown = dragDrop.startDragMouse;
+
 	},
 	startDragMouse: function (e) {
-		dragDrop.startDrag(this);
-		var evt = e || window.event;
+		console.log("ok");
+		dragDrop.startDrag(dragDrop.toDragObject);
+		//dragDrop.startDrag(e);
+		var evt = e;
+		console.log(e);
 		dragDrop.initialMouseX = evt.clientX;
 		dragDrop.initialMouseY = evt.clientY;
 		addEventSimple(document,'mousemove',dragDrop.dragMouse);
@@ -30,6 +36,7 @@ dragDrop = {
 		return false;
 	},
 	startDrag: function (obj) {
+		console.log(obj);
 		if (dragDrop.draggedObject)
 			dragDrop.releaseElement();
 		dragDrop.startX = obj.offsetLeft;

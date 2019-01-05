@@ -47,6 +47,9 @@ select::-ms-expand {
 table, th, td {
   border: 1px solid black;
 }
+.drag{
+	background:#40A497;
+}
 
 .EmplacementTable{
 	border: 1px solid black;

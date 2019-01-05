@@ -19,7 +19,7 @@ dragDrop = {
 			element = document.getElementById(element);
 		zone_drag=element.getElementsByClassName("drag");
 		dragDrop.toDragObject=element;
-		console.log(zone_drag[0]);
+		console.log(zone_drag.length);
 		zone_drag[0].onmousedown = dragDrop.startDragMouse;
 
 	},
@@ -153,18 +153,23 @@ function createArray() {
 	NombreTable++;
 	var output = document.getElementById('EmplacementTables');
 	var divNew  = document.createElement('div');
+	var divDrag  = document.createElement('div');
+	divDrag.className = "drag";
 	divNew.className = "EmplacementTable";
 	output.appendChild(divNew);
 	var ajoutLigneNew  = document.createElement('input');
 	ajoutLigneNew.type = "button" ;
 	ajoutLigneNew.value = "+L" ;
 	ajoutLigneNew.setAttribute("onClick","createLine("+NombreTable+")") ;
-	divNew.appendChild(ajoutLigneNew);
+	//divNew.appendChild(ajoutLigneNew);
 	var ajoutColonneNew  = document.createElement('input');
 	ajoutColonneNew.type = "button" ;
 	ajoutColonneNew.value = "+C" ;
 	ajoutColonneNew.setAttribute("onClick","createColumn("+NombreTable+")") ;
-	divNew.appendChild(ajoutColonneNew);
+	//divNew.appendChild(ajoutColonneNew);
+	divDrag.appendChild(ajoutColonneNew);
+	divDrag.appendChild(ajoutLigneNew);
+	divNew.appendChild(divDrag);
 	var tabNew=document.createElement('table');
 	var StringID=NombreTable.toString();
 	var IDTable="table"+StringID;

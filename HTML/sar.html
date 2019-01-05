@@ -35,11 +35,11 @@
 	</form>
 	<div id="EmplacementTables">
 			<input type="button" value="+" onclick="createArray()">
+			<div class="EmplacementTable" id="EmplacementTable1">
 			
-			<div class="EmplacementTable" id="EmplacementTable1" draggable="true">
 			<input type="button" value="+L" onclick="createLine('1')">
 			<input type="button" value="+C" onclick="createColumn('1')">
-			<input type="button" value="Dep" onclick="placeDiv(100,100,EmplacementTable1)">
+			
 			<table id="table1">
 			    <thead>
 			        <tr>
@@ -50,8 +50,8 @@
 			    </thead>
 			    <tbody>
 			        <tr>
-			            <td>a</td>
-			            <td>b</td>
+			            <td><input type="text" name="text" disabled=""></td>
+			            <td><TEXTAREA name="nom"></TEXTAREA></td>
 			            <td>c</td>
 			        </tr>                
 			        <tr>

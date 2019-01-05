@@ -16,7 +16,7 @@ span{
 	border: 3px solid #577482;
 }
 /*BOUTON OK*/
-input{
+input[type=button]{
 	width:40px;
 	background:#cc0000;
 	font:bold 75% Arial;

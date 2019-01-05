@@ -1,5 +1,10 @@
 var NombreTable=1;
-
+ObjetTable ={
+	X:0,
+	Y:0,
+	nbColonnes:1,
+	nbLigne:1,
+}
 dragDrop = {
 	keyHTML: '<a href="#" class="keyLink"></a>',
 	keySpeed: 10, // pixels per keypress event
@@ -29,6 +34,7 @@ dragDrop = {
 		addEventSimple(document,'mouseup',dragDrop.releaseElement);
 		return false;
 	},
+	
 	startDragKeys: function () {
 		dragDrop.startDrag(this.relatedElement);
 		dragDrop.dXKeys = dragDrop.dYKeys = 0;
@@ -149,9 +155,9 @@ function recupTable(){
 function createLine(ID){
 	var StringID=ID.toString();
 	var IDTable="table"+StringID;
-	console.log(IDTable);
+	//console.log(IDTable);
 	var output = document.getElementById(IDTable),trs;
-	console.log(output);
+	//console.log(output);
 	var trNew  = document.createElement('tr');
 
 	var Colonnes=output.getElementsByClassName('col');
@@ -175,14 +181,9 @@ function createColumn(ID){
 	var StringID=ID.toString();
 	var IDTable="table"+StringID;
 	var output = document.getElementById(IDTable),trs;
-	console.log(output);
 	var Colonnes=output.getElementsByClassName('col');
-	console.log(Colonnes);
 	var nbColonnes=Colonnes.length;
-	console.log(nbColonnes);
 	var ligne=output.getElementsByTagName('tr');
-	console.log("Ligne");
-	console.log(ligne);
 	for(var i=1; i<ligne.length;i++){
 		var td = document.createElement('td');
 		td.appendChild(document.createTextNode('Défaut'));
@@ -193,7 +194,6 @@ function createColumn(ID){
 	trNew.appendChild(document.createTextNode('Nouvelle colonne'));
 	if (output) {
 	    trs = output.getElementsByTagName('th');
-	    console.log(trs);
 	    if (trs[nbColonnes-1]) { // Le <tr> de Chrome
 	        trs[nbColonnes-1].parentNode.insertBefore(trNew, trs[nbColonnes-1].nextSibling);
 	    }
@@ -201,9 +201,7 @@ function createColumn(ID){
 }
 function createArray() {
 	NombreTable++;
-	console.log(NombreTable);
 	var output = document.getElementById('EmplacementTables');
-	console.log(output);
 	var divNew  = document.createElement('div');
 	divNew.className = "EmplacementTable";
 	output.appendChild(divNew);
@@ -237,7 +235,7 @@ function createArray() {
 	tbodyNew.appendChild(trBodyNew);
 	tabNew.appendChild(tbodyNew);
 	divNew.appendChild(tabNew);
-	DeplacementHauteur=100+NombreTable*200;
+	DeplacementHauteur=120+NombreTable*100;
 	divNew.style.top = DeplacementHauteur+'px';
 	divNew.draggable=true;
 	dragDrop.initElement(divNew);
@@ -250,7 +248,6 @@ window.onload=function()   {
 	//console.log(array_drop.length);
 	//console.log(array_drop[1]);
 	for (var i=0; i<array_drop.length;i++){
-			console.log(array_drop[i]);
 			dragDrop.initElement(array_drop[i]);
 	}
 }

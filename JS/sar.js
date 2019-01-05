@@ -6,8 +6,8 @@ ObjetTable ={
 	nbLigne:1,
 }
 dragDrop = {
-	keyHTML: '<a href="#" class="keyLink"></a>',
-	keySpeed: 10, // pixels per keypress event
+	//keyHTML: '<a href="#" class="keyLink">#</a>',
+	//keySpeed: 10, // pixels per keypress event
 	initialMouseX: undefined,
 	initialMouseY: undefined,
 	startX: undefined,
@@ -19,11 +19,6 @@ dragDrop = {
 		if (typeof element == 'string')
 			element = document.getElementById(element);
 		element.onmousedown = dragDrop.startDragMouse;
-		element.innerHTML += dragDrop.keyHTML;
-		var links = element.getElementsByTagName('a');
-		var lastLink = links[links.length-1];
-		lastLink.relatedElement = element;
-		lastLink.onclick = dragDrop.startDragKeys;
 	},
 	startDragMouse: function (e) {
 		dragDrop.startDrag(this);
@@ -32,15 +27,6 @@ dragDrop = {
 		dragDrop.initialMouseY = evt.clientY;
 		addEventSimple(document,'mousemove',dragDrop.dragMouse);
 		addEventSimple(document,'mouseup',dragDrop.releaseElement);
-		return false;
-	},
-	
-	startDragKeys: function () {
-		dragDrop.startDrag(this.relatedElement);
-		dragDrop.dXKeys = dragDrop.dYKeys = 0;
-		addEventSimple(document,'keydown',dragDrop.dragKeys);
-		addEventSimple(document,'keypress',dragDrop.switchKeyEvents);
-		this.blur();
 		return false;
 	},
 	startDrag: function (obj) {
@@ -58,47 +44,9 @@ dragDrop = {
 		dragDrop.setPosition(dX,dY);
 		return false;
 	},
-	dragKeys: function(e) {
-		var evt = e || window.event;
-		var key = evt.keyCode;
-		switch (key) {
-			case 37:	// gauche
-			case 63234:
-				dragDrop.dXKeys -= dragDrop.keySpeed;
-				break;
-			case 38:	// haut
-			case 63232:
-				dragDrop.dYKeys -= dragDrop.keySpeed;
-				break;
-			case 39:	// droite
-			case 63235:
-				dragDrop.dXKeys += dragDrop.keySpeed;
-				break;
-			case 40:	// bas
-			case 63233:
-				dragDrop.dYKeys += dragDrop.keySpeed;
-				break;
-			case 13: 	// Touche Entrée
-			case 27: 	// Touche Echap.
-				dragDrop.releaseElement();
-				return false;
-			default:
-				return true;
-		}
-		dragDrop.setPosition(dragDrop.dXKeys,dragDrop.dYKeys);
-		if (evt.preventDefault)
-			evt.preventDefault();
-		return false;
-	},
 	setPosition: function (dx,dy) {
 		dragDrop.draggedObject.style.left = dragDrop.startX + dx + 'px';
 		dragDrop.draggedObject.style.top = dragDrop.startY + dy + 'px';
-	},
-	switchKeyEvents: function () {
-		// for Opera and Safari 1.3
-		removeEventSimple(document,'keydown',dragDrop.dragKeys);
-		removeEventSimple(document,'keypress',dragDrop.switchKeyEvents);
-		addEventSimple(document,'keypress',dragDrop.dragKeys);
 	},
 	releaseElement: function() {
 		removeEventSimple(document,'mousemove',dragDrop.dragMouse);
@@ -124,8 +72,6 @@ function removeEventSimple(obj,evt,fn) {
 	else if (obj.detachEvent)
 		obj.detachEvent('on'+evt,fn);
 }
-
-//console.log(document.getElementsByClassName("EmplacementTable"));
 function recupValeur(){
 	if(document.forms["Requete"].elements["Table1"].value==0 || document.forms["Requete"].elements["Table2"].value==0 || document.forms["Requete"].elements["operateur"].value==0){
 		console.log("Erreur syntaxe");
@@ -155,11 +101,8 @@ function recupTable(){
 function createLine(ID){
 	var StringID=ID.toString();
 	var IDTable="table"+StringID;
-	//console.log(IDTable);
 	var output = document.getElementById(IDTable),trs;
-	//console.log(output);
 	var trNew  = document.createElement('tr');
-
 	var Colonnes=output.getElementsByClassName('col');
 	var nbColonnes=Colonnes.length;
 
@@ -243,11 +186,8 @@ function createArray() {
 
 window.onload=function()   {
 	var array_drop=document.getElementsByClassName("EmplacementTable");
-	//console.log(document.getElementsByClassName("EmplacementTable"));
-	//console.log(array_drop[0]);
-	//console.log(array_drop.length);
-	//console.log(array_drop[1]);
 	for (var i=0; i<array_drop.length;i++){
 			dragDrop.initElement(array_drop[i]);
 	}
+	
 }

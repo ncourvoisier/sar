@@ -1,7 +1,7 @@
 var NombreTable=1;
 
 dragDrop = {
-	keyHTML: '<a href="#" class="keyLink">#</a>',
+	keyHTML: '<a href="#" class="keyLink"></a>',
 	keySpeed: 10, // pixels per keypress event
 	initialMouseX: undefined,
 	initialMouseY: undefined,

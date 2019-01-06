@@ -24,6 +24,9 @@ input[type=button]{
 	border:none;
 	color:#fff;
 }
+span>input[type=button]{
+	width:90px;
+}
 
 select {
   display: inline-block;
@@ -44,8 +47,11 @@ select::-ms-expand {
   display: none;
 }
 
-table, th, td {
+table, td {
   border: 1px solid black;
+}
+th{
+	 border: 3px solid black;
 }
 .drag{
 	background:#40A497;
@@ -58,4 +64,8 @@ table, th, td {
 }
 #EmplacementTables{
 	height: 800px;
+}
+
+#EmplacementTables span{
+	border:none;
 }

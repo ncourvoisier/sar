@@ -1,4 +1,5 @@
 var NombreTable=1;
+var bloquage=true;
 ObjetTable ={
 	X:0,
 	Y:0,
@@ -108,7 +109,7 @@ function createLine(ID){
 		var td = document.createElement('td');
 		var EntreeTexte  = document.createElement('input');
 		EntreeTexte.type="text";
-		EntreeTexte.disabled=true;
+		EntreeTexte.disabled=bloquage;
 		EntreeTexte.placeholder="Valeur attribut";
 		td.appendChild(EntreeTexte);
 		trNew.appendChild(td);	
@@ -133,7 +134,7 @@ function createColumn(ID){
 		var EntreeTexte  = document.createElement('input');
 		EntreeTexte.placeholder="Valeur attribut";
 		EntreeTexte.type="text";
-		EntreeTexte.disabled=true;
+		EntreeTexte.disabled=bloquage;
 		td.appendChild(EntreeTexte);
 		ligne[i].appendChild(td);
 	}
@@ -141,7 +142,7 @@ function createColumn(ID){
 	trNew.className = "col";
 	var EntreeTexte  = document.createElement('input');
 	EntreeTexte.type="text";
-	EntreeTexte.disabled=true;
+	EntreeTexte.disabled=bloquage;
 	EntreeTexte.placeholder="Nom attribut";
 	trNew.appendChild(EntreeTexte);
 	if (output) {
@@ -168,9 +169,12 @@ function createArray() {
 	ajoutColonneNew.type = "button" ;
 	ajoutColonneNew.value = "+C" ;
 	ajoutColonneNew.setAttribute("onClick","createColumn("+NombreTable+")") ;
+	var ajoutNumero  = document.createElement('span');
+	ajoutNumero.innerHTML=NombreTable;
 	//divNew.appendChild(ajoutColonneNew);
 	divDrag.appendChild(ajoutColonneNew);
 	divDrag.appendChild(ajoutLigneNew);
+	divDrag.appendChild(ajoutNumero);
 	var tabNew=document.createElement('table');
 	var StringID=NombreTable.toString();
 	var IDTable="table"+StringID;
@@ -181,7 +185,7 @@ function createArray() {
 	thNew.className="col";
 	var EntreeTexte  = document.createElement('input');
 	EntreeTexte.type="text";
-	EntreeTexte.disabled=true;
+	EntreeTexte.disabled=bloquage;
 	EntreeTexte.placeholder="Nom attribut";
 	thNew.appendChild(EntreeTexte);
 	//thNew.appendChild(document.createTextNode('Nouvelle colonne'));
@@ -193,7 +197,7 @@ function createArray() {
 	var tdBodyNew=document.createElement('td');
 	var EntreeTexte2  = document.createElement('input');
 	EntreeTexte2.type="text";
-	EntreeTexte2.disabled=true;
+	EntreeTexte2.disabled=bloquage;
 	EntreeTexte2.placeholder="Valeur attribut";
 	tdBodyNew.appendChild(EntreeTexte2);
 	trBodyNew.appendChild(tdBodyNew);
@@ -207,7 +211,20 @@ function createArray() {
 	divNew.style.top = DeplacementHauteur+'px';
 	dragDrop.initElement(IDEmplacement);
 }
-
+function modification(){
+	var ensembleTr=document.getElementsByTagName('input');
+	bloquage=!bloquage;
+	for(var i=0; i<ensembleTr.length;i++){
+		if(ensembleTr[i].type=='text')
+			ensembleTr[i].disabled=bloquage;
+	}
+	if(!bloquage){
+		document.getElementById('boutonModification').style.background = "#32CD32";
+	}
+	else{
+		document.getElementById('boutonModification').style.background = "#cc0000";
+	}
+}
 window.onload=function()   {
 	var array_drop=document.getElementsByClassName("EmplacementTable");
 	for (var i=0; i<array_drop.length;i++){

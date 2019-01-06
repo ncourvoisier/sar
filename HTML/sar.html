@@ -34,11 +34,18 @@
 		</p>
 	</form>
 	<div id="EmplacementTables">
-			<input type="button" value="+" onclick="createArray()">
+		<p>
+		<span>
+		Boutons essentiels :
+			<input type="button" value="Ajout" onclick="createArray()">
+			<input type="button" id="boutonModification" value="Modif" onclick="modification()">
+		</span>
+	</p>
 			<div class="EmplacementTable" id="EmplacementTable1">
 			<div class="drag">
 			<input type="button" value="+L" onclick="createLine('1')">
 			<input type="button" value="+C" onclick="createColumn('1')">
+			<span>1</span>
 			</div>
 			<table id="table1">
 			    <thead>

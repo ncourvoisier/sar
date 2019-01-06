@@ -95,9 +95,6 @@ function recupTable(){
 	console.log("Je passe ici");
 }
 
-
-
-//<input type="text" name="text" disabled="">
 function createLine(ID){
 	var StringID=ID.toString();
 	var IDTable="table"+StringID;
@@ -112,6 +109,7 @@ function createLine(ID){
 		var EntreeTexte  = document.createElement('input');
 		EntreeTexte.type="text";
 		EntreeTexte.disabled=true;
+		EntreeTexte.placeholder="Valeur attribut";
 		td.appendChild(EntreeTexte);
 		trNew.appendChild(td);	
     }
@@ -133,6 +131,7 @@ function createColumn(ID){
 	for(var i=1; i<ligne.length;i++){
 		var td = document.createElement('td');
 		var EntreeTexte  = document.createElement('input');
+		EntreeTexte.placeholder="Valeur attribut";
 		EntreeTexte.type="text";
 		EntreeTexte.disabled=true;
 		td.appendChild(EntreeTexte);
@@ -143,6 +142,7 @@ function createColumn(ID){
 	var EntreeTexte  = document.createElement('input');
 	EntreeTexte.type="text";
 	EntreeTexte.disabled=true;
+	EntreeTexte.placeholder="Nom attribut";
 	trNew.appendChild(EntreeTexte);
 	if (output) {
 	    trs = output.getElementsByTagName('th');
@@ -182,6 +182,7 @@ function createArray() {
 	var EntreeTexte  = document.createElement('input');
 	EntreeTexte.type="text";
 	EntreeTexte.disabled=true;
+	EntreeTexte.placeholder="Nom attribut";
 	thNew.appendChild(EntreeTexte);
 	//thNew.appendChild(document.createTextNode('Nouvelle colonne'));
 	trNew.appendChild(thNew);
@@ -193,7 +194,7 @@ function createArray() {
 	var EntreeTexte2  = document.createElement('input');
 	EntreeTexte2.type="text";
 	EntreeTexte2.disabled=true;
-	//thNew.appendChild(EntreeTexte2);
+	EntreeTexte2.placeholder="Valeur attribut";
 	tdBodyNew.appendChild(EntreeTexte2);
 	trBodyNew.appendChild(tdBodyNew);
 	tbodyNew.appendChild(trBodyNew);

@@ -13,22 +13,15 @@ dragDrop = {
 	startX: undefined,
 	startY: undefined,
 	draggedObject: undefined,
-	toDragObject: undefined,
 	initElement: function (element) {
 		if (typeof element == 'string')
 			element = document.getElementById(element);
 		zone_drag=element.getElementsByClassName("drag");
-		dragDrop.toDragObject=element;
-		console.log(zone_drag.length);
 		zone_drag[0].onmousedown = dragDrop.startDragMouse;
-
 	},
 	startDragMouse: function (e) {
-		console.log("ok");
-		dragDrop.startDrag(dragDrop.toDragObject);
-		//dragDrop.startDrag(e);
+		dragDrop.startDrag(this.parentNode);
 		var evt = e;
-		console.log(e);
 		dragDrop.initialMouseX = evt.clientX;
 		dragDrop.initialMouseY = evt.clientY;
 		addEventSimple(document,'mousemove',dragDrop.dragMouse);
@@ -36,7 +29,7 @@ dragDrop = {
 		return false;
 	},
 	startDrag: function (obj) {
-		console.log(obj);
+		//console.log(obj);
 		if (dragDrop.draggedObject)
 			dragDrop.releaseElement();
 		dragDrop.startX = obj.offsetLeft;
@@ -169,7 +162,6 @@ function createArray() {
 	//divNew.appendChild(ajoutColonneNew);
 	divDrag.appendChild(ajoutColonneNew);
 	divDrag.appendChild(ajoutLigneNew);
-	divNew.appendChild(divDrag);
 	var tabNew=document.createElement('table');
 	var StringID=NombreTable.toString();
 	var IDTable="table"+StringID;
@@ -189,11 +181,13 @@ function createArray() {
 	trBodyNew.appendChild(tdBodyNew);
 	tbodyNew.appendChild(trBodyNew);
 	tabNew.appendChild(tbodyNew);
+	divNew.appendChild(divDrag);
 	divNew.appendChild(tabNew);
+	var IDEmplacement="EmplacementTable"+StringID;
+	divNew.id=IDEmplacement;
 	DeplacementHauteur=120+NombreTable*100;
 	divNew.style.top = DeplacementHauteur+'px';
-	divNew.draggable=true;
-	dragDrop.initElement(divNew);
+	dragDrop.initElement(IDEmplacement);
 }
 
 window.onload=function()   {

@@ -97,7 +97,7 @@ function recupTable(){
 
 
 
-
+//<input type="text" name="text" disabled="">
 function createLine(ID){
 	var StringID=ID.toString();
 	var IDTable="table"+StringID;
@@ -109,7 +109,10 @@ function createLine(ID){
 
 	for (var i = 0; i < nbColonnes; i++) {
 		var td = document.createElement('td');
-		td.appendChild(document.createTextNode('Défaut'));
+		var EntreeTexte  = document.createElement('input');
+		EntreeTexte.type="text";
+		EntreeTexte.disabled=true;
+		td.appendChild(EntreeTexte);
 		trNew.appendChild(td);	
     }
 	if (output) {
@@ -129,12 +132,18 @@ function createColumn(ID){
 	var ligne=output.getElementsByTagName('tr');
 	for(var i=1; i<ligne.length;i++){
 		var td = document.createElement('td');
-		td.appendChild(document.createTextNode('Défaut'));
+		var EntreeTexte  = document.createElement('input');
+		EntreeTexte.type="text";
+		EntreeTexte.disabled=true;
+		td.appendChild(EntreeTexte);
 		ligne[i].appendChild(td);
 	}
 	var trNew  = document.createElement('th');
 	trNew.className = "col";
-	trNew.appendChild(document.createTextNode('Nouvelle colonne'));
+	var EntreeTexte  = document.createElement('input');
+	EntreeTexte.type="text";
+	EntreeTexte.disabled=true;
+	trNew.appendChild(EntreeTexte);
 	if (output) {
 	    trs = output.getElementsByTagName('th');
 	    if (trs[nbColonnes-1]) { // Le <tr> de Chrome
@@ -170,14 +179,22 @@ function createArray() {
 	var trNew=document.createElement('tr');
 	var thNew=document.createElement('th');
 	thNew.className="col";
-	thNew.appendChild(document.createTextNode('Nouvelle colonne'));
+	var EntreeTexte  = document.createElement('input');
+	EntreeTexte.type="text";
+	EntreeTexte.disabled=true;
+	thNew.appendChild(EntreeTexte);
+	//thNew.appendChild(document.createTextNode('Nouvelle colonne'));
 	trNew.appendChild(thNew);
 	theadNew.appendChild(trNew);
 	tabNew.appendChild(theadNew);
 	var tbodyNew=document.createElement('tbody');
 	var trBodyNew=document.createElement('tr');
 	var tdBodyNew=document.createElement('td');
-	tdBodyNew.appendChild(document.createTextNode('Défaut'));
+	var EntreeTexte2  = document.createElement('input');
+	EntreeTexte2.type="text";
+	EntreeTexte2.disabled=true;
+	//thNew.appendChild(EntreeTexte2);
+	tdBodyNew.appendChild(EntreeTexte2);
 	trBodyNew.appendChild(tdBodyNew);
 	tbodyNew.appendChild(trBodyNew);
 	tabNew.appendChild(tbodyNew);

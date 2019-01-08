@@ -74,7 +74,7 @@ function removeEventSimple(obj,evt,fn) {
 		obj.detachEvent('on'+evt,fn);
 }
 function recupValeur(){
-	if(document.forms["Requete"].elements["Table1"].value==0 || document.forms["Requete"].elements["Table2"].value==0 || document.forms["Requete"].elements["operateur"].value==0){
+	/*if(document.forms["Requete"].elements["Table1"].value==0 || document.forms["Requete"].elements["Table2"].value==0 || document.forms["Requete"].elements["operateur"].value==0){
 		console.log("Erreur syntaxe");
 	}
 	else{
@@ -89,11 +89,21 @@ function recupValeur(){
 	}
 	document.forms["Requete"].elements["Table1"].value=0;
 	document.forms["Requete"].elements["operateur"].value=0;
-	document.forms["Requete"].elements["Table2"].value=0;
+	document.forms["Requete"].elements["Table2"].value=0;*/
 }
 
 function recupTable(){
 	console.log("Je passe ici");
+
+	var sp2 = document.getElementById('Req');
+// Créer un nouvel élément
+	var test = document.createElement('p');
+	test.innerHTML = "Hello";
+
+	var parendDiv = sp2.parentNode;
+
+// Insérer le nouvel élément avant le premier enfant
+	parendDiv.insertBefore(test, sp2);
 }
 
 function createLine(ID){
@@ -169,12 +179,20 @@ function createArray() {
 	ajoutColonneNew.type = "button" ;
 	ajoutColonneNew.value = "+C" ;
 	ajoutColonneNew.setAttribute("onClick","createColumn("+NombreTable+")") ;
+	var ajoutButtonSuppr  = document.createElement('input');
+	ajoutButtonSuppr.type = "button" ;
+	ajoutButtonSuppr.id = "buttonSuppr" ;
+	ajoutButtonSuppr.value = "X" ;
+	ajoutButtonSuppr.setAttribute("onClick","suppression("+NombreTable+")") ;
 	var ajoutNumero  = document.createElement('span');
 	ajoutNumero.innerHTML=NombreTable;
 	//divNew.appendChild(ajoutColonneNew);
+
+	divDrag.appendChild(ajoutButtonSuppr);
 	divDrag.appendChild(ajoutColonneNew);
 	divDrag.appendChild(ajoutLigneNew);
 	divDrag.appendChild(ajoutNumero);
+
 	var tabNew=document.createElement('table');
 	var StringID=NombreTable.toString();
 	var IDTable="table"+StringID;
@@ -225,6 +243,14 @@ function modification(){
 		document.getElementById('boutonModification').style.background = "#cc0000";
 	}
 }
+
+function suppression(IDTable){
+	var stringID = IDTable.toString();
+	var children = document.getElementById("EmplacementTable"+stringID);
+	var parent = document.getElementById("EmplacementTables");
+	parent.removeChild(children);
+}
+
 window.onload=function()   {
 	var array_drop=document.getElementsByClassName("EmplacementTable");
 	for (var i=0; i<array_drop.length;i++){

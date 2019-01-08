@@ -24,6 +24,19 @@ input[type=button]{
 	border:none;
 	color:#fff;
 }
+
+input[id=buttonSuppr]{
+	width:20px;
+	height:16px;
+	background:#cc0000;
+	font:bold 75% Arial;
+	border-radius:50%;
+	border:none;
+	color:#fff;
+	right:10px;
+	position: absolute;
+}
+
 span>input[type=button]{
 	width:90px;
 }

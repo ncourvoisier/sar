@@ -296,17 +296,6 @@ function save() {
 	}
 }
 
-function preLoad(){
-	window.location.reload();
-	window.onload=load();
-}
-function pausecomp(millis)
-{
-    var date = new Date();
-    var curDate = null;
-    do { curDate = new Date(); }
-    while(curDate-date < millis);
-}
 function load() {
 	console.log("Cédr");
 	//if (typeof(Storage) !== "undefined") {
@@ -335,40 +324,7 @@ function load() {
 			if(res[i].colonne === null || res[i].ligne === null) {
 				continue;
 			}
-			/*if (i==1) {
-				console.log("dans if");
-				var IDTable = "table"+i;
-				var ID = i;
-				var output = document.getElementById(IDTable),trs;
-				var colonnes=output.getElementsByClassName('col');
-				var nbColonnes=colonnes.length;
-				var ligne=output.getElementsByTagName('tr');
-				var nbLigne = ligne.length;
-				if (NombreTable === 1 && res[i].colonne === 1 && res[i].line === 2) {
-					alert("Nothing to load");
-					return;
-				}
-				if(colonnes !== res[i].colonne) {
-					console.log("ajout colonne\n");
-					var nvCol = res[i].colonne;
-					//console.log("nvCol : "+nvCol);
-					for (var j=1; j <nvCol; ++j) {
-						createColumn(ID);
-					}
-				}
-				if(ligne !== res[i].ligne) {
-					console.log("ajout ligne\n");
-					var nvLine = res[i].ligne;
-					//console.log("nvLine : "+nvLine);
-					for (var j=1; j <nvLine-1; ++j) {
-						createLine(ID);
-					}
-				}
-				NombreTable=1;
-				continue;
-			}*/
 			createArray();
-			//console.log("nouveau tableau créé");
 			var nvCol = res[i].colonne;
 			for (var j=1; j <nvCol; ++j) {
 				createColumn(i); //i = IDTable

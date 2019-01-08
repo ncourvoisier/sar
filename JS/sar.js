@@ -241,6 +241,7 @@ function suppression(IDTable){
 	var children = document.getElementById("EmplacementTable"+stringID);
 	var parent = document.getElementById("EmplacementTables");
 	parent.removeChild(children);
+	NombreTable--;
 }
 
 window.onload=function()   {
@@ -248,7 +249,6 @@ window.onload=function()   {
 	for (var i=0; i<array_drop.length;i++){
 		dragDrop.initElement(array_drop[i]);
 	}
-	
 }
 
 
@@ -274,6 +274,9 @@ function save() {
 		for (var i=1; i<=NombreTable; i++) {
 			var IDTable = "table"+i;
 			var output = document.getElementById(IDTable),trs;
+			if (output === null) {
+				continue;
+			}
 			var Colonnes=output.getElementsByClassName('col');
 			var nbColonnes=Colonnes.length;
 			var ligne=output.getElementsByTagName('tr');
@@ -318,10 +321,21 @@ function load() {
 		}
 		console.log("taille tab recu : "+res.length+"\n");
 		var tailleRes = res.length;
-		for (var i=1; i<=tailleRes-1; i++) {
+		var nbTableLoad = tailleRes - 1;
+		
+		console.log("Nombre table actuelle"+NombreTable);
+		
+		for (var i=1; i<=NombreTable; i++) {
+			suppression(i);
+		}
+		
+		for (var i=1; i<tailleRes; i++) {
 			//console.log("tour load : "+i);
 			console.log(""+res[i].colonne+","+res[i].ligne+"\n");
-			if (i==1) {
+			if(res[i].colonne === null || res[i].ligne === null) {
+				continue;
+			}
+			/*if (i==1) {
 				console.log("dans if");
 				var IDTable = "table"+i;
 				var ID = i;
@@ -352,16 +366,16 @@ function load() {
 				}
 				NombreTable=1;
 				continue;
-			}
+			}*/
 			createArray();
 			//console.log("nouveau tableau créé");
 			var nvCol = res[i].colonne;
-			for (var i=1; i <=nvCol-1; ++i) {
-				createColumn(ID);
+			for (var j=1; j <nvCol; ++j) {
+				createColumn(i); //i = IDTable
 			}
-			var nvLine = res[i].ligne;
-			for (var i=1; i <=nvLine-1; ++i) {
-				createLine(ID);
+			var nvLine = res[i].ligne-1;
+			for (var j=1; j <nvLine; ++j) {
+				createLine(i);	//i = IDTable
 			}
 		}
 		console.log("\nNombreTable : "+NombreTable+"\n");

@@ -171,12 +171,20 @@ function createArray() {
 	ajoutColonneNew.type = "button" ;
 	ajoutColonneNew.value = "+C" ;
 	ajoutColonneNew.setAttribute("onClick","createColumn("+NombreTable+")") ;
+	var ajoutButtonSuppr  = document.createElement('input');
+	ajoutButtonSuppr.type = "button" ;
+	ajoutButtonSuppr.id = "buttonSuppr" ;
+	ajoutButtonSuppr.value = "X" ;
+	ajoutButtonSuppr.setAttribute("onClick","suppression("+NombreTable+")") ;
 	var ajoutNumero  = document.createElement('span');
 	ajoutNumero.innerHTML=NombreTable;
 	//divNew.appendChild(ajoutColonneNew);
+
+	divDrag.appendChild(ajoutButtonSuppr);
 	divDrag.appendChild(ajoutColonneNew);
 	divDrag.appendChild(ajoutLigneNew);
 	divDrag.appendChild(ajoutNumero);
+
 	var tabNew=document.createElement('table');
 	var StringID=NombreTable.toString();
 	var IDTable="table"+StringID;
@@ -227,6 +235,14 @@ function modification(){
 		document.getElementById('boutonModification').style.background = "#cc0000";
 	}
 }
+
+function suppression(IDTable){
+	var stringID = IDTable.toString();
+	var children = document.getElementById("EmplacementTable"+stringID);
+	var parent = document.getElementById("EmplacementTables");
+	parent.removeChild(children);
+}
+
 window.onload=function()   {
 	var array_drop=document.getElementsByClassName("EmplacementTable");
 	for (var i=0; i<array_drop.length;i++){

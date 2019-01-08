@@ -241,7 +241,7 @@ function suppression(IDTable){
 	var children = document.getElementById("EmplacementTable"+stringID);
 	var parent = document.getElementById("EmplacementTables");
 	parent.removeChild(children);
-	NombreTable--;
+	NombreTable--; // a corriger => décrémenter les autres tables
 }
 
 window.onload=function()   {
@@ -251,15 +251,10 @@ window.onload=function()   {
 	}
 }
 
-
 function reset() {
 	localStorage.clear();
 	window.location.reload();
 }
-
-// var restoredTable = [];
-// restoredTable.push(JSON.parse(localStorage.getItem('table')));
-// localStorage.setItem('table',JSON.stringify(restoredTable));
 
 function save() {
 	//if (typeof(Storage) !== "undefined") {

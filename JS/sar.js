@@ -74,7 +74,7 @@ function removeEventSimple(obj,evt,fn) {
 		obj.detachEvent('on'+evt,fn);
 }
 function recupValeur(){
-	/*if(document.forms["Requete"].elements["Table1"].value==0 || document.forms["Requete"].elements["Table2"].value==0 || document.forms["Requete"].elements["operateur"].value==0){
+	if(document.forms["Requete"].elements["Table1"].value==0 || document.forms["Requete"].elements["Table2"].value==0 || document.forms["Requete"].elements["operateur"].value==0){
 		console.log("Erreur syntaxe");
 	}
 	else{
@@ -89,21 +89,11 @@ function recupValeur(){
 	}
 	document.forms["Requete"].elements["Table1"].value=0;
 	document.forms["Requete"].elements["operateur"].value=0;
-	document.forms["Requete"].elements["Table2"].value=0;*/
+	document.forms["Requete"].elements["Table2"].value=0;
 }
 
 function recupTable(){
 	console.log("Je passe ici");
-
-	var sp2 = document.getElementById('Req');
-// Créer un nouvel élément
-	var test = document.createElement('p');
-	test.innerHTML = "Hello";
-
-	var parendDiv = sp2.parentNode;
-
-// Insérer le nouvel élément avant le premier enfant
-	parendDiv.insertBefore(test, sp2);
 }
 
 function createLine(ID){

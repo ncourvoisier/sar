@@ -123,8 +123,10 @@ function createLine(ID){
 	}
 }
 function createColumn(ID){
+	//console.log(ID);
 	var StringID=ID.toString();
 	var IDTable="table"+StringID;
+	console.log("StringID"+StringID);
 	var output = document.getElementById(IDTable),trs;
 	var Colonnes=output.getElementsByClassName('col');
 	var nbColonnes=Colonnes.length;
@@ -228,7 +230,148 @@ function modification(){
 window.onload=function()   {
 	var array_drop=document.getElementsByClassName("EmplacementTable");
 	for (var i=0; i<array_drop.length;i++){
-			dragDrop.initElement(array_drop[i]);
+		dragDrop.initElement(array_drop[i]);
 	}
 	
 }
+
+
+function reset() {
+	localStorage.clear();
+	window.location.reload();
+}
+
+// var restoredTable = [];
+// restoredTable.push(JSON.parse(localStorage.getItem('table')));
+// localStorage.setItem('table',JSON.stringify(restoredTable));
+
+function save() {
+	//if (typeof(Storage) !== "undefined") {
+	if (localStorage) {	
+		var restoredTable = [];
+		//restoredTable.push(JSON.parse(localStorage.getItem('table')));
+		localStorage.setItem('table',JSON.stringify(restoredTable));
+		
+		//var restoredTable = [];
+		restoredTable = JSON.parse(localStorage.getItem('table'));
+		
+		for (var i=1; i<=NombreTable; i++) {
+			var IDTable = "table"+i;
+			var output = document.getElementById(IDTable),trs;
+			var Colonnes=output.getElementsByClassName('col');
+			var nbColonnes=Colonnes.length;
+			var ligne=output.getElementsByTagName('tr');
+			var nbLigne = ligne.length;
+			
+			var cTable = {X: 0, Y:0, colonne: nbColonnes, ligne: nbLigne};
+			console.log("\n\n Affichage avec struct "+cTable.colonne+" "+cTable.ligne+"\n");
+			restoredTable[i] = cTable;
+			console.log("tour save : "+i);
+			
+		}
+		console.log("----------------------------------");
+		localStorage.setItem('table', JSON.stringify(restoredTable));
+		alert("Table saved");
+	} else {
+		alert("Sorry, your browser does not support Web Storage...");
+	}
+}
+
+function preLoad(){
+	window.location.reload();
+	window.onload=load();
+}
+function pausecomp(millis)
+{
+    var date = new Date();
+    var curDate = null;
+    do { curDate = new Date(); }
+    while(curDate-date < millis);
+}
+function load() {
+	console.log("Cédr");
+	//if (typeof(Storage) !== "undefined") {
+	//setTimeout( function(){ window.location.reload()}, 180000)
+	if (localStorage) {	
+		console.log(NombreTable+"\n");
+		//NombreTable=0;
+		var res = JSON.parse(localStorage.getItem('table'));
+		if (res === null) {
+			alert("Nothing to load !");
+			return;
+		}
+		console.log("taille tab recu : "+res.length+"\n");
+		var tailleRes = res.length;
+		for (var i=1; i<=tailleRes-1; i++) {
+			//console.log("tour load : "+i);
+			console.log(""+res[i].colonne+","+res[i].ligne+"\n");
+			if (i==1) {
+				console.log("dans if");
+				var IDTable = "table"+i;
+				var ID = i;
+				var output = document.getElementById(IDTable),trs;
+				var colonnes=output.getElementsByClassName('col');
+				var nbColonnes=colonnes.length;
+				var ligne=output.getElementsByTagName('tr');
+				var nbLigne = ligne.length;
+				if (NombreTable === 1 && res[i].colonne === 1 && res[i].line === 2) {
+					alert("Nothing to load");
+					return;
+				}
+				if(colonnes !== res[i].colonne) {
+					console.log("ajout colonne\n");
+					var nvCol = res[i].colonne;
+					//console.log("nvCol : "+nvCol);
+					for (var j=1; j <nvCol; ++j) {
+						createColumn(ID);
+					}
+				}
+				if(ligne !== res[i].ligne) {
+					console.log("ajout ligne\n");
+					var nvLine = res[i].ligne;
+					//console.log("nvLine : "+nvLine);
+					for (var j=1; j <nvLine-1; ++j) {
+						createLine(ID);
+					}
+				}
+				NombreTable=1;
+				continue;
+			}
+			createArray();
+			//console.log("nouveau tableau créé");
+			var nvCol = res[i].colonne;
+			for (var i=1; i <=nvCol-1; ++i) {
+				createColumn(ID);
+			}
+			var nvLine = res[i].ligne;
+			for (var i=1; i <=nvLine-1; ++i) {
+				createLine(ID);
+			}
+		}
+		console.log("\nNombreTable : "+NombreTable+"\n");
+		console.log("----------------------------------");
+		alert("Table loaded");
+	} else {
+		alert("Sorry, your browser does not support Web Storage...");
+	}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

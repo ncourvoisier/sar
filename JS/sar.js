@@ -256,16 +256,13 @@ function reset() {
 	window.location.reload();
 }
 
+var loadOrNot = true;
+
 function save() {
-	//if (typeof(Storage) !== "undefined") {
 	if (localStorage) {	
 		var restoredTable = [];
-		//restoredTable.push(JSON.parse(localStorage.getItem('table')));
 		localStorage.setItem('table',JSON.stringify(restoredTable));
-		
-		//var restoredTable = [];
 		restoredTable = JSON.parse(localStorage.getItem('table'));
-		
 		for (var i=1; i<=NombreTable; i++) {
 			var IDTable = "table"+i;
 			var output = document.getElementById(IDTable),trs;
@@ -278,13 +275,12 @@ function save() {
 			var nbLigne = ligne.length;
 			
 			var cTable = {X: 0, Y:0, colonne: nbColonnes, ligne: nbLigne};
-			console.log("\n\n Affichage avec struct "+cTable.colonne+" "+cTable.ligne+"\n");
+			//console.log("\n\n Affichage avec struct "+cTable.colonne+" "+cTable.ligne+"\n");
 			restoredTable[i] = cTable;
-			console.log("tour save : "+i);
-			
 		}
-		console.log("----------------------------------");
+		//console.log("----------------------------------");
 		localStorage.setItem('table', JSON.stringify(restoredTable));
+		loadOrNot = false;
 		alert("Table saved");
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");
@@ -292,30 +288,33 @@ function save() {
 }
 
 function load() {
-	console.log("Cédr");
-	//if (typeof(Storage) !== "undefined") {
-	//setTimeout( function(){ window.location.reload()}, 180000)
-	if (localStorage) {	
-		console.log(NombreTable+"\n");
-		//NombreTable=0;
+	
+	if (!loadOrNot) {
+		//console.log("loadOrNot = false");
+		alert("Table already loaded");
+		return;
+	}
+	
+	if (localStorage) {
 		var res = JSON.parse(localStorage.getItem('table'));
 		if (res === null) {
 			alert("Nothing to load !");
 			return;
 		}
-		console.log("taille tab recu : "+res.length+"\n");
+		//console.log("taille tab recu : "+res.length+"\n");
 		var tailleRes = res.length;
 		var nbTableLoad = tailleRes - 1;
-		
-		console.log("Nombre table actuelle"+NombreTable);
+		console.log("Nombre table actuelle "+NombreTable+", nbtableLoad "+nbTableLoad);
 		
 		for (var i=1; i<=NombreTable; i++) {
 			suppression(i);
 		}
 		
 		for (var i=1; i<tailleRes; i++) {
-			//console.log("tour load : "+i);
-			console.log(""+res[i].colonne+","+res[i].ligne+"\n");
+			//console.log(""+res[i].colonne+","+res[i].ligne+"\n");
+			if (res[i] === null) {
+				continue;
+			}
 			if(res[i].colonne === null || res[i].ligne === null) {
 				continue;
 			}
@@ -329,8 +328,9 @@ function load() {
 				createLine(i);	//i = IDTable
 			}
 		}
-		console.log("\nNombreTable : "+NombreTable+"\n");
-		console.log("----------------------------------");
+		//console.log("\nNombreTable : "+NombreTable+"\n");
+		//console.log("----------------------------------");
+		loadOrNot = false;
 		alert("Table loaded");
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");

@@ -195,6 +195,8 @@ function createArray() {
 	thNew.className="col";
 	var EntreeTexte  = document.createElement('input');
 	EntreeTexte.type="text";
+	// EntreeTexte.type="input";
+	EntreeTexte.value="";
 	EntreeTexte.disabled=bloquage;
 	EntreeTexte.placeholder="Nom attribut";
 	thNew.appendChild(EntreeTexte);
@@ -252,14 +254,42 @@ window.onload=function()   {
 }
 
 function reset() {
-	localStorage.clear();
-	window.location.reload();
+	if(confirm("sure ?")) {
+		localStorage.clear();
+		window.location.reload();
+	}
 }
 
+function recupContenuTable() {
+	console.log("________________READ____________________");
+	var contenu = [];
+	var incrementeTableau = 0;
+	
+	for (var t = 1; t <= NombreTable; t++) {
+		var IDTable = "table"+t;
+		var line = document.getElementById(IDTable).rows;
+		for (var i = 0, c = line.length; i < c; i++) { //LES LIGNES
+			var col = line[i].cells;
+			for (var j = 0, largeur = col.length; j<largeur; j++) { //LES COLONNES
+				console.log("j = "+col[j].firstChild.value+" , coord("+t+","+i+","+j+")");
+				var val = col[j].firstChild.value;
+				var coordVal = {table: t, ligne: i, colonne: j, valeur: val};
+				contenu[incrementeTableau] = coordVal;
+				incrementeTableau++;
+			}
+			console.log("\n");
+		}
+		console.log("end");
+	}
+	localStorage.setItem('contenuTable', JSON.stringify(contenu));
+}
+
+//Variable pour déterminer si les tables sont à reload ou non
 var loadOrNot = true;
 
 function save() {
-	if (localStorage) {	
+	if (localStorage) {
+		recupContenuTable();
 		var restoredTable = [];
 		localStorage.setItem('table',JSON.stringify(restoredTable));
 		restoredTable = JSON.parse(localStorage.getItem('table'));
@@ -275,10 +305,8 @@ function save() {
 			var nbLigne = ligne.length;
 			
 			var cTable = {X: 0, Y:0, colonne: nbColonnes, ligne: nbLigne};
-			//console.log("\n\n Affichage avec struct "+cTable.colonne+" "+cTable.ligne+"\n");
 			restoredTable[i] = cTable;
 		}
-		//console.log("----------------------------------");
 		localStorage.setItem('table', JSON.stringify(restoredTable));
 		loadOrNot = false;
 		alert("Table saved");
@@ -287,24 +315,38 @@ function save() {
 	}
 }
 
+function loadContenuTable() {
+	var contenu = document.getElementById("table1").rows;
+	var res = JSON.parse(localStorage.getItem('contenuTable'));
+	console.log("______________LOAD_CONTENU_____________________");
+	for (var i = 0, tailleContenu = res.length; i<tailleContenu; i++) {
+		// var coordVal = {table: t, ligne: i, colonne: j, valeur: val};
+		var t = res[i].table;
+		var IDTable = "table"+t;
+		var l = res[i].ligne;
+		var c = res[i].colonne;
+		var val = res[i].valeur;
+		console.log("coord("+t+","+l+","+c+") = "+val);
+		console.log(IDTable);
+		document.getElementById(IDTable).rows[l].cells[c].firstChild.value = val;
+	}
+	console.log("_________END_LOAD____________");
+}
+
 function load() {
 	
 	if (!loadOrNot) {
-		//console.log("loadOrNot = false");
 		alert("Table already loaded");
 		return;
 	}
-	
 	if (localStorage) {
 		var res = JSON.parse(localStorage.getItem('table'));
 		if (res === null) {
 			alert("Nothing to load !");
 			return;
 		}
-		//console.log("taille tab recu : "+res.length+"\n");
 		var tailleRes = res.length;
 		var nbTableLoad = tailleRes - 1;
-		console.log("Nombre table actuelle "+NombreTable+", nbtableLoad "+nbTableLoad);
 		
 		for (var i=1; i<=NombreTable; i++) {
 			suppression(i);
@@ -328,14 +370,12 @@ function load() {
 				createLine(i);	//i = IDTable
 			}
 		}
-		//console.log("\nNombreTable : "+NombreTable+"\n");
-		//console.log("----------------------------------");
+		loadContenuTable();
 		loadOrNot = false;
 		alert("Table loaded");
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");
 	}
-
 }
 
 

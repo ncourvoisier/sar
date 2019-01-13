@@ -308,7 +308,7 @@ function save() {
 			restoredTable[i] = cTable;
 		}
 		localStorage.setItem('table', JSON.stringify(restoredTable));
-		loadOrNot = false;
+		//loadOrNot = false;
 		alert("Table saved");
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");

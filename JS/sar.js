@@ -243,7 +243,7 @@ function suppression(IDTable){
 	var children = document.getElementById("EmplacementTable"+stringID);
 	var parent = document.getElementById("EmplacementTables");
 	parent.removeChild(children);
-	NombreTable--; // a corriger => décrémenter les autres tables
+	//NombreTable--; // a corriger => décrémenter les autres tables
 }
 
 window.onload=function()   {
@@ -267,6 +267,10 @@ function recupContenuTable() {
 	
 	for (var t = 1; t <= NombreTable; t++) {
 		var IDTable = "table"+t;
+		console.log(IDTable);
+		if (document.getElementById(IDTable) === null) {
+			continue;
+		}
 		var line = document.getElementById(IDTable).rows;
 		for (var i = 0, c = line.length; i < c; i++) { //LES LIGNES
 			var col = line[i].cells;
@@ -344,9 +348,15 @@ function load() {
 	if (localStorage) {
 		var NombreTableASupprimer = NombreTable;
 		for (var suppr=1; suppr<=NombreTableASupprimer; suppr++) {
+			var IDTable = "table"+suppr;
+			//console.log(IDTable);
+			if (document.getElementById(IDTable) === null) {
+				continue;
+			}
 			suppression(suppr);
 			console.log("suppr :"+suppr);
 		}
+		NombreTable = 0;
 		var res = JSON.parse(localStorage.getItem('table'));
 		if (res === null) {
 			alert("Nothing to load !");
@@ -359,9 +369,11 @@ function load() {
 		
 		for (var i=1; i<tailleRes; i++) {
 			if (res[i] === null) {
+				NombreTable++;
 				continue;
 			}
 			if(res[i].colonne === null || res[i].ligne === null) {
+				NombreTable++;
 				continue;
 			}
 			createArray();

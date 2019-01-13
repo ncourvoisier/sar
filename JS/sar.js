@@ -318,7 +318,7 @@ function save() {
 function loadContenuTable() {
 	var contenu = document.getElementById("table1").rows;
 	var res = JSON.parse(localStorage.getItem('contenuTable'));
-	console.log("______________LOAD_CONTENU_____________________");
+	//console.log("______________LOAD_CONTENU_____________________");
 	for (var i = 0, tailleContenu = res.length; i<tailleContenu; i++) {
 		// var coordVal = {table: t, ligne: i, colonne: j, valeur: val};
 		var t = res[i].table;
@@ -327,19 +327,26 @@ function loadContenuTable() {
 		var c = res[i].colonne;
 		var val = res[i].valeur;
 		console.log("coord("+t+","+l+","+c+") = "+val);
-		console.log(IDTable);
+		//console.log(IDTable);
 		document.getElementById(IDTable).rows[l].cells[c].firstChild.value = val;
 	}
-	console.log("_________END_LOAD____________");
+	//console.log("_________END_LOAD____________");
 }
 
 function load() {
+	
+	console.log(NombreTable);
 	
 	if (!loadOrNot) {
 		alert("Table already loaded");
 		return;
 	}
 	if (localStorage) {
+		var NombreTableASupprimer = NombreTable;
+		for (var suppr=1; suppr<=NombreTableASupprimer; suppr++) {
+			suppression(suppr);
+			console.log("suppr :"+suppr);
+		}
 		var res = JSON.parse(localStorage.getItem('table'));
 		if (res === null) {
 			alert("Nothing to load !");
@@ -347,10 +354,8 @@ function load() {
 		}
 		var tailleRes = res.length;
 		var nbTableLoad = tailleRes - 1;
+		console.log("nbTableLoad = "+nbTableLoad);
 		
-		for (var i=1; i<=NombreTable; i++) {
-			suppression(i);
-		}
 		
 		for (var i=1; i<tailleRes; i++) {
 			if (res[i] === null) {

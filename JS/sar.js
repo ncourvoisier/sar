@@ -353,7 +353,6 @@ function load() {
 		}
 		
 		for (var i=1; i<tailleRes; i++) {
-			//console.log(""+res[i].colonne+","+res[i].ligne+"\n");
 			if (res[i] === null) {
 				continue;
 			}
@@ -371,7 +370,7 @@ function load() {
 			}
 		}
 		loadContenuTable();
-		loadOrNot = false;
+		//loadOrNot = false;
 		alert("Table loaded");
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");

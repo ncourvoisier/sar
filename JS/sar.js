@@ -126,7 +126,7 @@ function createColumn(ID){
 	//console.log(ID);
 	var StringID=ID.toString();
 	var IDTable="table"+StringID;
-	console.log("StringID"+StringID);
+	//console.log("StringID"+StringID);
 	var output = document.getElementById(IDTable),trs;
 	var Colonnes=output.getElementsByClassName('col');
 	var nbColonnes=Colonnes.length;
@@ -259,41 +259,9 @@ function reset() {
 		window.location.reload();
 	}
 }
-
-function recupContenuTable() {
-	console.log("________________READ____________________");
-	var contenu = [];
-	var incrementeTableau = 0;
 	
-	for (var t = 1; t <= NombreTable; t++) {
-		var IDTable = "table"+t;
-		console.log(IDTable);
-		if (document.getElementById(IDTable) === null) {
-			continue;
-		}
-		var line = document.getElementById(IDTable).rows;
-		for (var i = 0, c = line.length; i < c; i++) { //LES LIGNES
-			var col = line[i].cells;
-			for (var j = 0, largeur = col.length; j<largeur; j++) { //LES COLONNES
-				console.log("j = "+col[j].firstChild.value+" , coord("+t+","+i+","+j+")");
-				var val = col[j].firstChild.value;
-				var coordVal = {table: t, ligne: i, colonne: j, valeur: val};
-				contenu[incrementeTableau] = coordVal;
-				incrementeTableau++;
-			}
-			console.log("\n");
-		}
-		console.log("end");
-	}
-	localStorage.setItem('contenuTable', JSON.stringify(contenu));
-}
-
-//Variable pour déterminer si les tables sont à reload ou non
-var loadOrNot = true;
-
 function save() {
 	if (localStorage) {
-		recupContenuTable();
 		var restoredTable = [];
 		localStorage.setItem('table',JSON.stringify(restoredTable));
 		restoredTable = JSON.parse(localStorage.getItem('table'));
@@ -303,96 +271,107 @@ function save() {
 			if (output === null) {
 				continue;
 			}
+			
+			//RECUP L'ENTETE
 			var Colonnes=output.getElementsByClassName('col');
 			var nbColonnes=Colonnes.length;
-			var ligne=output.getElementsByTagName('tr');
-			var nbLigne = ligne.length;
+			var entete = [];
+			for(var nbCol = 0; nbCol < nbColonnes; nbCol++) {
+				entete[nbCol] = document.getElementById(IDTable).rows[0].cells[nbCol].firstChild.value;
+				//console.log("Entete : "+entete[nbCol]);
+			}
 			
-			var cTable = {X: 0, Y:0, colonne: nbColonnes, ligne: nbLigne};
+			//RECUP CONTENU DANS LES AUTRES LIGNES
+			var ligne=output.getElementsByTagName('tr');
+			var nbLigneTotal = ligne.length;
+			var contenu = [];
+			for(var nbLine = 0; nbLine < nbLigneTotal; nbLine++) {
+				var ligneParLigne = [];
+				for(var nbCol = 0; nbCol < nbColonnes; nbCol++) {
+					
+					/*if(nbLine === 0) {
+						entete[nbCol] = document.getElementById(IDTable).rows[nbLine].cells[nbCol].firstChild.value;
+						continue;
+					}*/
+					
+					var tmp = document.getElementById(IDTable).rows[nbLine].cells[nbCol].firstChild.value;
+					var nameColone = entete[nbCol];
+					ligneParLigne.push(tmp);
+					//console.log("Value : "+tmp+", Name : "+nameColone);
+				}
+				contenu.push(ligneParLigne);
+			}
+			var cTable = {Entete: entete, Contenu: contenu, X: 0, Y: 0, reduit: false};
 			restoredTable[i] = cTable;
 		}
 		localStorage.setItem('table', JSON.stringify(restoredTable));
-		//loadOrNot = false;
 		alert("Table saved");
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");
 	}
-}
-
-function loadContenuTable() {
-	var contenu = document.getElementById("table1").rows;
-	var res = JSON.parse(localStorage.getItem('contenuTable'));
-	//console.log("______________LOAD_CONTENU_____________________");
-	for (var i = 0, tailleContenu = res.length; i<tailleContenu; i++) {
-		// var coordVal = {table: t, ligne: i, colonne: j, valeur: val};
-		var t = res[i].table;
-		var IDTable = "table"+t;
-		var l = res[i].ligne;
-		var c = res[i].colonne;
-		var val = res[i].valeur;
-		console.log("coord("+t+","+l+","+c+") = "+val);
-		//console.log(IDTable);
-		document.getElementById(IDTable).rows[l].cells[c].firstChild.value = val;
-	}
-	//console.log("_________END_LOAD____________");
-}
-
+}	
+	
+	
 function load() {
-	
-	console.log(NombreTable);
-	
-	if (!loadOrNot) {
-		alert("Table already loaded");
-		return;
-	}
 	if (localStorage) {
 		var NombreTableASupprimer = NombreTable;
 		for (var suppr=1; suppr<=NombreTableASupprimer; suppr++) {
 			var IDTable = "table"+suppr;
-			//console.log(IDTable);
 			if (document.getElementById(IDTable) === null) {
 				continue;
 			}
 			suppression(suppr);
-			console.log("suppr :"+suppr);
 		}
 		NombreTable = 0;
-		var res = JSON.parse(localStorage.getItem('table'));
-		if (res === null) {
+		
+		var restoredTable = JSON.parse(localStorage.getItem('table'));
+		if (restoredTable === null) {
 			alert("Nothing to load !");
 			return;
 		}
-		var tailleRes = res.length;
-		var nbTableLoad = tailleRes - 1;
-		console.log("nbTableLoad = "+nbTableLoad);
+		var tailleRestoredTable = restoredTable.length;
+		var nbTableALoad = tailleRestoredTable - 1;
 		
-		
-		for (var i=1; i<tailleRes; i++) {
-			if (res[i] === null) {
+		for (var tableNum=1; tableNum<tailleRestoredTable; tableNum++) {
+			if(restoredTable[tableNum] === null || restoredTable[tableNum].colonne === null || restoredTable[tableNum].ligne === null) {
 				NombreTable++;
 				continue;
 			}
-			if(res[i].colonne === null || res[i].ligne === null) {
-				NombreTable++;
-				continue;
-			}
+			IDTable = "table"+tableNum;
 			createArray();
-			var nvCol = res[i].colonne;
-			for (var j=1; j <nvCol; ++j) {
-				createColumn(i); //i = IDTable
+			var nbColonnes = restoredTable[tableNum].Entete.length;
+			var nbLigne = restoredTable[tableNum].Contenu.length;
+			
+			for (var nc = 0; nc < nbColonnes -1; nc++) {
+				createColumn(tableNum);
 			}
-			var nvLine = res[i].ligne-1;
-			for (var j=1; j <nvLine; ++j) {
-				createLine(i);	//i = IDTable
+			for (var nl = 0; nl < nbLigne -2; nl++) {
+				createLine(tableNum);
+			}
+			for (var nl = 0; nl < nbLigne; nl++) {
+				for (var nc = 0; nc < nbColonnes; nc++) {
+					if (nl === 0) {
+						var valeur = restoredTable[tableNum].Entete[nc];
+						document.getElementById(IDTable).rows[nl].cells[nc].firstChild.value = valeur;
+						continue;
+					}
+					var valeur = restoredTable[tableNum].Contenu[nl][nc];
+					document.getElementById(IDTable).rows[nl].cells[nc].firstChild.value = valeur;
+				}
 			}
 		}
-		loadContenuTable();
-		//loadOrNot = false;
 		alert("Table loaded");
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");
 	}
+	
 }
+	
+	
+
+	
+	
+
 
 
 

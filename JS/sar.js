@@ -244,7 +244,6 @@ function suppression(IDTable){
 		var children = document.getElementById("EmplacementTable"+stringID);
 		var parent = document.getElementById("EmplacementTables");
 		parent.removeChild(children);
-		console.log("supprimer");
 	}
 }
 

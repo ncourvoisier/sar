@@ -8,8 +8,8 @@ ObjetTable ={
 	Y:0,
 	reduit:false,
 	Libelle:"",
-	Contenu:{E1:[""]},
-	ColonneId=1,
+	Contenu:{E0:[""]},
+	ColonneId:1,
 	AttribuerNom: function(Nom) {
 		ObjetTable.Libelle=Nom;
 	},
@@ -22,13 +22,13 @@ ObjetTable ={
 		}
 	},
 	ajoutColonne: function(){
-		var NomNouvelleEntree="E"+ColonneId;
-		id++;
+		var NomNouvelleEntree="E"+ObjetTable.ColonneId;
+		ObjetTable.ColonneId++;
 		ObjetTable.Entete[NomNouvelleEntree]="";
 		ObjetTable.Contenu[NomNouvelleEntree]=[""];
 	},
 	GetNombreLigne: function(){
-		return ObjetTable.Contenu.E0.length;
+		return ObjetTable.Contenu["E0"].length;//Prendre la première colonne et pas E0 car possibilité d'un futur effacement
 	},
 	GetNombreColonne:function(){
 		return Object.keys(ObjetTable.Entete).length;

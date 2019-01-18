@@ -1,11 +1,13 @@
 var NombreTable=1;
 var bloquage=true;
 ObjetTable ={
+	Entete:[],
 	X:0,
 	Y:0,
-	nbColonnes:1,
-	nbLigne:1,
+	reduit:false,
+	Contenu:[],
 }
+//{Entete: entete, Contenu: contenu, X: 0, Y: 0, reduit: false};
 dragDrop = {
 	//keyHTML: '<a href="#" class="keyLink">#</a>',
 	//keySpeed: 10, // pixels per keypress event

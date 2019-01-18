@@ -1,11 +1,20 @@
 var NombreTable=1;
 var bloquage=true;
 ObjetTable ={
-	Entete:[],
+	Entete:{"E1":""},
 	X:0,
 	Y:0,
 	reduit:false,
-	Contenu:[],
+	Contenu:{"E1":[""]},
+	ajoutLigne: function (){
+		for(var colonne in ObjetTable.Contenu){
+		//	colonne.push([""]);
+		}
+	},
+	ajoutColonne: function(){
+		//add Entete
+		//add Entree COntenu
+	},
 }
 //{Entete: entete, Contenu: contenu, X: 0, Y: 0, reduit: false};
 dragDrop = {

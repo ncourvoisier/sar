@@ -5,7 +5,14 @@ ObjetTable ={
 	X:0,
 	Y:0,
 	reduit:false,
+	Libelle:"",
 	Contenu:{"E1":[""]},
+	AttribuerNom: function(Nom) {
+		ObjetTable.Libelle=Nom;
+	},
+	Reduire: function(){
+		reduit=!reduit;
+	}
 	ajoutLigne: function (){
 		for(var colonne in ObjetTable.Contenu){
 		//	colonne.push([""]);
@@ -16,6 +23,9 @@ ObjetTable ={
 		//add Entree COntenu
 	},
 }
+var Tables=[];
+var Table1=Object.create(ObjetTable);
+console.log(Table1);
 //{Entete: entete, Contenu: contenu, X: 0, Y: 0, reduit: false};
 dragDrop = {
 	//keyHTML: '<a href="#" class="keyLink">#</a>',

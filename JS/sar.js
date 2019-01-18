@@ -35,10 +35,18 @@ ObjetTable ={
 	}
 }
 
-//--------------------------------------------------------
-var Tables=[];
-var Table1=Object.create(ObjetTable);
-console.log(Table1);
+//----------------------------Ensemble Tables----------------------------
+var Tables={
+	id:2,
+	Table1:Object.create(ObjetTable),
+	AjoutTable: function(TABLE){
+		var NomTable="Table"+Tables.id;
+		Tables.[NomTable]=TABLE;
+		Tables.id++;
+	}
+};
+//------------------------------------------------------
+//console.log(Table1);
 //{Entete: entete, Contenu: contenu, X: 0, Y: 0, reduit: false};
 dragDrop = {
 	//keyHTML: '<a href="#" class="keyLink">#</a>',

@@ -1,7 +1,9 @@
 var NombreTable=1;
 var bloquage=true;
+
+//----------------------Objet Table-----------------------
 ObjetTable ={
-	Entete:{"E0":""},
+	Entete:{E0:""},
 	X:0,
 	Y:0,
 	reduit:false,
@@ -16,15 +18,14 @@ ObjetTable ={
 	},
 	ajoutLigne: function (){
 		for(var colonne in ObjetTable.Contenu){
-			//console.log(colonne);
 			ObjetTable.Contenu[colonne].push("");
 		}
 	},
 	ajoutColonne: function(){
 		var NomNouvelleEntree="E"+ColonneId;
 		id++;
-
-		//add Entree COntenu
+		ObjetTable.Entete[NomNouvelleEntree]="";
+		ObjetTable.Contenu[NomNouvelleEntree]=[""];
 	},
 	GetNombreLigne: function(){
 		return ObjetTable.Contenu.E0.length;
@@ -33,6 +34,8 @@ ObjetTable ={
 		return Object.keys(ObjetTable.Entete).length;
 	}
 }
+
+//--------------------------------------------------------
 var Tables=[];
 var Table1=Object.create(ObjetTable);
 console.log(Table1);

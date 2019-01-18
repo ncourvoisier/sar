@@ -1,27 +1,37 @@
 var NombreTable=1;
 var bloquage=true;
 ObjetTable ={
-	Entete:{"E1":""},
+	Entete:{"E0":""},
 	X:0,
 	Y:0,
 	reduit:false,
 	Libelle:"",
-	Contenu:{"E1":[""]},
+	Contenu:{E1:[""]},
+	ColonneId=1,
 	AttribuerNom: function(Nom) {
 		ObjetTable.Libelle=Nom;
 	},
 	Reduire: function(){
 		reduit=!reduit;
-	}
+	},
 	ajoutLigne: function (){
 		for(var colonne in ObjetTable.Contenu){
-		//	colonne.push([""]);
+			//console.log(colonne);
+			ObjetTable.Contenu[colonne].push("");
 		}
 	},
 	ajoutColonne: function(){
-		//add Entete
+		var NomNouvelleEntree="E"+ColonneId;
+		id++;
+
 		//add Entree COntenu
 	},
+	GetNombreLigne: function(){
+		return ObjetTable.Contenu.E0.length;
+	},
+	GetNombreColonne:function(){
+		return Object.keys(ObjetTable.Entete).length;
+	}
 }
 var Tables=[];
 var Table1=Object.create(ObjetTable);

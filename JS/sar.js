@@ -38,7 +38,7 @@ ObjetTable ={
 //----------------------------Ensemble Tables----------------------------
 var Tables={
 	id:2,
-	Table1:Object.create(ObjetTable),
+	table1:Object.create(ObjetTable),
 	AjoutTable: function(TABLE){
 		var NomTable="Table"+Tables.id;
 		Tables[NomTable]=TABLE;
@@ -141,6 +141,7 @@ function recupTable(){
 function createLine(ID){
 	var StringID=ID.toString();
 	var IDTable="table"+StringID;
+	Tables[IDTable].ajoutLigne();
 	var output = document.getElementById(IDTable),trs;
 	var trNew  = document.createElement('tr');
 	var Colonnes=output.getElementsByClassName('col');

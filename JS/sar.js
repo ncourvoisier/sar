@@ -41,7 +41,7 @@ var Tables={
 	Table1:Object.create(ObjetTable),
 	AjoutTable: function(TABLE){
 		var NomTable="Table"+Tables.id;
-		Tables.[NomTable]=TABLE;
+		Tables[NomTable]=TABLE;
 		Tables.id++;
 	}
 };

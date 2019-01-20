@@ -2,43 +2,48 @@ var NombreTable=1;
 var bloquage=true;
 
 //----------------------Objet Table-----------------------
-ObjetTable ={
-	Entete:{E0:""},
-	X:0,
-	Y:0,
-	reduit:false,
-	Libelle:"",
-	Contenu:{E0:[""]},
-	ColonneId:1,
-	AttribuerNom: function(Nom) {
-		ObjetTable.Libelle=Nom;
-	},
-	Reduire: function(){
+class Table{
+	constructor(){
+		this.Entete={E0:""};
+		this.X=0;
+		this.Y=0;
+		this.reduit=false;
+		this.Libelle="";
+		this.Contenu={E0:[""]};
+		this.ColonneId=1;
+	}
+	AttribuerNom(Nom) {
+		this.Libelle=Nom;
+	}
+	Reduire(){
 		reduit=!reduit;
-	},
-	ajoutLigne: function (){
-		for(var colonne in ObjetTable.Contenu){
-			ObjetTable.Contenu[colonne].push("");
+	}
+	ajoutLigne(){
+		for(var colonne in Table.Contenu){
+			this.Contenu[colonne].push("");
 		}
-	},
-	ajoutColonne: function(){
-		var NomNouvelleEntree="E"+ObjetTable.ColonneId;
-		ObjetTable.ColonneId++;
-		ObjetTable.Entete[NomNouvelleEntree]="";
-		ObjetTable.Contenu[NomNouvelleEntree]=[""];
-	},
-	GetNombreLigne: function(){
-		return ObjetTable.Contenu["E0"].length;//Prendre la première colonne et pas E0 car possibilité d'un futur effacement
-	},
-	GetNombreColonne:function(){
-		return Object.keys(ObjetTable.Entete).length;
+	}
+	ajoutColonne(){
+		var NomNouvelleEntree="E"+this.GetColonneID();
+		this.ColonneId++;
+		this.Entete[NomNouvelleEntree]="";
+		this.Contenu[NomNouvelleEntree]=[""];
+	}
+	GetColonneID(){
+		return this.ColonneId;
+	}
+	GetNombreLigne(){
+		return Table.Contenu["E0"].length;//Prendre la première colonne et pas E0 car possibilité d'un futur effacement
+	}
+	GetNombreColonne(){
+		return Object.keys(Table.Entete).length;
 	}
 }
 
 //----------------------------Ensemble Tables----------------------------
 var Tables={
 	id:1,
-	table1:Object.create(ObjetTable),
+	table1:new Table(),
 	AjoutTable: function(TABLE){
 		Tables.id++;
 		var NomTable="table"+Tables.id;
@@ -197,7 +202,7 @@ function createColumn(ID){
 	}
 }
 function createArray() {
-	Tables.AjoutTable(Object.create(ObjetTable));
+	Tables.AjoutTable(new Table());
 	NombreTable++;
 	var output = document.getElementById('EmplacementTables');
 	var divNew  = document.createElement('div');

@@ -12,10 +12,10 @@ class Table{
 		this.Contenu={E0:[""]};
 		this.ColonneId=1;
 	}
-	AttribuerNom(Nom) {
+	attribuerNom(Nom) {
 		this.Libelle=Nom;
 	}
-	Reduire(){
+	reduire(){
 		reduit=!reduit;
 	}
 	ajoutLigne(){
@@ -29,16 +29,35 @@ class Table{
 		this.Entete[NomNouvelleEntree]="";
 		this.Contenu[NomNouvelleEntree]=[""];
 	}
-	GetColonneID(){
+	ajoutContenu(Entete,Position,Contenu){
+		var compteurEntete=0;
+		if(Position==0){
+			for(var NomEntete in this.Entete){
+				if(compteurEntete == Entete){
+					this.Entete[NomEntete]=Contenu;
+				}
+				compteurEntete++;
+			}
+		}
+		else{
+			for(var NomEntete in this.Entete){
+				if(compteurEntete == Entete){
+					this.Contenu[NomEntete][Position]=Contenu;
+				}
+				compteurEntete++;
+			}
+		}
+	}
+	getColonneID(){
 		return this.ColonneId;
 	}
-	GetNombreLigne(){
+	getNombreLigne(){
 		//Une seule itération dans le for.
 		for(var premiereColonne in this.Contenu){
 			return this.Contenu[premiereColonne].length;
 		}
 	}
-	GetNombreColonne(){
+	getNombreColonne(){
 		return Object.keys(this.Entete).length;
 	}
 }

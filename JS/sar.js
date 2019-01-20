@@ -294,12 +294,15 @@ function modification(){
 	}
 	if(!bloquage){
 		document.getElementById('boutonModification').style.background = "#32CD32";
+		recuperationContenu();
 	}
 	else{
 		document.getElementById('boutonModification').style.background = "#cc0000";
 	}
 }
-
+function recuperationContenu(){
+	//Recuperer Contenu tables et remplir le tableau de Table.
+}
 function suppression(IDTable){
 	if(suppression.caller.name === "load" || confirm("Supprimer la table "+IDTable+" ?")) {
 		var stringID = IDTable.toString();

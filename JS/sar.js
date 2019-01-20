@@ -54,11 +54,9 @@ var Tables={
 	}
 };
 //------------------------------------------------------
-//console.log(Table1);
-//{Entete: entete, Contenu: contenu, X: 0, Y: 0, reduit: false};
+
 dragDrop = {
-	//keyHTML: '<a href="#" class="keyLink">#</a>',
-	//keySpeed: 10, // pixels per keypress event
+
 	initialMouseX: undefined,
 	initialMouseY: undefined,
 	startX: undefined,
@@ -80,7 +78,6 @@ dragDrop = {
 		return false;
 	},
 	startDrag: function (obj) {
-		//console.log(obj);
 		if (dragDrop.draggedObject)
 			dragDrop.releaseElement();
 		dragDrop.startX = obj.offsetLeft;
@@ -229,13 +226,10 @@ function createArray() {
 	ajoutButtonSuppr.setAttribute("onClick","suppression("+NombreTable+")") ;
 	var ajoutNumero  = document.createElement('span');
 	ajoutNumero.innerHTML=NombreTable;
-	//divNew.appendChild(ajoutColonneNew);
-
 	divDrag.appendChild(ajoutButtonSuppr);
 	divDrag.appendChild(ajoutColonneNew);
 	divDrag.appendChild(ajoutLigneNew);
 	divDrag.appendChild(ajoutNumero);
-
 	var tabNew=document.createElement('table');
 	var StringID=NombreTable.toString();
 	var IDTable="table"+StringID;
@@ -246,12 +240,10 @@ function createArray() {
 	thNew.className="col";
 	var EntreeTexte  = document.createElement('input');
 	EntreeTexte.type="text";
-	// EntreeTexte.type="input";
 	EntreeTexte.value="";
 	EntreeTexte.disabled=bloquage;
 	EntreeTexte.placeholder="Nom attribut";
 	thNew.appendChild(EntreeTexte);
-	//thNew.appendChild(document.createTextNode('Nouvelle colonne'));
 	trNew.appendChild(thNew);
 	theadNew.appendChild(trNew);
 	tabNew.appendChild(theadNew);
@@ -330,7 +322,6 @@ function save() {
 			var entete = [];
 			for(var nbCol = 0; nbCol < nbColonnes; nbCol++) {
 				entete[nbCol] = document.getElementById(IDTable).rows[0].cells[nbCol].firstChild.value;
-				//console.log("Entete : "+entete[nbCol]);
 			}
 			
 			//RECUP CONTENU DANS LES AUTRES LIGNES
@@ -340,16 +331,9 @@ function save() {
 			for(var nbLine = 0; nbLine < nbLigneTotal; nbLine++) {
 				var ligneParLigne = [];
 				for(var nbCol = 0; nbCol < nbColonnes; nbCol++) {
-					
-					/*if(nbLine === 0) {
-						entete[nbCol] = document.getElementById(IDTable).rows[nbLine].cells[nbCol].firstChild.value;
-						continue;
-					}*/
-					
 					var tmp = document.getElementById(IDTable).rows[nbLine].cells[nbCol].firstChild.value;
 					var nameColone = entete[nbCol];
 					ligneParLigne.push(tmp);
-					//console.log("Value : "+tmp+", Name : "+nameColone);
 				}
 				contenu.push(ligneParLigne);
 			}

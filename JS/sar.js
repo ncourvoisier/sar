@@ -33,10 +33,10 @@ class Table{
 		return this.ColonneId;
 	}
 	GetNombreLigne(){
-		return Table.Contenu["E0"].length;//Prendre la première colonne et pas E0 car possibilité d'un futur effacement
+		return this.Contenu["E0"].length;//Prendre la première colonne et pas E0 car possibilité d'un futur effacement
 	}
 	GetNombreColonne(){
-		return Object.keys(Table.Entete).length;
+		return Object.keys(this.Entete).length;
 	}
 }
 

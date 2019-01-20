@@ -19,7 +19,7 @@ class Table{
 		reduit=!reduit;
 	}
 	ajoutLigne(){
-		for(var colonne in Table.Contenu){
+		for(var colonne in this.Contenu){
 			this.Contenu[colonne].push("");
 		}
 	}
@@ -33,7 +33,10 @@ class Table{
 		return this.ColonneId;
 	}
 	GetNombreLigne(){
-		return this.Contenu["E0"].length;//Prendre la première colonne et pas E0 car possibilité d'un futur effacement
+		//Une seule itération dans le for.
+		for(var premiereColonne in this.Contenu){
+			return this.Contenu[premiereColonne].length;
+		}
 	}
 	GetNombreColonne(){
 		return Object.keys(this.Entete).length;

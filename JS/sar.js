@@ -37,12 +37,12 @@ ObjetTable ={
 
 //----------------------------Ensemble Tables----------------------------
 var Tables={
-	id:2,
+	id:1,
 	table1:Object.create(ObjetTable),
 	AjoutTable: function(TABLE){
-		var NomTable="Table"+Tables.id;
-		Tables[NomTable]=TABLE;
 		Tables.id++;
+		var NomTable="table"+Tables.id;
+		Tables[NomTable]=TABLE;
 	}
 };
 //------------------------------------------------------
@@ -166,10 +166,9 @@ function createLine(ID){
 	}
 }
 function createColumn(ID){
-	//console.log(ID);
 	var StringID=ID.toString();
 	var IDTable="table"+StringID;
-	//console.log("StringID"+StringID);
+	Tables[IDTable].ajoutColonne();
 	var output = document.getElementById(IDTable),trs;
 	var Colonnes=output.getElementsByClassName('col');
 	var nbColonnes=Colonnes.length;
@@ -198,6 +197,7 @@ function createColumn(ID){
 	}
 }
 function createArray() {
+	Tables.AjoutTable(Object.create(ObjetTable));
 	NombreTable++;
 	var output = document.getElementById('EmplacementTables');
 	var divNew  = document.createElement('div');

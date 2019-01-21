@@ -221,11 +221,12 @@ function createColumn(ID){
 	}
 }
 function createArray() {
-	Tables.AjoutTable(new Table());
 	NombreTable++;
 	var output = document.getElementById('EmplacementTables');
 	var divNew  = document.createElement('div');
 	var divDrag  = document.createElement('div');
+	var divEntete = document.createElement('div');
+	divEntete.setAttribute('class',"entete");
 	divDrag.className = "drag";
 	divNew.className = "EmplacementTable";
 	output.appendChild(divNew);
@@ -240,15 +241,26 @@ function createArray() {
 	ajoutColonneNew.setAttribute("onClick","createColumn("+NombreTable+")") ;
 	var ajoutButtonSuppr  = document.createElement('input');
 	ajoutButtonSuppr.type = "button" ;
-	ajoutButtonSuppr.id = "buttonSuppr" ;
+	ajoutButtonSuppr.setAttribute("class","btnSuppr") ;
 	ajoutButtonSuppr.value = "X" ;
 	ajoutButtonSuppr.setAttribute("onClick","suppression("+NombreTable+")") ;
+	var ajoutButtonReduc  = document.createElement('input');
+	ajoutButtonReduc.type = "button" ;
+	ajoutButtonReduc.setAttribute("class","btnReduc") ;
+	ajoutButtonReduc.value = "-" ;
+	ajoutButtonReduc.setAttribute("onClick","reduction("+NombreTable+")") ;
 	var ajoutNumero  = document.createElement('span');
 	ajoutNumero.innerHTML=NombreTable;
-	divDrag.appendChild(ajoutButtonSuppr);
-	divDrag.appendChild(ajoutColonneNew);
-	divDrag.appendChild(ajoutLigneNew);
-	divDrag.appendChild(ajoutNumero);
+	//divNew.appendChild(ajoutColonneNew);
+
+	divEntete.appendChild(ajoutColonneNew);
+	divEntete.appendChild(ajoutLigneNew);
+	divEntete.appendChild(ajoutNumero);
+	divEntete.appendChild(ajoutButtonSuppr);
+	divEntete.appendChild(ajoutButtonReduc);
+	divDrag.appendChild(divEntete);
+	var divRelation = document.createElement('div');
+	divRelation.setAttribute('class',"relation");
 	var tabNew=document.createElement('table');
 	var StringID=NombreTable.toString();
 	var IDTable="table"+StringID;
@@ -259,10 +271,10 @@ function createArray() {
 	thNew.className="col";
 	var EntreeTexte  = document.createElement('input');
 	EntreeTexte.type="text";
-	EntreeTexte.value="";
 	EntreeTexte.disabled=bloquage;
 	EntreeTexte.placeholder="Nom attribut";
 	thNew.appendChild(EntreeTexte);
+	//thNew.appendChild(document.createTextNode('Nouvelle colonne'));
 	trNew.appendChild(thNew);
 	theadNew.appendChild(trNew);
 	tabNew.appendChild(theadNew);
@@ -277,14 +289,16 @@ function createArray() {
 	trBodyNew.appendChild(tdBodyNew);
 	tbodyNew.appendChild(trBodyNew);
 	tabNew.appendChild(tbodyNew);
+	divRelation.appendChild(tabNew);
 	divNew.appendChild(divDrag);
-	divNew.appendChild(tabNew);
+	divNew.appendChild(divRelation);
 	var IDEmplacement="EmplacementTable"+StringID;
 	divNew.id=IDEmplacement;
 	DeplacementHauteur=120+NombreTable*100;
 	divNew.style.top = DeplacementHauteur+'px';
 	dragDrop.initElement(IDEmplacement);
 }
+
 function modification(){
 	var ensembleTr=document.getElementsByTagName('input');
 	bloquage=!bloquage;
@@ -310,6 +324,26 @@ function suppression(IDTable){
 		var parent = document.getElementById("EmplacementTables");
 		parent.removeChild(children);
 	}
+}
+
+function reduction(IDTable){
+	var table = document.getElementById("EmplacementTable"+IDTable);
+	var divRelation = table.getElementsByClassName('relation');
+	divRelation[0].style.visibility='hidden';
+	var divDrag = table.getElementsByClassName('drag');
+	var divEntete = divDrag[0].getElementsByClassName('entete');
+	var btnReduc = divEntete[0].getElementsByClassName('btnReduc');
+	btnReduc[0].setAttribute('onclick',"agrandissement("+IDTable+")");
+}
+
+function agrandissement(IDTable){
+	var table = document.getElementById("EmplacementTable"+IDTable);
+	var divRelation = table.getElementsByClassName('relation');
+	divRelation[0].style.visibility='visible';
+	var divDrag = table.getElementsByClassName('drag');
+	var divEntete = divDrag[0].getElementsByClassName('entete');
+	var btnReduc = divEntete[0].getElementsByClassName('btnReduc');
+	btnReduc[0].setAttribute('onclick',"reduction("+IDTable+")");
 }
 
 window.onload=function()   {

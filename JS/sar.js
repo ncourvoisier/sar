@@ -221,6 +221,7 @@ function createColumn(ID){
 	}
 }
 function createArray() {
+	Tables.AjoutTable(new Table());
 	NombreTable++;
 	var output = document.getElementById('EmplacementTables');
 	var divNew  = document.createElement('div');

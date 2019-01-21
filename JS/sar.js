@@ -24,7 +24,7 @@ class Table{
 		}
 	}
 	ajoutColonne(){
-		var NomNouvelleEntree="E"+this.GetColonneID();
+		var NomNouvelleEntree="E"+this.getColonneID();
 		this.ColonneId++;
 		this.Entete[NomNouvelleEntree]="";
 		this.Contenu[NomNouvelleEntree]=[""];

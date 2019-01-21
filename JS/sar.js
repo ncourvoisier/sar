@@ -16,7 +16,7 @@ class Table{
 		this.Libelle=Nom;
 	}
 	reduire(){
-		reduit=!reduit;
+		this.reduit=!this.reduit;
 	}
 	ajoutLigne(){
 		for(var colonne in this.Contenu){
@@ -327,6 +327,8 @@ function suppression(IDTable){
 }
 
 function reduction(IDTable){
+	var ID="table"+IDTable;
+	Tables[ID].reduire();
 	var table = document.getElementById("EmplacementTable"+IDTable);
 	var divRelation = table.getElementsByClassName('relation');
 	divRelation[0].style.visibility='hidden';
@@ -337,6 +339,8 @@ function reduction(IDTable){
 }
 
 function agrandissement(IDTable){
+	var ID="table"+IDTable;
+	Tables[ID].reduire();
 	var table = document.getElementById("EmplacementTable"+IDTable);
 	var divRelation = table.getElementsByClassName('relation');
 	divRelation[0].style.visibility='visible';

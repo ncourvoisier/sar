@@ -25,9 +25,16 @@ class Table{
 	}
 	ajoutColonne(){
 		var NomNouvelleEntree="E"+this.getColonneID();
-		this.ColonneId++;
 		this.Entete[NomNouvelleEntree]="";
-		this.Contenu[NomNouvelleEntree]=[""];
+		for(var i=0;i<this.getNombreLigne();i++){
+			if(i==0){
+				this.Contenu[NomNouvelleEntree]=[""];
+			}
+			else{
+				this.Contenu[NomNouvelleEntree].push("");
+			}
+		}
+		this.ColonneId++;
 	}
 	ajoutContenu(Entete,Position,Contenu){
 		var compteurEntete=0;

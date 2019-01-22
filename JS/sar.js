@@ -72,14 +72,14 @@ class Table{
 //----------------------------Ensemble Tables----------------------------
 var Tables={
 	id:1,
-	table1:new Table(),
+	EnsembleTable:{table1:new Table()},
 	AjoutTable: function(TABLE){
 		Tables.id++;
 		var NomTable="table"+Tables.id;
-		Tables[NomTable]=TABLE;
+		Tables["EnsembleTable"][NomTable]=TABLE;
 	},
 	suppressionTable: function(ID){
-		delete Tables[ID];
+		delete Tables["EnsembleTable"][ID];
 	}
 };
 //------------------------------------------------------
@@ -169,13 +169,15 @@ function recupValeur(){
 }
 
 function recupTable(){
-	console.log("Je passe ici");
+	for(var table in Tables["EnsembleTable"]){
+		console.log(table);
+	}
 }
 
 function createLine(ID){
 	var StringID=ID.toString();
 	var IDTable="table"+StringID;
-	Tables[IDTable].ajoutLigne();
+	Tables["EnsembleTable"][IDTable].ajoutLigne();
 	var output = document.getElementById(IDTable),trs;
 	var trNew  = document.createElement('tr');
 	var Colonnes=output.getElementsByClassName('col');
@@ -202,7 +204,7 @@ function createLine(ID){
 function createColumn(ID){
 	var StringID=ID.toString();
 	var IDTable="table"+StringID;
-	Tables[IDTable].ajoutColonne();
+	Tables["EnsembleTable"][IDTable].ajoutColonne();
 	var output = document.getElementById(IDTable),trs;
 	var Colonnes=output.getElementsByClassName('col');
 	var nbColonnes=Colonnes.length;
@@ -341,7 +343,7 @@ function suppression(IDTable){
 
 function reduction(IDTable){
 	var ID="table"+IDTable;
-	Tables[ID].reduire();
+	Tables["EnsembleTable"][ID].reduire();
 	var table = document.getElementById("EmplacementTable"+IDTable);
 	var divRelation = table.getElementsByClassName('relation');
 	divRelation[0].style.visibility='hidden';
@@ -353,7 +355,7 @@ function reduction(IDTable){
 
 function agrandissement(IDTable){
 	var ID="table"+IDTable;
-	Tables[ID].reduire();
+	Tables["EnsembleTable"][ID].reduire();
 	var table = document.getElementById("EmplacementTable"+IDTable);
 	var divRelation = table.getElementsByClassName('relation');
 	divRelation[0].style.visibility='visible';

@@ -13,7 +13,7 @@
 	<form name="Requete">
 	<p>Requête à entrer :
 			<span>R=
-				<select name="Table1" >
+				<select name="Table1" onclick="recupTable()">
 					<option value="0">Click</option>
 					<option value="1">R1</option>
 					<option value="2">R2</option>
@@ -24,13 +24,13 @@
 					<option value="1">ET</option>
 					<option value="2">OU</option>
 				</select>
-				<select name="Table2" >
+				<select name="Table2" onclick="recupTable()">
 					<option value="0">Click</option>
 					<option value="1">R1</option>
 					<option value="2">R2</option>
 					<option value="3">R3</option>
 				</select>
-				<input type="button" value="OK" onclick="recupTable()">
+				<input type="button" value="OK"">
 			</span>
 		</p>
 	</form>

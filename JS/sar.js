@@ -169,8 +169,13 @@ function recupValeur(){
 }
 
 function recupTable(){
+	var select1 = document.getElementById("select1");
+	var select2 = document.getElementById("select2");
+	select1.innerHTML="";
+	select2.innerHTML="";
 	for(var table in Tables["EnsembleTable"]){
-		console.log(table);
+		select1.innerHTML+="<option value="+table+">"+table+"</option>";
+		select2.innerHTML+="<option value="+table+">"+table+"</option>";
 	}
 }
 
@@ -310,6 +315,7 @@ function createArray() {
 	DeplacementHauteur=120+NombreTable*100;
 	divNew.style.top = DeplacementHauteur+'px';
 	dragDrop.initElement(IDEmplacement);
+	recupTable();
 }
 
 function modification(){
@@ -338,6 +344,7 @@ function suppression(IDTable){
 		parent.removeChild(children);
 		var ID="table"+IDTable;
 		Tables.suppressionTable(ID);
+		recupTable();
 	}
 }
 

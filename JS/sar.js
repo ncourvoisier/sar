@@ -77,6 +77,9 @@ var Tables={
 		Tables.id++;
 		var NomTable="table"+Tables.id;
 		Tables[NomTable]=TABLE;
+	},
+	suppressionTable: function(ID){
+		delete Tables[ID];
 	}
 };
 //------------------------------------------------------

@@ -164,7 +164,9 @@ function createIntersection(TABLE1,TABLE2){
 			return false;
 		}
 	}
-	console.log("Intersection OK");
+	createArray(NombreTable);
+	for(var colonne in TABLE1.Entete){
+	}
 	return true; 
 }
 function createRelation(){

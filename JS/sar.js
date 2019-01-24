@@ -328,6 +328,7 @@ function createArray() {
 	var divRelation = document.createElement('div');
 	divRelation.setAttribute('class',"relation");
 	var tabNew=document.createElement('table');
+	tabNew.setAttribute('contenteditable',"false");
 	var StringID=NombreTable.toString();
 	var IDTable="table"+StringID;
 	tabNew.id=IDTable;
@@ -335,11 +336,7 @@ function createArray() {
 	var trNew=document.createElement('tr');
 	var thNew=document.createElement('th');
 	thNew.className="col";
-	var EntreeTexte  = document.createElement('input');
-	EntreeTexte.type="text";
-	EntreeTexte.disabled=bloquage;
-	EntreeTexte.placeholder="Nom attribut";
-	thNew.appendChild(EntreeTexte);
+	thNew.innerHTML = "Nom attribut";
 	//thNew.appendChild(document.createTextNode('Nouvelle colonne'));
 	trNew.appendChild(thNew);
 	theadNew.appendChild(trNew);

@@ -151,7 +151,30 @@ function removeEventSimple(obj,evt,fn) {
 }
 function createIntersection(TABLE1,TABLE2){
 	if(TABLE1.constructor.name!="Table" || TABLE2.constructor.name!="Table"){
+		console.log("Erreur Intersection");
 		return false;
+	}
+	if(TABLE1.getNombreColonne()!=TABLE2.getNombreColonne()){
+		console.log("Erreur Intersection");
+		return false;
+	}
+	for(var colonne in TABLE1.Entete){
+		if(TABLE1.Entete[colonne]!=TABLE2.Entete[colonne]){
+			console.log("Erreur Intersection");
+			return false;
+		}
+	}
+	createArray(NombreTable);
+	for(var colonne in TABLE1.Entete){
+	}
+	return true; 
+}
+function createRelation(){
+	var select1 = document.getElementById("select1");
+	var select2 = document.getElementById("select2");
+	var operateur = document.getElementById("operateur");
+	if(operateur.value=="1"){
+		createIntersection(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
 	}
 }
 function recupValeur(){

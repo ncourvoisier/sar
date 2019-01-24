@@ -11,12 +11,19 @@ class Table{
 		this.Libelle="";
 		this.Contenu={E0:[""]};
 		this.ColonneId=1;
+		this.bloque = true;
 	}
 	attribuerNom(Nom) {
 		this.Libelle=Nom;
 	}
 	reduire(){
 		this.reduit=!this.reduit;
+	}
+	debloquer(){
+		this.bloque=false;
+	}
+	bloquer(){
+		this.bloque=true;
 	}
 	ajoutLigne(){
 		for(var colonne in this.Contenu){
@@ -66,6 +73,9 @@ class Table{
 	}
 	getNombreColonne(){
 		return Object.keys(this.Entete).length;
+	}
+	getBloquer(){
+		return this.bloque;
 	}
 }
 
@@ -269,8 +279,6 @@ function createArray() {
 	var output = document.getElementById('EmplacementTables');
 	var divNew  = document.createElement('div');
 	var divDrag  = document.createElement('div');
-	var divEntete = document.createElement('div');
-	divEntete.setAttribute('class',"entete");
 	divDrag.className = "drag";
 	divNew.className = "EmplacementTable";
 	output.appendChild(divNew);
@@ -293,16 +301,20 @@ function createArray() {
 	ajoutButtonReduc.setAttribute("class","btnReduc") ;
 	ajoutButtonReduc.value = "-" ;
 	ajoutButtonReduc.setAttribute("onClick","reduction("+NombreTable+")") ;
+	var ajoutButtonModif = document.createElement('a');
+	ajoutButtonModif.href = "#";
+	ajoutButtonModif.setAttribute('class',"boutonLock");
+	ajoutButtonModif.setAttribute('onclick',"modification("+NombreTable+")");
 	var ajoutNumero  = document.createElement('span');
 	ajoutNumero.innerHTML=NombreTable;
 	//divNew.appendChild(ajoutColonneNew);
 
-	divEntete.appendChild(ajoutColonneNew);
-	divEntete.appendChild(ajoutLigneNew);
-	divEntete.appendChild(ajoutNumero);
-	divEntete.appendChild(ajoutButtonReduc);
-	divEntete.appendChild(ajoutButtonSuppr);
-	divDrag.appendChild(divEntete);
+	divDrag.appendChild(ajoutColonneNew);
+	divDrag.appendChild(ajoutLigneNew);
+	divDrag.appendChild(ajoutNumero);
+	divDrag.appendChild(ajoutButtonReduc);
+	divDrag.appendChild(ajoutButtonSuppr);
+	divDrag.appendChild(ajoutButtonModif);
 	var divRelation = document.createElement('div');
 	divRelation.setAttribute('class',"relation");
 	var tabNew=document.createElement('table');
@@ -344,21 +356,30 @@ function createArray() {
 	recupTable();
 }
 
-function modification(){
-	var ensembleTr=document.getElementsByTagName('input');
-	bloquage=!bloquage;
-	for(var i=0; i<ensembleTr.length;i++){
-		if(ensembleTr[i].type=='text')
-			ensembleTr[i].disabled=bloquage;
-	}
-	if(!bloquage){
-		document.getElementById('boutonModification').style.background = "#32CD32";
-		recuperationContenu();
-	}
-	else{
-		document.getElementById('boutonModification').style.background = "#cc0000";
-	}
+function modification(IDTable){
+	var stringID = IDTable.toString();
+	var ID = "table"+IDTable;
+	Tables["EnsembleTable"][ID].debloquer();
+	var table = document.getElementById(ID);
+	table.setAttribute('contenteditable',"true");
+	var relation = document.getElementById("EmplacementTable"+stringID);
+	var bouton = relation.getElementsByClassName('boutonLock')[0];
+	bouton.setAttribute('class','boutonUnlock')
+	bouton.setAttribute('onclick',"sauvegarderModif("+IDTable+")");
 }
+
+function sauvegarderModif(IDTable){
+	var stringID = IDTable.toString();
+	var ID = "table"+IDTable;
+	Tables["EnsembleTable"][ID].bloquer();
+	var table = document.getElementById(ID);
+	table.setAttribute('contenteditable',"false");
+	var relation = document.getElementById("EmplacementTable"+stringID);
+	var bouton = relation.getElementsByClassName('boutonUnlock')[0];
+	bouton.setAttribute('class','boutonLock')
+	bouton.setAttribute('onclick',"modification("+IDTable+")");
+}
+
 function recuperationContenu(){
 	//Recuperer Contenu tables et remplir le tableau de Table.
 }
@@ -381,8 +402,7 @@ function reduction(IDTable){
 	var divRelation = table.getElementsByClassName('relation');
 	divRelation[0].style.visibility='hidden';
 	var divDrag = table.getElementsByClassName('drag');
-	var divEntete = divDrag[0].getElementsByClassName('entete');
-	var btnReduc = divEntete[0].getElementsByClassName('btnReduc');
+	var btnReduc = divDrag[0].getElementsByClassName('btnReduc');
 	btnReduc[0].setAttribute('onclick',"agrandissement("+IDTable+")");
 }
 
@@ -393,8 +413,7 @@ function agrandissement(IDTable){
 	var divRelation = table.getElementsByClassName('relation');
 	divRelation[0].style.visibility='visible';
 	var divDrag = table.getElementsByClassName('drag');
-	var divEntete = divDrag[0].getElementsByClassName('entete');
-	var btnReduc = divEntete[0].getElementsByClassName('btnReduc');
+	var btnReduc = divDrag[0].getElementsByClassName('btnReduc');
 	btnReduc[0].setAttribute('onclick',"reduction("+IDTable+")");
 }
 

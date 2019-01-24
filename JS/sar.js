@@ -413,7 +413,26 @@ function reset() {
 	
 function save() {
 	if (localStorage) {
-		var nomTable = prompt("Saisir le nom de votre modèle :");
+		var nomTable = "";
+		var dejaSave = false;
+		do {
+			if (dejaSave) {
+				nomTable = prompt("Ce nom de table est déjà sauvegardé, saisir un nom différent : ");
+			} else {
+				nomTable = prompt("Saisir le nom de votre modèle :");
+			}
+			dejaSave = false;
+			for(var noms in localStorage){
+				console.log(dejaSave);
+				if (nomTable === noms.toString()) {
+					dejaSave = true;
+					console.log("test");
+					break;
+				}
+			}
+			console.log(dejaSave);
+		}while(dejaSave === true);
+		
 		localStorage.setItem(nomTable, JSON.stringify(Tables));
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");
@@ -443,11 +462,8 @@ function load() {
 		
 		for (var nbTable = 1; nbTable <= RestoredTables.id; nbTable++) {
 			var IDTable = "table"+nbTable;
-			//console.log(nbTable+" : "+RestoredTables["EnsembleTable"].table1.Object.keys(Contenu).length);;
 			createArray();
-			console.log("Entete "+Object.keys(RestoredTables["EnsembleTable"][IDTable].Entete).length);
-			console.log("Contenu "+Object.keys(RestoredTables["EnsembleTable"][IDTable].Contenu.E0).length);
-		
+			
 			var nbEntete = Object.keys(RestoredTables["EnsembleTable"][IDTable].Entete).length;
 			for (var entete = 2; entete <= nbEntete; entete++) {
 				createColumn(nbTable);
@@ -462,9 +478,6 @@ function load() {
 				reduction(nbTable);
 			}
 		}
-		
-		
-		
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");
 	}

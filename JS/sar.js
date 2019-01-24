@@ -274,8 +274,8 @@ function createArray() {
 	divEntete.appendChild(ajoutColonneNew);
 	divEntete.appendChild(ajoutLigneNew);
 	divEntete.appendChild(ajoutNumero);
-	divEntete.appendChild(ajoutButtonSuppr);
 	divEntete.appendChild(ajoutButtonReduc);
+	divEntete.appendChild(ajoutButtonSuppr);
 	divDrag.appendChild(divEntete);
 	var divRelation = document.createElement('div');
 	divRelation.setAttribute('class',"relation");

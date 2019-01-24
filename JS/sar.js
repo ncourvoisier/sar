@@ -149,6 +149,11 @@ function removeEventSimple(obj,evt,fn) {
 	else if (obj.detachEvent)
 		obj.detachEvent('on'+evt,fn);
 }
+function createIntersection(TABLE1,TABLE2){
+	if(TABLE1.constructor.name!="Table" || TABLE2.constructor.name!="Table"){
+		return false;
+	}
+}
 function recupValeur(){
 	if(document.forms["Requete"].elements["Table1"].value==0 || document.forms["Requete"].elements["Table2"].value==0 || document.forms["Requete"].elements["operateur"].value==0){
 		console.log("Erreur syntaxe");

@@ -380,15 +380,16 @@ window.onload=function()   {
 }
 
 function reset() {
+	var nomTableASupprimer = prompt("Saisir le nom du modèle à supprimer :");
 	if(confirm("sure ?")) {
-		localStorage.clear();
+		localStorage.removeItem(nomTableASupprimer);
 		window.location.reload();
 	}
 }
 	
 function save() {
 	if (localStorage) {
-		var restoredTable = [];
+		/*var restoredTable = [];
 		localStorage.setItem('table',JSON.stringify(restoredTable));
 		restoredTable = JSON.parse(localStorage.getItem('table'));
 		for (var i=1; i<=NombreTable; i++) {
@@ -422,8 +423,11 @@ function save() {
 			var cTable = {Entete: entete, Contenu: contenu, X: 0, Y: 0, reduit: false};
 			restoredTable[i] = cTable;
 		}
-		localStorage.setItem('table', JSON.stringify(restoredTable));
-		alert("Table saved");
+		localStorage.setItem('table', JSON.stringify(restoredTable));*/
+		
+		var nomTable = prompt("Saisir le nom de votre modèle :");
+		localStorage.setItem(nomTable, JSON.stringify(Tables));
+		
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");
 	}
@@ -432,8 +436,7 @@ function save() {
 	
 function load() {
 	if (localStorage) {
-		
-		var restoredTable = JSON.parse(localStorage.getItem('table'));
+		/*var restoredTable = JSON.parse(localStorage.getItem('table'));
 		if (restoredTable === null) {
 			alert("Nothing to load !");
 			return;
@@ -479,8 +482,18 @@ function load() {
 					document.getElementById(IDTable).rows[nl].cells[nc].firstChild.value = valeur;
 				}
 			}
-		}
-		alert("Table loaded");
+		}*/
+		/*console.log(Tables);
+		
+		
+		var nomTableACharger = prompt("Quel modèle voulez-vous charger ?");
+		var Tables = JSON.parse(localStorage.getItem(nomTableACharger));
+		
+		console.log(Tables);
+		console.log(Tables.EnsembleTable);*/
+		
+		
+		//alert("Table loaded");
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");
 	}

@@ -153,6 +153,17 @@ function createIntersection(TABLE1,TABLE2){
 	if(TABLE1.constructor.name!="Table" || TABLE2.constructor.name!="Table"){
 		return false;
 	}
+	if(TABLE1.getNombreColonne()!=TABLE2.getNombreColonne()){
+		return false;
+	}
+	for(var colonne in TABLE1.Entete){
+		if(TABLE1.Entete[colonne]!=TABLE2.Entete[colonne]){
+			return false;
+		}
+	}
+}
+function createRelation(){
+	
 }
 function recupValeur(){
 	if(document.forms["Requete"].elements["Table1"].value==0 || document.forms["Requete"].elements["Table2"].value==0 || document.forms["Requete"].elements["operateur"].value==0){

@@ -9,7 +9,7 @@ class Table{
 		this.Y=0;
 		this.reduit=false;
 		this.Libelle="";
-		this.Contenu={E0:[""]};
+		this.Contenu={E0:[]};
 		this.ColonneId=1;
 	}
 	attribuerNom(Nom) {
@@ -242,13 +242,16 @@ function createColumn(ID){
 	var Colonnes=output.getElementsByClassName('col');
 	var nbColonnes=Colonnes.length;
 	var ligne=output.getElementsByTagName('tr');
-	for(var i=1; i<ligne.length;i++){
+	for(var i=1; i<ligne.length-1;i++){
+		
 		var td = document.createElement('td');
 		var EntreeTexte  = document.createElement('input');
 		EntreeTexte.placeholder="Valeur attribut";
+
 		EntreeTexte.type="text";
 		EntreeTexte.disabled=bloquage;
 		td.appendChild(EntreeTexte);
+
 		ligne[i].appendChild(td);
 	}
 	var trNew  = document.createElement('th');
@@ -326,13 +329,6 @@ function createArray() {
 	tabNew.appendChild(theadNew);
 	var tbodyNew=document.createElement('tbody');
 	var trBodyNew=document.createElement('tr');
-	var tdBodyNew=document.createElement('td');
-	var EntreeTexte2  = document.createElement('input');
-	EntreeTexte2.type="text";
-	EntreeTexte2.disabled=bloquage;
-	EntreeTexte2.placeholder="Valeur attribut";
-	tdBodyNew.appendChild(EntreeTexte2);
-	trBodyNew.appendChild(tdBodyNew);
 	tbodyNew.appendChild(trBodyNew);
 	tabNew.appendChild(tbodyNew);
 	divRelation.appendChild(tabNew);

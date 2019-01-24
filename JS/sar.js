@@ -165,11 +165,14 @@ function createIntersection(TABLE1,TABLE2){
 		}
 	}
 	createArray(NombreTable);
-	var IDTable="table"+NombreTable;
-	for(var i=1;i<TABLE1.Entete.length;i++){
-		createColumn(IDTable);
+	var compteur=0;
+	for(var entete in TABLE1.Entete){
+		if(compteur!=0){
+			createColumn(NombreTable);
+		}
+		compteur++;
 	}
-	return true; 
+	return true;
 }
 function createRelation(){
 	var select1 = document.getElementById("select1");

@@ -83,6 +83,27 @@ var Tables={
 	}
 };
 //------------------------------------------------------
+/*
+$(".drag")
+    .draggable()
+    .click(function(){
+        if ( $(this).is('.ui-draggable-dragging') ) {
+            return;
+        }
+        $(this).draggable( "option", "disabled", true );
+        $(this).attr('contenteditable','true');
+    })
+    .blur(function(){
+        $(this).draggable( 'option', 'disabled', false);
+        $(this).attr('contenteditable','false');
+    });*/
+	//http://jsfiddle.net/UH9UE/222/
+	//http://jsfiddle.net/VJreA/
+	
+	
+	
+	
+	
 
 dragDrop = {
 

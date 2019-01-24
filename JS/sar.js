@@ -409,7 +409,7 @@ window.onload=function()   {
 
 function reset() {
 	var nomTableASupprimer = prompt("Saisir le nom du modèle à supprimer :");
-	if(confirm("Vous êtes sure de vouloir supprimer le modèle "+nomTableACharger+" ?")) {
+	if(confirm("Vous êtes sure de vouloir supprimer le modèle "+nomTableASupprimer+" ?")) {
 		localStorage.removeItem(nomTableASupprimer);
 		window.location.reload();
 	}

@@ -165,7 +165,9 @@ function createIntersection(TABLE1,TABLE2){
 		}
 	}
 	createArray(NombreTable);
-	for(var colonne in TABLE1.Entete){
+	var IDTable="table"+NombreTable;
+	for(var i=1;i<TABLE1.Entete.length;i++){
+		createColumn(IDTable);
 	}
 	return true; 
 }

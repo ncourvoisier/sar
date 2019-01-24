@@ -9,7 +9,7 @@ class Table{
 		this.Y=0;
 		this.reduit=false;
 		this.Libelle="";
-		this.Contenu={E0:[""]};
+		this.Contenu={E0:[]};
 		this.ColonneId=1;
 		this.bloque = true;
 	}
@@ -174,8 +174,15 @@ function createIntersection(TABLE1,TABLE2){
 			return false;
 		}
 	}
-	console.log("Intersection OK");
-	return true; 
+	createArray(NombreTable);
+	var compteur=0;
+	for(var entete in TABLE1.Entete){
+		if(compteur!=0){
+			createColumn(NombreTable);
+		}
+		compteur++;
+	}
+	return true;
 }
 function createRelation(){
 	var select1 = document.getElementById("select1");
@@ -250,13 +257,16 @@ function createColumn(ID){
 	var Colonnes=output.getElementsByClassName('col');
 	var nbColonnes=Colonnes.length;
 	var ligne=output.getElementsByTagName('tr');
-	for(var i=1; i<ligne.length;i++){
+	for(var i=1; i<ligne.length-1;i++){
+		
 		var td = document.createElement('td');
 		var EntreeTexte  = document.createElement('input');
 		EntreeTexte.placeholder="Valeur attribut";
+
 		EntreeTexte.type="text";
 		EntreeTexte.disabled=bloquage;
 		td.appendChild(EntreeTexte);
+
 		ligne[i].appendChild(td);
 	}
 	var trNew  = document.createElement('th');
@@ -336,13 +346,6 @@ function createArray() {
 	tabNew.appendChild(theadNew);
 	var tbodyNew=document.createElement('tbody');
 	var trBodyNew=document.createElement('tr');
-	var tdBodyNew=document.createElement('td');
-	var EntreeTexte2  = document.createElement('input');
-	EntreeTexte2.type="text";
-	EntreeTexte2.disabled=bloquage;
-	EntreeTexte2.placeholder="Valeur attribut";
-	tdBodyNew.appendChild(EntreeTexte2);
-	trBodyNew.appendChild(tdBodyNew);
 	tbodyNew.appendChild(trBodyNew);
 	tabNew.appendChild(tbodyNew);
 	divRelation.appendChild(tabNew);
@@ -426,7 +429,7 @@ window.onload=function()   {
 
 function reset() {
 	var nomTableASupprimer = prompt("Saisir le nom du modèle à supprimer :");
-	if(confirm("sure ?")) {
+	if(confirm("Vous êtes sure de vouloir supprimer le modèle "+nomTableASupprimer+" ?")) {
 		localStorage.removeItem(nomTableASupprimer);
 		window.location.reload();
 	}
@@ -434,45 +437,27 @@ function reset() {
 	
 function save() {
 	if (localStorage) {
-		/*var restoredTable = [];
-		localStorage.setItem('table',JSON.stringify(restoredTable));
-		restoredTable = JSON.parse(localStorage.getItem('table'));
-		for (var i=1; i<=NombreTable; i++) {
-			var IDTable = "table"+i;
-			var output = document.getElementById(IDTable),trs;
-			if (output === null) {
-				continue;
+		var nomTable = "";
+		var dejaSave = false;
+		do {
+			if (dejaSave) {
+				nomTable = prompt("Ce nom de table est déjà sauvegardé, saisir un nom différent : ");
+			} else {
+				nomTable = prompt("Saisir le nom de votre modèle :");
 			}
-			
-			//RECUP L'ENTETE
-			var Colonnes=output.getElementsByClassName('col');
-			var nbColonnes=Colonnes.length;
-			var entete = [];
-			for(var nbCol = 0; nbCol < nbColonnes; nbCol++) {
-				entete[nbCol] = document.getElementById(IDTable).rows[0].cells[nbCol].firstChild.value;
-			}
-			
-			//RECUP CONTENU DANS LES AUTRES LIGNES
-			var ligne=output.getElementsByTagName('tr');
-			var nbLigneTotal = ligne.length;
-			var contenu = [];
-			for(var nbLine = 0; nbLine < nbLigneTotal; nbLine++) {
-				var ligneParLigne = [];
-				for(var nbCol = 0; nbCol < nbColonnes; nbCol++) {
-					var tmp = document.getElementById(IDTable).rows[nbLine].cells[nbCol].firstChild.value;
-					var nameColone = entete[nbCol];
-					ligneParLigne.push(tmp);
+			dejaSave = false;
+			for(var noms in localStorage){
+				console.log(dejaSave);
+				if (nomTable === noms.toString()) {
+					dejaSave = true;
+					console.log("test");
+					break;
 				}
-				contenu.push(ligneParLigne);
 			}
-			var cTable = {Entete: entete, Contenu: contenu, X: 0, Y: 0, reduit: false};
-			restoredTable[i] = cTable;
-		}
-		localStorage.setItem('table', JSON.stringify(restoredTable));*/
+			console.log(dejaSave);
+		}while(dejaSave === true);
 		
-		var nomTable = prompt("Saisir le nom de votre modèle :");
 		localStorage.setItem(nomTable, JSON.stringify(Tables));
-		
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");
 	}
@@ -481,13 +466,14 @@ function save() {
 	
 function load() {
 	if (localStorage) {
-		/*var restoredTable = JSON.parse(localStorage.getItem('table'));
-		if (restoredTable === null) {
-			alert("Nothing to load !");
+		var nomTableACharger = prompt("Quel modèle voulez-vous charger ?");
+		var RestoredTables = JSON.parse(localStorage.getItem(nomTableACharger));
+		if (RestoredTables === null) {
+			alert("Rien a charger");
 			return;
 		}
 		
-		var NombreTableASupprimer = NombreTable;
+		var NombreTableASupprimer = Tables.id;
 		for (var suppr=1; suppr<=NombreTableASupprimer; suppr++) {
 			var IDTable = "table"+suppr;
 			if (document.getElementById(IDTable) === null) {
@@ -495,50 +481,27 @@ function load() {
 			}
 			suppression(suppr);
 		}
+		Tables.id = 0;
 		NombreTable = 0;
 		
-		var tailleRestoredTable = restoredTable.length;
-		var nbTableALoad = tailleRestoredTable - 1;
-		
-		for (var tableNum=1; tableNum<tailleRestoredTable; tableNum++) {
-			if(restoredTable[tableNum] === null || restoredTable[tableNum].colonne === null || restoredTable[tableNum].ligne === null) {
-				NombreTable++;
-				continue;
-			}
-			IDTable = "table"+tableNum;
+		for (var nbTable = 1; nbTable <= RestoredTables.id; nbTable++) {
+			var IDTable = "table"+nbTable;
 			createArray();
-			var nbColonnes = restoredTable[tableNum].Entete.length;
-			var nbLigne = restoredTable[tableNum].Contenu.length;
 			
-			for (var nc = 0; nc < nbColonnes -1; nc++) {
-				createColumn(tableNum);
+			var nbEntete = Object.keys(RestoredTables["EnsembleTable"][IDTable].Entete).length;
+			for (var entete = 2; entete <= nbEntete; entete++) {
+				createColumn(nbTable);
 			}
-			for (var nl = 0; nl < nbLigne -2; nl++) {
-				createLine(tableNum);
+			
+			var nbContenu = Object.keys(RestoredTables["EnsembleTable"][IDTable].Contenu.E0).length;
+			for (var contenu = 2; contenu <= nbContenu; contenu++) {
+				createLine(nbTable);
 			}
-			for (var nl = 0; nl < nbLigne; nl++) {
-				for (var nc = 0; nc < nbColonnes; nc++) {
-					if (nl === 0) {
-						var valeur = restoredTable[tableNum].Entete[nc];
-						document.getElementById(IDTable).rows[nl].cells[nc].firstChild.value = valeur;
-						continue;
-					}
-					var valeur = restoredTable[tableNum].Contenu[nl][nc];
-					document.getElementById(IDTable).rows[nl].cells[nc].firstChild.value = valeur;
-				}
+			
+			if (RestoredTables["EnsembleTable"][IDTable].reduit) {
+				reduction(nbTable);
 			}
-		}*/
-		/*console.log(Tables);
-		
-		
-		var nomTableACharger = prompt("Quel modèle voulez-vous charger ?");
-		var Tables = JSON.parse(localStorage.getItem(nomTableACharger));
-		
-		console.log(Tables);
-		console.log(Tables.EnsembleTable);*/
-		
-		
-		//alert("Table loaded");
+		}
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");
 	}

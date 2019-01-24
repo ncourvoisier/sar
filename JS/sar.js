@@ -434,9 +434,11 @@ function save() {
 					break;
 				}
 			}
+			if (nomTable === "") {
+				dejaSave= true;
+			}
 			console.log(dejaSave);
 		}while(dejaSave === true);
-		
 		localStorage.setItem(nomTable, JSON.stringify(Tables));
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");

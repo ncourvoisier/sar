@@ -49,24 +49,17 @@
 				<input class="btnReduc" type="button" value="-" onclick="reduction('1')">
 				<input id="buttonSuppr" type="button" value="X" onclick="suppression('1')">
 				</div>
-			<div class="drag">
-			<input type="button" value="+C" onclick="createColumn(1)">
-			<input type="button" value="+L" onclick="createLine(1)">
-			<span contenteditable="true">1</span>
-			<input class="btnReduc" type="button" value="-" onclick="reduction(1)">
-            <input id="buttonSuppr" type="button" value="X" onclick="suppression(1)">
-			<a href="#" class="boutonLock" onclick="modification(1)"></a>
 			</div>
 			<div class="relation">
-			<table id="table1" contenteditable="false">
+			<table id="table1">
 			    <thead>
 			        <tr>
-			            <th class="col">Nom attribut</th>
+			            <th class="col"><input type="text" name="text" disabled="" placeholder="Nom attribut"></th>
 			        </tr>
 			    </thead>
 			    <tbody>
 			        <tr>
-						<td>Valeur attribut</td>
+			            <td><input type="text" name="text" disabled="" placeholder="Valeur attribut"></td>
 			        </tr>                
 			    </tbody>
 			</table>

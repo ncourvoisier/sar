@@ -33,7 +33,9 @@ class Table{
 	ajoutColonne(){
 		var NomNouvelleEntree="E"+this.getColonneID();
 		this.Entete[NomNouvelleEntree]="";
-		for(var i=0;i<this.getNombreLigne();i++){
+		console.log(this.getNombreLigne());
+		for(var i=0;i<=this.getNombreLigne();i++){
+			console.log(i);
 			if(i==0){
 				this.Contenu[NomNouvelleEntree]=[""];
 			}
@@ -41,6 +43,7 @@ class Table{
 				this.Contenu[NomNouvelleEntree].push("");
 			}
 		}
+		this.Contenu[NomNouvelleEntree].push("");
 		this.ColonneId++;
 	}
 	ajoutContenu(Entete,Position,Contenu){

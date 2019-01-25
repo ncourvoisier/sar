@@ -407,8 +407,9 @@ window.onload=function()   {
 	}
 }
 
-function reset() {
-	var nomTableASupprimer = prompt("Saisir le nom du modèle à supprimer :");
+function supprimerUnModele(modele) {
+	console.log(modele.value);
+	var nomTableASupprimer = modele.value;
 	if(confirm("Vous êtes sure de vouloir supprimer le modèle "+nomTableASupprimer+" ?")) {
 		localStorage.removeItem(nomTableASupprimer);
 		window.location.reload();
@@ -427,7 +428,7 @@ function save() {
 			}
 			dejaSave = false;
 			for(var noms in localStorage){
-				console.log(dejaSave);
+				//console.log(dejaSave);
 				if (nomTable === noms.toString()) {
 					dejaSave = true;
 					console.log("test");
@@ -437,18 +438,47 @@ function save() {
 			if (nomTable === "") {
 				dejaSave= true;
 			}
-			console.log(dejaSave);
 		}while(dejaSave === true);
+		if (nomTable === null) {
+			return;
+		}
 		localStorage.setItem(nomTable, JSON.stringify(Tables));
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");
 	}
 }	
 	
+
+function affichageModele() {
+	var listeModele = [];
+	for(var noms in localStorage){
+		if (noms === "key" || noms === "getItem" || noms === "setItem" || noms === "removeItem" || noms === "clear" || noms === "length") {
+			continue;
+		}
+		listeModele.push(noms);
+	}
 	
-function load() {
+	var modele = document.getElementById("modele");
+	var tmp = "";
+	for (var i = 0, lgtListeModele = listeModele.length; i < lgtListeModele; i++) {
+		//<input type="button" id="boutonLoad" value="Charge" onclick="load()">
+		tmp += "<input type=\"button\" id="+listeModele[i]+" value="+listeModele[i]+" onclick=\"load("+listeModele[i]+")\">";
+		tmp += "<input type=\"button\" id=\"btn"+listeModele[i]+"\" value=\"X\" onclick=\"supprimerUnModele("+listeModele[i]+")\"><br>";
+	}
+	modele.innerHTML = tmp;
+}
+
+
+function clearLocalstorage() {
+	if(confirm("Supprimer tous vos modèles ?")) {
+		localStorage.clear();
+	}
+}
+	
+function load(modele) {
 	if (localStorage) {
-		var nomTableACharger = prompt("Quel modèle voulez-vous charger ?");
+		
+		var nomTableACharger = modele.value;
 		var RestoredTables = JSON.parse(localStorage.getItem(nomTableACharger));
 		if (RestoredTables === null) {
 			alert("Rien a charger");

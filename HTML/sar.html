@@ -29,15 +29,23 @@
 		</p>
 	</form>
 	</div>
+	
+	<form id="options" onclick="affichageModele()">
+        <p>Modele :</p>
+		<div id="modele">
+        </div>
+		<div>
+           <div id="btnReinit" class="bouton" onclick="clearLocalstorage()">Réinitialiser les modeles</div>
+           <label for="cbOptions" class="bouton" onclick="save()">Sauver</label>
+		</div>
+    </form>
+	
 	<div id="EmplacementTables">
 		<p>
 		<span>
 		Boutons essentiels :
 			<input type="button" value="Ajout" onclick="createArray()">
 			<input type="button" id="boutonModification" value="Modif" onclick="modification()">
-			<input type="button" id="boutonSave" value="Sauve" onclick="save()">
-			<input type="button" id="boutonLoad" value="Charge" onclick="load()">
-			<input type="button" id="boutonReset" value="Suppr" onclick="reset()">
 		</span>
 	</p>
 			<div class="EmplacementTable" id="EmplacementTable1">

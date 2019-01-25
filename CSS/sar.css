@@ -15,7 +15,7 @@ body{
 span{
 	border: 3px solid #577482;
 }
-/*BOUTON OK*/
+/*BOUTON OK*//*
 input[type=button]{
 	width:40px;
 	background:#cc0000;
@@ -23,7 +23,7 @@ input[type=button]{
 	border-radius:50%;
 	border:none;
 	color:#fff;
-}
+}*/
 
 input[id=btnSuppr]{
 	width:20px;
@@ -85,3 +85,85 @@ th{
 #EmplacementTables span{
 	border:none;
 }
+
+
+
+/****************************************************
+ **              Menu des options                  **
+ ****************************************************/
+
+/* bouton pour afficher/cacher */
+#btnOptions {
+    position: absolute; 
+    top: 1vh;
+    left: 1vh;
+    cursor: pointer;
+}
+#btnOptions::before {
+    content: '\2630';
+    text-align: center;
+    border: solid 2px #000;
+    font-size: 3vh;
+    padding: 0vh 1vh 0.6vh 1vh;
+    border-radius: 4px;
+}
+
+/* zone des options */
+#options {
+    --bg-color: #1e3250;
+    --fg-color: white;
+    position: fixed;
+    /* display: none; */
+    overflow-y: scroll;
+    box-sizing: border-box;
+    /* top: 50%; */
+    left: 65%;
+    /* transform: translate(16%, -50%); */
+    border-radius: 10px;
+    color: var(--fg-color);
+    background-color: var(--bg-color);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#options > * {
+    margin: 2vh;   
+    min-width: 20vw; 
+}
+#options h2 {
+    text-align: center;   
+}
+#options label {
+    margin: 0 1vh; 
+    display: inline;
+    cursor: pointer;
+}
+#cbOptions:checked ~ #options {
+    display: flex;   
+}
+#cbOptions:checked ~ main {
+    display: none;   
+}
+#options .bouton {
+    display: inline-block;
+    border: solid 1px white;
+    padding: 1vh 2vh;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+    width: auto;
+    box-shadow: 0px 0px 5px white;
+}
+#options .bouton:hover {
+    color: var(--bg-color);
+    background-color: var(--fg-color);
+}
+
+
+
+
+
+
+
+
+

@@ -67,6 +67,12 @@ class Table{
 	getNombreColonne(){
 		return Object.keys(this.Entete).length;
 	}
+	setX(x) {
+		this.X=x;
+	}
+	setY(y) {
+		this.Y=y;
+	}
 }
 
 //----------------------------Ensemble Tables----------------------------
@@ -91,11 +97,17 @@ dragDrop = {
 	startX: undefined,
 	startY: undefined,
 	draggedObject: undefined,
+	
+	tablee: undefined,
+	
 	initElement: function (element) {
 		if (typeof element == 'string')
 			element = document.getElementById(element);
 		zone_drag=element.getElementsByClassName("drag");
 		zone_drag[0].onmousedown = dragDrop.startDragMouse;
+		
+		tablee = element.children[1].firstElementChild.id;
+		//console.log(tablee);
 	},
 	startDragMouse: function (e) {
 		dragDrop.startDrag(this.parentNode);
@@ -124,6 +136,8 @@ dragDrop = {
 	setPosition: function (dx,dy) {
 		dragDrop.draggedObject.style.left = dragDrop.startX + dx + 'px';
 		dragDrop.draggedObject.style.top = dragDrop.startY + dy + 'px';
+		Tables["EnsembleTable"][tablee].setX(dx);
+		Tables["EnsembleTable"][tablee].setY(dy);
 	},
 	releaseElement: function() {
 		removeEventSimple(document,'mousemove',dragDrop.dragMouse);
@@ -431,7 +445,6 @@ function save() {
 				//console.log(dejaSave);
 				if (nomTable === noms.toString()) {
 					dejaSave = true;
-					console.log("test");
 					break;
 				}
 			}
@@ -461,7 +474,6 @@ function affichageModele() {
 	var modele = document.getElementById("modele");
 	var tmp = "";
 	for (var i = 0, lgtListeModele = listeModele.length; i < lgtListeModele; i++) {
-		//<input type="button" id="boutonLoad" value="Charge" onclick="load()">
 		tmp += "<input type=\"button\" id="+listeModele[i]+" value="+listeModele[i]+" onclick=\"load("+listeModele[i]+")\">";
 		tmp += "<input type=\"button\" id=\"btn"+listeModele[i]+"\" value=\"X\" onclick=\"supprimerUnModele("+listeModele[i]+")\"><br>";
 	}
@@ -498,6 +510,12 @@ function load(modele) {
 		
 		for (var nbTable = 1; nbTable <= RestoredTables.id; nbTable++) {
 			var IDTable = "table"+nbTable;
+			
+			if(!RestoredTables["EnsembleTable"][IDTable]) {
+				NombreTable++;
+				Tables.id++;
+				continue;
+			}
 			createArray();
 			
 			var nbEntete = Object.keys(RestoredTables["EnsembleTable"][IDTable].Entete).length;
@@ -513,6 +531,9 @@ function load(modele) {
 			if (RestoredTables["EnsembleTable"][IDTable].reduit) {
 				reduction(nbTable);
 			}
+			
+			var x = RestoredTables["EnsembleTable"][IDTable].X;
+			var y = RestoredTables["EnsembleTable"][IDTable].Y;
 		}
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");

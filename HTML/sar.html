@@ -41,6 +41,14 @@
 		</span>
 	</p>
 			<div class="EmplacementTable" id="EmplacementTable1">
+			<div class="drag" contenteditable="true">
+				<div class="entete">
+				<input type="button" value="+C" onclick="createColumn('1')">
+				<input type="button" value="+L" onclick="createLine('1')">
+				<span>1</span>
+				<input class="btnReduc" type="button" value="-" onclick="reduction('1')">
+				<input id="buttonSuppr" type="button" value="X" onclick="suppression('1')">
+				</div>
 			<div class="drag">
 			<input type="button" value="+C" onclick="createColumn(1)">
 			<input type="button" value="+L" onclick="createLine(1)">
@@ -53,12 +61,12 @@
 			<table id="table1" contenteditable="false">
 			    <thead>
 			        <tr>
-			             <th class="col"><input type="text" name="text" disabled="" placeholder="Nom attribut"></th>
+			            <th class="col">Nom attribut</th>
 			        </tr>
 			    </thead>
 			    <tbody>
 			        <tr>
-						<td><input type="text" name="text" disabled="" placeholder="Valeur attribut"></td>
+						<td>Valeur attribut</td>
 			        </tr>                
 			    </tbody>
 			</table>

@@ -159,6 +159,35 @@ th{
     background-color: var(--fg-color);
 }
 
+.boutonLock{
+	background:url(../ressources/images/btnModifLock.png) no-repeat;
+	display:block;
+	text-align:center;
+	vertical-align:middle;
+	height:16px;
+	width:16px;
+	float:right;
+	margin:2px;
+}
+
+.boutonLock:hover{
+	background:url(../ressources/images/btnModifUnlock.png) no-repeat;
+}
+
+.boutonUnlock{
+	background:url(../ressources/images/btnModifUnlock.png) no-repeat;
+	display:block;
+	text-align:center;
+	vertical-align:middle;
+	height:16px;
+	width:16px;
+	float:right;
+	margin:2px;
+}
+
+.boutonUnlock:hover{
+	background:url(../ressources/images/btnModifLock.png) no-repeat;
+}
 
 
 

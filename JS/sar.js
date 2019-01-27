@@ -93,11 +93,13 @@ var Tables={
 		Tables.id++;
 		var NomTable="table"+Tables.id;
 		Tables["EnsembleTable"][NomTable]=TABLE;
+		TABLE.attribuerNom(NomTable);
 	},
 	suppressionTable: function(ID){
 		delete Tables["EnsembleTable"][ID];
 	}
 };
+Tables["EnsembleTable"]["table1"].attribuerNom("table1");
 //------------------------------------------------------
 
 dragDrop = {
@@ -189,6 +191,8 @@ function createIntersection(TABLE1,TABLE2){
 		}
 	}
 	createArray(NombreTable);
+	var ID = "table"+NombreTable;
+	Tables["EnsembleTable"][ID].attribuerNom("Intersection: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
 	for(var colonne in TABLE1.Entete){
 	}
 	return true; 

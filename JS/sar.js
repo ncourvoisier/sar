@@ -198,7 +198,48 @@ function NICOLASTABLETOHTML(TABLE){
 }
 
 function createUnion(TABLE1,TABLE2){
-
+	if(TABLE1.constructor.name!="Table" || TABLE2.constructor.name!="Table"){
+		console.log("Erreur Intersection");
+		return false;
+	}
+	if(TABLE1.getNombreColonne()!=TABLE2.getNombreColonne()){
+		console.log("Erreur Intersection");
+		return false;
+	}
+	for(var colonne in TABLE1.Entete){
+		if(TABLE1.Entete[colonne]!=TABLE2.Entete[colonne]){
+			console.log("Erreur Intersection: Le nom des attributs des 2 tables doivent être identique");
+			return false;
+		}
+	}
+	var TableUnion=new Table();
+	TableUnion.attribuerNom("Union: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
+	TableUnion.Entete=TABLE1.Entete;
+	var compteur=0;
+	for(var i in TableUnion.Entete){
+		var NomNouvelleEntree="E"+compteur;
+		TableUnion.Contenu[NomNouvelleEntree]=[];
+		compteur++;
+	}
+	for(var i=0;i<TABLE1.getNombreLigne();i++){
+		var ligneCourante=recupereLigne(TABLE1,i);
+		TableUnion.ajoutLigne(ligneCourante);
+	}
+	for(var i=0;i<TABLE2.getNombreLigne();i++){
+		var ligneCourante=recupereLigne(TABLE2,i);
+		var isDoublon=false;
+		for(var j=0;j<TABLE1.getNombreLigne();j++){
+			var ligneComparative=recupereLigne(TABLE2,j);
+			if(JSON.stringify(ligneCourante)==JSON.stringify(ligneComparative)){
+				isDoublon=true;
+			}
+		}
+		if(!isDoublon){
+			TableUnion.ajoutLigne(ligneCourante);
+		}
+	}
+	console.log(TableUnion);
+	return true; 
 
 }
 function createIntersection(TABLE1,TABLE2){
@@ -216,7 +257,7 @@ function createIntersection(TABLE1,TABLE2){
 			return false;
 		}
 	}
-	createArray(NombreTable);
+	//createArray(NombreTable);
 	var TableIntersection=new Table();
 	//var ID = "table"+NombreTable;
 	TableIntersection.attribuerNom("Intersection: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);

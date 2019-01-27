@@ -42,46 +42,18 @@ class Table{
 			compteur++;
 		}
 	}
-	AjoutModeleEntete(Entete){
-		for(var titre in Entete){
-			this.ajoutColonne(titre);
-		}
-	}
-	/*
 	ajoutColonne(){
 		var NomNouvelleEntree="E"+this.getColonneID();
 		this.Entete[NomNouvelleEntree]="";
 		for(var i=0;i<this.getNombreLigne();i++){
-			if(i==0){
-				this.Contenu[NomNouvelleEntree]=[""];
-			}
-			else{
-				this.Contenu[NomNouvelleEntree].push("");
-			}
-		}
-		this.ColonneId++;
-	}
-	*/
-	ajoutColonne(entete){
-		var NomNouvelleEntree="E"+this.getColonneID();
-		this.Entete[NomNouvelleEntree]="";
-		for(var i=0;i<this.getNombreLigne();i++){
-			if(entete){
-				if(i==0){
-					this.Contenu[NomNouvelleEntree]=[entete];
-				}
-				else{
-					this.Contenu[NomNouvelleEntree].push(entete);
-				}
-			}
-			else{
+			
 				if(i==0){
 					this.Contenu[NomNouvelleEntree]=[""];
 				}
 				else{
 					this.Contenu[NomNouvelleEntree].push("");
 				}
-			}
+			
 		}
 		this.ColonneId++;
 	}
@@ -233,19 +205,28 @@ function createIntersection(TABLE1,TABLE2){
 		}
 	}
 	createArray(NombreTable);
-	var ID = "table"+NombreTable;
-	Tables["EnsembleTable"][ID].attribuerNom("Intersection: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
+	var TableIntersection=new Table();
+	//var ID = "table"+NombreTable;
+	TableIntersection.attribuerNom("Intersection: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
+	TableIntersection.Entete=TABLE1.Entete;
+	var compteur=0;
+	for(var i in TableIntersection.Entete){
+		var NomNouvelleEntree="E"+compteur;
+		TableIntersection.Contenu[NomNouvelleEntree]=[];
+		compteur++;
+	}
 	for(var i=0;i<TABLE1.getNombreLigne();i++){
 		var ligneCourante=recupereLigne(TABLE1,i);
 		console.log("i="+ligneCourante);
 		for(var j=0;j<TABLE2.getNombreLigne();j++){
 			console.log("j="+recupereLigne(TABLE2,j));
 			if(JSON.stringify(ligneCourante)==JSON.stringify(recupereLigne(TABLE2,j))){
-				console.log("VRAI\n");
+				TableIntersection.ajoutLigne(ligneCourante);
 				break;
 			}
 		}
 	}
+	console.log(TableIntersection);
 	return true; 
 }
 function recupereLigne(TABLE,NumeroLigne){
@@ -255,6 +236,7 @@ function recupereLigne(TABLE,NumeroLigne){
 	}
 	return res;
 }
+
 function createRelation(){
 	var select1 = document.getElementById("select1");
 	var select2 = document.getElementById("select2");

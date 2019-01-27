@@ -43,9 +43,9 @@ class Table{
 		}
 		this.ColonneId++;
 	}
-	ajoutContenu(Entete,Position,Contenu){
+	ajoutContenu(Entete,Position,Contenu,boolEntete){
 		var compteurEntete=0;
-		if(Position==0){
+		if(boolEntete){
 			for(var NomEntete in this.Entete){
 				if(compteurEntete == Entete){
 					this.Entete[NomEntete]=Contenu;
@@ -245,7 +245,7 @@ function createLine(ID){
 		var td = document.createElement('td');
 		var EntreeTexte  = document.createElement('input');
 		EntreeTexte.type="text";
-		EntreeTexte.disabled=bloquage;
+		EntreeTexte.disabled=Tables["EnsembleTable"][IDTable].getBloquer();
 		EntreeTexte.placeholder="Valeur attribut";
 		td.appendChild(EntreeTexte);
 		trNew.appendChild(td);	
@@ -271,7 +271,7 @@ function createColumn(ID){
 		var EntreeTexte  = document.createElement('input');
 		EntreeTexte.placeholder="Valeur attribut";
 		EntreeTexte.type="text";
-		EntreeTexte.disabled=bloquage;
+		EntreeTexte.disabled=Tables["EnsembleTable"][IDTable].getBloquer();
 		td.appendChild(EntreeTexte);
 		ligne[i].appendChild(td);
 	}
@@ -279,7 +279,7 @@ function createColumn(ID){
 	trNew.className = "col";
 	var EntreeTexte  = document.createElement('input');
 	EntreeTexte.type="text";
-	EntreeTexte.disabled=bloquage;
+	EntreeTexte.disabled=Tables["EnsembleTable"][IDTable].getBloquer();
 	EntreeTexte.placeholder="Nom attribut";
 	trNew.appendChild(EntreeTexte);
 	if (output) {
@@ -397,16 +397,36 @@ function sauvegarderModif(IDTable){
 	var table = document.getElementById(ID);
 	var th = table.getElementsByTagName('input');
 	for(var i in th){
-		if(th[i].type==="text")
+		if(th[i].type==="text") {
 			th[i].disabled = bloque;
+		}
 	}
+	recuperationContenu(IDTable);
 	var relation = document.getElementById("EmplacementTable"+stringID);
 	var bouton = relation.getElementsByClassName('boutonUnlock')[0];
 	bouton.setAttribute('class','boutonLock')
 	bouton.setAttribute('onclick',"modification("+IDTable+")");
 }
-function recuperationContenu(){
-	//Recuperer Contenu tables et remplir le tableau de Table.
+function recuperationContenu(IDTable){
+	var ID = "table"+IDTable;
+	Tables["EnsembleTable"][ID].bloquer();
+	var table = document.getElementById(ID);
+	var th = table.getElementsByTagName('input');
+	var tr = table.getElementsByClassName('col');
+	var nbColonne = tr.length;
+	var pos = 0;
+	var boolEntete = true;
+	for(var i in th){
+		if(th[i].type==="text") {
+			Tables["EnsembleTable"][ID].ajoutContenu(i%nbColonne,pos,th[i].value,boolEntete);
+			if(i%nbColonne == nbColonne-1){
+				if(!boolEntete){
+					pos++;
+				}
+				boolEntete = false;
+			}
+		}
+	}
 }
 function suppression(IDTable){
 	if(suppression.caller.name === "load" || confirm("Supprimer la table "+IDTable+" ?")) {

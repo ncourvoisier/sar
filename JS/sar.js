@@ -70,6 +70,9 @@ class Table{
 		else{
 			for(var NomEntete in this.Entete){
 				if(compteurEntete == Entete){
+					console.log(NomEntete);
+					console.log(Position);
+					console.log(this);
 					this.Contenu[NomEntete][Position]=Contenu;
 				}
 				compteurEntete++;
@@ -193,6 +196,11 @@ function NICOLASTABLETOHTML(TABLE){
 	//TABLE c'est un objet REMPLI de la classe Table. (La table "TableIntersection") dans la function createIntersection par exemple, ou la table que tu saves.
 	//Il faut que ça créée la table en html sans modifié la table dans le modèle de donnée
 }
+
+function createUnion(TABLE1,TABLE2){
+
+
+}
 function createIntersection(TABLE1,TABLE2){
 	if(TABLE1.constructor.name!="Table" || TABLE2.constructor.name!="Table"){
 		console.log("Erreur Intersection");
@@ -247,6 +255,9 @@ function createRelation(){
 	var operateur = document.getElementById("operateur");
 	if(operateur.value=="1"){
 		createIntersection(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+	}
+	if(operateur.value=="2"){
+		createUnion(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
 	}
 }
 function recupValeur(){
@@ -631,14 +642,14 @@ function load(modele) {
 			}
 			createArray();
 			
-			var nbEntete = Object.keys(RestoredTables["EnsembleTable"][IDTable].Entete).length;
-			for (var entete = 2; entete <= nbEntete; entete++) {
-				createColumn(nbTable);
-			}
-			
 			var nbContenu = Object.keys(RestoredTables["EnsembleTable"][IDTable].Contenu.E0).length;
 			for (var contenu = 2; contenu <= nbContenu; contenu++) {
 				createLine(nbTable);
+			}
+
+			var nbEntete = Object.keys(RestoredTables["EnsembleTable"][IDTable].Entete).length;
+			for (var entete = 2; entete <= nbEntete; entete++) {
+				createColumn(nbTable);
 			}
 			
 			if (RestoredTables["EnsembleTable"][IDTable].reduit) {

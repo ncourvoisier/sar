@@ -186,16 +186,38 @@ function createIntersection(TABLE1,TABLE2){
 	}
 	for(var colonne in TABLE1.Entete){
 		if(TABLE1.Entete[colonne]!=TABLE2.Entete[colonne]){
-			console.log("Erreur Intersection");
+			console.log("Erreur Intersection: Le nom des attributs des 2 tables doivent être identique");
 			return false;
 		}
 	}
 	createArray(NombreTable);
 	var ID = "table"+NombreTable;
 	Tables["EnsembleTable"][ID].attribuerNom("Intersection: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
-	for(var colonne in TABLE1.Entete){
+	for(var i=0;i<TABLE1.getNombreLigne();i++){
+		var ligneCourante=recupereLigne(TABLE1,i);
+		console.log("i="+ligneCourante);
+		for(var j=0;j<TABLE2.getNombreLigne();j++){
+			console.log("j="+recupereLigne(TABLE2,j));
+			if(JSON.stringify(ligneCourante)==JSON.stringify(recupereLigne(TABLE2,j))){
+				console.log("VRAI\n");
+				break;
+			}
+		}
 	}
 	return true; 
+}
+function recupereLigne(TABLE,NumeroLigne){
+	var res=[];
+	for(var i in TABLE.Contenu){
+		res.push(TABLE.Contenu[i][NumeroLigne]);
+	}
+	return res;
+}
+function AjoutModeleEntete(){
+
+}
+function AjoutModeleLigne(){
+	
 }
 function createRelation(){
 	var select1 = document.getElementById("select1");

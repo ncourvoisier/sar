@@ -189,6 +189,10 @@ function removeEventSimple(obj,evt,fn) {
 	else if (obj.detachEvent)
 		obj.detachEvent('on'+evt,fn);
 }
+function NICOLASTABLETOHTML(TABLE){
+	//TABLE c'est un objet REMPLI de la classe Table. (La table "TableIntersection") dans la function createIntersection par exemple, ou la table que tu saves.
+	//Il faut que ça créée la table en html sans modifié la table dans le modèle de donnée
+}
 function createIntersection(TABLE1,TABLE2){
 	if(TABLE1.constructor.name!="Table" || TABLE2.constructor.name!="Table"){
 		console.log("Erreur Intersection");

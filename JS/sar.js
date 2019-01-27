@@ -24,16 +24,21 @@ class Table{
 	}
 	bloquer(){
 		this.bloque=true;
-	}
+	}/*
 	ajoutLigne(){
 		for(var colonne in this.Contenu){
 			this.Contenu[colonne].push("");
 		}
-	}
+	}*/
 	ajoutLigne(Ligne){
 		var compteur=0;
 		for(var colonne in this.Contenu){
-			this.Contenu[colonne].push(Ligne[compteur]);
+			if(Ligne){
+				this.Contenu[colonne].push(Ligne[compteur]);
+			}
+			else{
+				this.Contenu[colonne].push("");
+			}
 			compteur++;
 		}
 	}
@@ -42,6 +47,7 @@ class Table{
 			this.ajoutColonne(titre);
 		}
 	}
+	/*
 	ajoutColonne(){
 		var NomNouvelleEntree="E"+this.getColonneID();
 		this.Entete[NomNouvelleEntree]="";
@@ -55,15 +61,26 @@ class Table{
 		}
 		this.ColonneId++;
 	}
+	*/
 	ajoutColonne(entete){
 		var NomNouvelleEntree="E"+this.getColonneID();
 		this.Entete[NomNouvelleEntree]="";
 		for(var i=0;i<this.getNombreLigne();i++){
-			if(i==0){
-				this.Contenu[NomNouvelleEntree]=[entete];
+			if(entete){
+				if(i==0){
+					this.Contenu[NomNouvelleEntree]=[entete];
+				}
+				else{
+					this.Contenu[NomNouvelleEntree].push(entete);
+				}
 			}
 			else{
-				this.Contenu[NomNouvelleEntree].push(entete);
+				if(i==0){
+					this.Contenu[NomNouvelleEntree]=[""];
+				}
+				else{
+					this.Contenu[NomNouvelleEntree].push("");
+				}
 			}
 		}
 		this.ColonneId++;

@@ -484,28 +484,41 @@ function supprimerUnModele(modele) {
 function save() {
 	if (localStorage) {
 		var nomTable = "";
+		var msgErreur = "";
 		var dejaSave = false;
+		var nbModeleDansLocalStorage = localStorage.length;
 		do {
 			if (dejaSave) {
-				nomTable = prompt("Ce nom de table est déjà sauvegardé, saisir un nom différent : ");
+				nomTable = prompt(msgErreur);
 			} else {
-				nomTable = prompt("Saisir le nom de votre modèle :");
+				nomTable = prompt("Saisir le nom de votre modèle :","Modele"+nbModeleDansLocalStorage);
+			}
+			if (nomTable === null) {
+				return;
 			}
 			dejaSave = false;
 			for(var noms in localStorage){
-				//console.log(dejaSave);
 				if (nomTable === noms.toString()) {
+					msgErreur = "Ce nom de table est déjà sauvegardé, saisir un nom différent : ";
 					dejaSave = true;
 					break;
 				}
 			}
 			if (nomTable === "") {
+				msgErreur = "Le nom du modèle ne peut pas être vide.";
 				dejaSave= true;
 			}
+			var regexp = /^[0-9]/;
+			if (nomTable.match(regexp)) {
+				msgErreur = "Le nom du modèle ne peut pas commencé par un chiffre.";
+				dejaSave = true;
+			}
+			var regex2Blanc = /\s/;
+			if (nomTable.match(regex2Blanc)) {
+				msgErreur = "Le nom du modèle ne peut pas être composé d'espaces ou saut de ligne.";
+				dejaSave = true;
+			}
 		}while(dejaSave === true);
-		if (nomTable === null) {
-			return;
-		}
 		localStorage.setItem(nomTable, JSON.stringify(Tables));
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");
@@ -525,8 +538,9 @@ function affichageModele() {
 	var modele = document.getElementById("modele");
 	var tmp = "";
 	for (var i = 0, lgtListeModele = listeModele.length; i < lgtListeModele; i++) {
-		tmp += "<input type=\"button\" id="+listeModele[i]+" value="+listeModele[i]+" onclick=\"load("+listeModele[i]+")\">";
-		tmp += "<input type=\"button\" id=\"btn"+listeModele[i]+"\" value=\"X\" onclick=\"supprimerUnModele("+listeModele[i]+")\"><br>";
+		tmp += "<input type=\"button\" id="+listeModele[i]+" value="+listeModele[i]+" onclick=\"load("+listeModele[i].toString()+")\">";
+		tmp += "<input type=\"button\" id=\"btn"+listeModele[i]+"\" value=\"X\" onclick=\"supprimerUnModele("+listeModele[i].toString()+")\"><br>";
+		//console.log(listeModele[i]);
 	}
 	modele.innerHTML = tmp;
 }
@@ -535,12 +549,12 @@ function affichageModele() {
 function clearLocalstorage() {
 	if(confirm("Supprimer tous vos modèles ?")) {
 		localStorage.clear();
+		window.location.reload();
 	}
 }
 	
 function load(modele) {
 	if (localStorage) {
-		
 		var nomTableACharger = modele.value;
 		var RestoredTables = JSON.parse(localStorage.getItem(nomTableACharger));
 		if (RestoredTables === null) {

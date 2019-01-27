@@ -30,6 +30,18 @@ class Table{
 			this.Contenu[colonne].push("");
 		}
 	}
+	ajoutLigne(Ligne){
+		var compteur=0;
+		for(var colonne in this.Contenu){
+			this.Contenu[colonne].push(Ligne[compteur]);
+			compteur++;
+		}
+	}
+	AjoutModeleEntete(Entete){
+		for(var titre in Entete){
+			this.ajoutColonne(titre);
+		}
+	}
 	ajoutColonne(){
 		var NomNouvelleEntree="E"+this.getColonneID();
 		this.Entete[NomNouvelleEntree]="";
@@ -39,6 +51,19 @@ class Table{
 			}
 			else{
 				this.Contenu[NomNouvelleEntree].push("");
+			}
+		}
+		this.ColonneId++;
+	}
+	ajoutColonne(entete){
+		var NomNouvelleEntree="E"+this.getColonneID();
+		this.Entete[NomNouvelleEntree]="";
+		for(var i=0;i<this.getNombreLigne();i++){
+			if(i==0){
+				this.Contenu[NomNouvelleEntree]=[entete];
+			}
+			else{
+				this.Contenu[NomNouvelleEntree].push(entete);
 			}
 		}
 		this.ColonneId++;
@@ -212,12 +237,6 @@ function recupereLigne(TABLE,NumeroLigne){
 		res.push(TABLE.Contenu[i][NumeroLigne]);
 	}
 	return res;
-}
-function AjoutModeleEntete(){
-
-}
-function AjoutModeleLigne(){
-	
 }
 function createRelation(){
 	var select1 = document.getElementById("select1");

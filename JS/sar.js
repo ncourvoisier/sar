@@ -24,22 +24,36 @@ class Table{
 	}
 	bloquer(){
 		this.bloque=true;
-	}
+	}/*
 	ajoutLigne(){
 		for(var colonne in this.Contenu){
 			this.Contenu[colonne].push("");
+		}
+	}*/
+	ajoutLigne(Ligne){
+		var compteur=0;
+		for(var colonne in this.Contenu){
+			if(Ligne){
+				this.Contenu[colonne].push(Ligne[compteur]);
+			}
+			else{
+				this.Contenu[colonne].push("");
+			}
+			compteur++;
 		}
 	}
 	ajoutColonne(){
 		var NomNouvelleEntree="E"+this.getColonneID();
 		this.Entete[NomNouvelleEntree]="";
 		for(var i=0;i<this.getNombreLigne();i++){
-			if(i==0){
-				this.Contenu[NomNouvelleEntree]=[""];
-			}
-			else{
-				this.Contenu[NomNouvelleEntree].push("");
-			}
+			
+				if(i==0){
+					this.Contenu[NomNouvelleEntree]=[""];
+				}
+				else{
+					this.Contenu[NomNouvelleEntree].push("");
+				}
+			
 		}
 		this.ColonneId++;
 	}
@@ -56,6 +70,9 @@ class Table{
 		else{
 			for(var NomEntete in this.Entete){
 				if(compteurEntete == Entete){
+					console.log(NomEntete);
+					console.log(Position);
+					console.log(this);
 					this.Contenu[NomEntete][Position]=Contenu;
 				}
 				compteurEntete++;
@@ -175,6 +192,56 @@ function removeEventSimple(obj,evt,fn) {
 	else if (obj.detachEvent)
 		obj.detachEvent('on'+evt,fn);
 }
+function NICOLASTABLETOHTML(TABLE){
+	//TABLE c'est un objet REMPLI de la classe Table. (La table "TableIntersection") dans la function createIntersection par exemple, ou la table que tu saves.
+	//Il faut que ça créée la table en html sans modifié la table dans le modèle de donnée
+}
+
+function createUnion(TABLE1,TABLE2){
+	if(TABLE1.constructor.name!="Table" || TABLE2.constructor.name!="Table"){
+		console.log("Erreur Intersection");
+		return false;
+	}
+	if(TABLE1.getNombreColonne()!=TABLE2.getNombreColonne()){
+		console.log("Erreur Intersection");
+		return false;
+	}
+	for(var colonne in TABLE1.Entete){
+		if(TABLE1.Entete[colonne]!=TABLE2.Entete[colonne]){
+			console.log("Erreur Intersection: Le nom des attributs des 2 tables doivent être identique");
+			return false;
+		}
+	}
+	var TableUnion=new Table();
+	TableUnion.attribuerNom("Union: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
+	TableUnion.Entete=TABLE1.Entete;
+	var compteur=0;
+	for(var i in TableUnion.Entete){
+		var NomNouvelleEntree="E"+compteur;
+		TableUnion.Contenu[NomNouvelleEntree]=[];
+		compteur++;
+	}
+	for(var i=0;i<TABLE1.getNombreLigne();i++){
+		var ligneCourante=recupereLigne(TABLE1,i);
+		TableUnion.ajoutLigne(ligneCourante);
+	}
+	for(var i=0;i<TABLE2.getNombreLigne();i++){
+		var ligneCourante=recupereLigne(TABLE2,i);
+		var isDoublon=false;
+		for(var j=0;j<TABLE1.getNombreLigne();j++){
+			var ligneComparative=recupereLigne(TABLE1,j);
+			if(JSON.stringify(ligneCourante)==JSON.stringify(ligneComparative)){
+				isDoublon=true;
+			}
+		}
+		if(!isDoublon){
+			TableUnion.ajoutLigne(ligneCourante);
+		}
+	}
+	console.log(TableUnion);
+	return true; 
+
+}
 function createIntersection(TABLE1,TABLE2){
 	if(TABLE1.constructor.name!="Table" || TABLE2.constructor.name!="Table"){
 		console.log("Erreur Intersection");
@@ -186,23 +253,52 @@ function createIntersection(TABLE1,TABLE2){
 	}
 	for(var colonne in TABLE1.Entete){
 		if(TABLE1.Entete[colonne]!=TABLE2.Entete[colonne]){
-			console.log("Erreur Intersection");
+			console.log("Erreur Intersection: Le nom des attributs des 2 tables doivent être identique");
 			return false;
 		}
 	}
-	createArray(NombreTable);
-	var ID = "table"+NombreTable;
-	Tables["EnsembleTable"][ID].attribuerNom("Intersection: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
-	for(var colonne in TABLE1.Entete){
+	//createArray(NombreTable);
+	var TableIntersection=new Table();
+	//var ID = "table"+NombreTable;
+	TableIntersection.attribuerNom("Intersection: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
+	TableIntersection.Entete=TABLE1.Entete;
+	var compteur=0;
+	for(var i in TableIntersection.Entete){
+		var NomNouvelleEntree="E"+compteur;
+		TableIntersection.Contenu[NomNouvelleEntree]=[];
+		compteur++;
 	}
+	for(var i=0;i<TABLE1.getNombreLigne();i++){
+		var ligneCourante=recupereLigne(TABLE1,i);
+		console.log("i="+ligneCourante);
+		for(var j=0;j<TABLE2.getNombreLigne();j++){
+			console.log("j="+recupereLigne(TABLE2,j));
+			if(JSON.stringify(ligneCourante)==JSON.stringify(recupereLigne(TABLE2,j))){
+				TableIntersection.ajoutLigne(ligneCourante);
+				break;
+			}
+		}
+	}
+	console.log(TableIntersection);
 	return true; 
 }
+function recupereLigne(TABLE,NumeroLigne){
+	var res=[];
+	for(var i in TABLE.Contenu){
+		res.push(TABLE.Contenu[i][NumeroLigne]);
+	}
+	return res;
+}
+
 function createRelation(){
 	var select1 = document.getElementById("select1");
 	var select2 = document.getElementById("select2");
 	var operateur = document.getElementById("operateur");
 	if(operateur.value=="1"){
 		createIntersection(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+	}
+	if(operateur.value=="2"){
+		createUnion(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
 	}
 }
 function recupValeur(){
@@ -586,14 +682,14 @@ function load(modele) {
 			}
 			createArray();
 			
-			var nbEntete = Object.keys(RestoredTables["EnsembleTable"][IDTable].Entete).length;
-			for (var entete = 2; entete <= nbEntete; entete++) {
-				createColumn(nbTable);
-			}
-			
 			var nbContenu = Object.keys(RestoredTables["EnsembleTable"][IDTable].Contenu.E0).length;
 			for (var contenu = 1; contenu <= nbContenu; contenu++) {
 				createLine(nbTable);
+			}
+
+			var nbEntete = Object.keys(RestoredTables["EnsembleTable"][IDTable].Entete).length;
+			for (var entete = 2; entete <= nbEntete; entete++) {
+				createColumn(nbTable);
 			}
 			
 			if (RestoredTables["EnsembleTable"][IDTable].reduit) {

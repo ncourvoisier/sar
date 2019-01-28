@@ -1,6 +1,5 @@
-var NombreTable=1;
+var NombreTable=0;
 var bloquage=true;
-
 //----------------------Objet Table-----------------------
 class Table{
 	constructor(){
@@ -24,12 +23,7 @@ class Table{
 	}
 	bloquer(){
 		this.bloque=true;
-	}/*
-	ajoutLigne(){
-		for(var colonne in this.Contenu){
-			this.Contenu[colonne].push("");
-		}
-	}*/
+	}
 	ajoutLigne(Ligne){
 		var compteur=0;
 		for(var colonne in this.Contenu){
@@ -104,8 +98,8 @@ class Table{
 
 //----------------------------Ensemble Tables----------------------------
 var Tables={
-	id:1,
-	EnsembleTable:{table1:new Table()},
+	id:0,
+	EnsembleTable:{},
 	AjoutTable: function(TABLE){
 		Tables.id++;
 		var NomTable="table"+Tables.id;
@@ -116,7 +110,6 @@ var Tables={
 		delete Tables["EnsembleTable"][ID];
 	}
 };
-Tables["EnsembleTable"]["table1"].attribuerNom("table1");
 //------------------------------------------------------
 
 dragDrop = {
@@ -136,7 +129,6 @@ dragDrop = {
 		zone_drag[0].onmousedown = dragDrop.startDragMouse;
 		
 		tablee = element.children[1].firstElementChild.id;
-		//console.log(tablee);
 	},
 	startDragMouse: function (e) {
 		dragDrop.startDrag(this.parentNode);
@@ -257,9 +249,7 @@ function createIntersection(TABLE1,TABLE2){
 			return false;
 		}
 	}
-	//createArray(NombreTable);
 	var TableIntersection=new Table();
-	//var ID = "table"+NombreTable;
 	TableIntersection.attribuerNom("Intersection: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
 	TableIntersection.Entete=TABLE1.Entete;
 	var compteur=0;

@@ -640,7 +640,6 @@ function affichageModele() {
 	for (var i = 0, lgtListeModele = listeModele.length; i < lgtListeModele; i++) {
 		tmp += "<input type=\"button\" id="+listeModele[i]+" value="+listeModele[i]+" onclick=\"load("+listeModele[i].toString()+")\">";
 		tmp += "<input type=\"button\" id=\"btn"+listeModele[i]+"\" value=\"X\" onclick=\"supprimerUnModele("+listeModele[i].toString()+")\"><br>";
-		//console.log(listeModele[i]);
 	}
 	modele.innerHTML = tmp;
 }
@@ -684,7 +683,7 @@ function load(modele) {
 			createArray();
 			
 			var nbContenu = Object.keys(RestoredTables["EnsembleTable"][IDTable].Contenu.E0).length;
-			for (var contenu = 2; contenu <= nbContenu; contenu++) {
+			for (var contenu = 1; contenu <= nbContenu; contenu++) {
 				createLine(nbTable);
 			}
 
@@ -699,6 +698,18 @@ function load(modele) {
 			
 			var x = RestoredTables["EnsembleTable"][IDTable].X;
 			var y = RestoredTables["EnsembleTable"][IDTable].Y;
+			
+			//console.log(x+","+y+"   "+nbTable);
+			
+			Tables["EnsembleTable"][IDTable].X = x;
+			Tables["EnsembleTable"][IDTable].Y = y;
+			
+			x += 20;
+			y += 200*nbTable;
+			
+			//var emplacemenTable = "EmplacementTable"+nbTable;
+			//document.getElementById(emplacemenTable).style.left = x+"px";
+			//document.getElementById(emplacemenTable).style.top = y+"px";
 		}
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");

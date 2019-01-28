@@ -39,6 +39,9 @@ class Table{
 	ajoutColonne(){
 		var NomNouvelleEntree="E"+this.getColonneID();
 		this.Entete[NomNouvelleEntree]="";
+		if(this.getNombreLigne()==0){
+			this.Contenu[NomNouvelleEntree]=[];
+		}
 		for(var i=0;i<this.getNombreLigne();i++){
 			
 				if(i==0){

@@ -7,7 +7,7 @@
   <link rel="shortcut icon" type="image/png" href="../ressources/images/favicon.png"/>
   <script src="../JS/sar.js"></script>
 </head>
-<body>
+<body onload="affichageModele()">
 	<h1>Algèbre Relationelle</h1>
 	<div id="Req">
 	<form name="Requete">
@@ -30,7 +30,7 @@
 	</form>
 	</div>
 	
-	<form id="options" onclick="affichageModele()">
+	<form id="options">
         <p>Modele :</p>
 		<div id="modele">
         </div>

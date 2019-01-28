@@ -229,7 +229,7 @@ function createUnion(TABLE1,TABLE2){
 		var ligneCourante=recupereLigne(TABLE2,i);
 		var isDoublon=false;
 		for(var j=0;j<TABLE1.getNombreLigne();j++){
-			var ligneComparative=recupereLigne(TABLE2,j);
+			var ligneComparative=recupereLigne(TABLE1,j);
 			if(JSON.stringify(ligneCourante)==JSON.stringify(ligneComparative)){
 				isDoublon=true;
 			}

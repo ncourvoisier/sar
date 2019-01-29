@@ -70,9 +70,10 @@ class Table{
 		else{
 			for(var NomEntete in this.Entete){
 				if(compteurEntete == Entete){
-					console.log(NomEntete);
-					console.log(Position);
-					console.log(this);
+					// console.log(NomEntete);
+					// console.log(Position);
+					// console.log(this);
+					// console.log(Contenu);
 					this.Contenu[NomEntete][Position]=Contenu;
 				}
 				compteurEntete++;
@@ -126,17 +127,14 @@ dragDrop = {
 	startX: undefined,
 	startY: undefined,
 	draggedObject: undefined,
-	
-	tablee: undefined,
-	
+	NomTable: undefined,
 	initElement: function (element) {
 		if (typeof element == 'string')
 			element = document.getElementById(element);
 		zone_drag=element.getElementsByClassName("drag");
 		zone_drag[0].onmousedown = dragDrop.startDragMouse;
 		
-		tablee = element.children[1].firstElementChild.id;
-		//console.log(tablee);
+		NomTable = element.children[1].firstElementChild.id;
 	},
 	startDragMouse: function (e) {
 		dragDrop.startDrag(this.parentNode);
@@ -165,8 +163,8 @@ dragDrop = {
 	setPosition: function (dx,dy) {
 		dragDrop.draggedObject.style.left = dragDrop.startX + dx + 'px';
 		dragDrop.draggedObject.style.top = dragDrop.startY + dy + 'px';
-		Tables["EnsembleTable"][tablee].setX(dx);
-		Tables["EnsembleTable"][tablee].setY(dy);
+		Tables["EnsembleTable"][NomTable].setX(dx);
+		Tables["EnsembleTable"][NomTable].setY(dy);
 	},
 	releaseElement: function() {
 		removeEventSimple(document,'mousemove',dragDrop.dragMouse);
@@ -192,10 +190,201 @@ function removeEventSimple(obj,evt,fn) {
 	else if (obj.detachEvent)
 		obj.detachEvent('on'+evt,fn);
 }
-function NICOLASTABLETOHTML(TABLE){
-	//TABLE c'est un objet REMPLI de la classe Table. (La table "TableIntersection") dans la function createIntersection par exemple, ou la table que tu saves.
+function tableToHTML(TABLE){
+	//TABLE c'est un objet REMPLI de la classe Table. (La table "TableIntersection") dans la function 
+	//createIntersection par exemple, ou la table que tu saves.
 	//Il faut que ça créée la table en html sans modifié la table dans le modèle de donnée
+	
+	Tables.AjoutTable(TABLE);
+	NombreTable++;
+	var output = document.getElementById('EmplacementTables');
+	var divNew  = document.createElement('div');
+	var divDrag  = document.createElement('div');
+	divDrag.className = "drag";
+	divNew.className = "EmplacementTable";
+	output.appendChild(divNew);
+	var ajoutLigneNew  = document.createElement('input');
+	ajoutLigneNew.type = "button" ;
+	ajoutLigneNew.value = "+L" ;
+	ajoutLigneNew.setAttribute("onClick","createLine("+NombreTable+")") ;
+	//divNew.appendChild(ajoutLigneNew);
+	var ajoutColonneNew  = document.createElement('input');
+	ajoutColonneNew.type = "button" ;
+	ajoutColonneNew.value = "+C" ;
+	ajoutColonneNew.setAttribute("onClick","createColumn("+NombreTable+")") ;
+	var ajoutButtonSuppr  = document.createElement('input');
+	ajoutButtonSuppr.type = "button" ;
+	ajoutButtonSuppr.setAttribute("class","btnSuppr") ;
+	ajoutButtonSuppr.value = "X" ;
+	ajoutButtonSuppr.setAttribute("onClick","suppression("+NombreTable+")") ;
+	var ajoutButtonReduc  = document.createElement('input');
+	ajoutButtonReduc.type = "button" ;
+	ajoutButtonReduc.setAttribute("class","btnReduc") ;
+	ajoutButtonReduc.value = "-" ;
+	ajoutButtonReduc.setAttribute("onClick","reduction("+NombreTable+")") ;
+	var ajoutButtonModif = document.createElement('a');
+	ajoutButtonModif.href = "#";
+	ajoutButtonModif.setAttribute('class',"boutonLock");
+	ajoutButtonModif.setAttribute('onclick',"modification("+NombreTable+")");
+	var ajoutNumero  = document.createElement('span');
+	ajoutNumero.innerHTML=NombreTable;
+
+	divDrag.appendChild(ajoutColonneNew);
+	divDrag.appendChild(ajoutLigneNew);
+	divDrag.appendChild(ajoutNumero);
+	divDrag.appendChild(ajoutButtonReduc);
+	divDrag.appendChild(ajoutButtonSuppr);
+	divDrag.appendChild(ajoutButtonModif);
+	var divRelation = document.createElement('div');
+	divRelation.setAttribute('class',"relation");
+	var tabNew=document.createElement('table');
+	var StringID=NombreTable.toString();
+	var IDTable="table"+StringID;
+	tabNew.id=IDTable;
+	var theadNew=document.createElement('thead');
+	var trNew=document.createElement('tr');
+	var thNew=document.createElement('th');
+	thNew.className="col";
+	var EntreeTexte  = document.createElement('input');
+	EntreeTexte.type="text";
+	EntreeTexte.disabled=bloquage;
+	EntreeTexte.placeholder="Nom attribut";
+	thNew.appendChild(EntreeTexte);
+	trNew.appendChild(thNew);
+	theadNew.appendChild(trNew);
+	tabNew.appendChild(theadNew);
+	var tbodyNew=document.createElement('tbody');
+	var trBodyNew=document.createElement('tr');
+	tbodyNew.appendChild(trBodyNew);
+	tabNew.appendChild(tbodyNew);
+	divRelation.appendChild(tabNew);
+	divNew.appendChild(divDrag);
+	divNew.appendChild(divRelation);
+	var IDEmplacement="EmplacementTable"+StringID;
+	divNew.id=IDEmplacement;
+	DeplacementHauteur=120+NombreTable*100;
+	divNew.style.top = DeplacementHauteur+'px';
+	dragDrop.initElement(IDEmplacement);
+	recupTable();
+	
+	
+	//POUR RAJOUTER LES COLONNES ET LIGNES
+	var nbEntete = Object.keys(TABLE.Entete).length;
+	for (var entete = 2; entete <= nbEntete; entete++) {
+		createColumnHTML(NombreTable);
+	}
+	var nbContenu = Object.keys(TABLE.Contenu.E0).length;
+	for (var contenu = 1; contenu <= nbContenu; contenu++) {
+		createLineHTML(NombreTable);
+	}
+	
+	/*
+	<thead>
+	<tr>
+	    <th class=\"col\"><input type=\"text\" name=\"text\" placeholder=\"Nom attribut\" disabled=\"\"></th>
+		<th class=\"col\"><input type=\"text\" placeholder=\"Nom attribut\" disabled=\"\"></th>
+		<th class=\"col\"><input type=\"text\" placeholder=\"Nom attribut\" disabled=\"\"></th>
+	</tr>
+	</thead>
+	<tbody>
+	    <tr>
+		<td><input type=\"text\" placeholder=\"Valeur attribut\" disabled=\"\"></td>
+		<td><input type=\"text\" placeholder=\"Valeur attribut\" disabled=\"\"></td>
+		<td><input placeholder=\"Valeur attribut\" type=\"text\" disabled=\"\"></td>
+		</tr>
+		<tr>
+		<td><input type=\"text\" placeholder=\"Valeur attribut\" disabled=\"\"></td>
+		<td><input type=\"text\" placeholder=\"Valeur attribut\" disabled=\"\"></td>
+		<td><input placeholder=\"Valeur attribut\" type=\"text\" disabled=\"\"></td>
+		</tr>
+	</tbody>
+	*/
+	
+	var contenuMAJ = "<thead><tr>";
+	for (var entete = 0; entete < nbEntete; entete++) {
+		var position = "E"+entete;
+		var valeur = TABLE.Entete[position];
+		contenuMAJ += "<th class=\"col\"><input type=\"text\" value=\""+valeur+"\" disabled=\"\"></th>";
+	}
+	contenuMAJ += "</tr></thead><tbody>";
+	for (var entete = 0; entete < nbEntete; entete++) {
+		contenuMAJ += "<tr>";
+		var position = "E"+entete;
+		console.log(position);
+		var valeur = TABLE.Contenu[position];
+		//console.log(TABLE.Contenu[position][0]);
+		for (var contenu = 1; contenu <= nbContenu; contenu++) {
+			console.log(valeur[contenu-1]);
+			contenuMAJ += "<td><input type=\"text\" value=\""+valeur[contenu-1]+"\" disabled=\"\"></td>";
+		}
+		contenuMAJ += "</tr>";
+	}
+	contenuMAJ += "</tbody>";
+	document.getElementById("table"+NombreTable).innerHTML = contenuMAJ;
+	
 }
+
+function createColumnHTML(ID) {
+	var StringID=ID.toString();
+	var IDTable="table"+StringID;
+	var output = document.getElementById(IDTable),trs;
+	var Colonnes=output.getElementsByClassName('col');
+	var nbColonnes=Colonnes.length;
+	var ligne=output.getElementsByTagName('tr');
+	
+	for(var i=1; i<ligne.length-1;i++){
+		var td = document.createElement('td');
+		var EntreeTexte  = document.createElement('input');
+		EntreeTexte.placeholder="Valeur attribut";
+		EntreeTexte.type="text";
+		EntreeTexte.disabled=Tables["EnsembleTable"][IDTable].getBloquer();
+		td.appendChild(EntreeTexte);
+		ligne[i].appendChild(td);
+	}
+	var trNew  = document.createElement('th');
+	trNew.className = "col";
+	var EntreeTexte  = document.createElement('input');
+	EntreeTexte.type="text";
+	EntreeTexte.disabled=Tables["EnsembleTable"][IDTable].getBloquer();
+	EntreeTexte.placeholder="Nom attribut";
+	trNew.appendChild(EntreeTexte);
+	if (output) {
+	    trs = output.getElementsByTagName('th');
+	    if (trs[nbColonnes-1]) { // Le <tr> de Chrome
+	        trs[nbColonnes-1].parentNode.insertBefore(trNew, trs[nbColonnes-1].nextSibling);
+	    }
+	}
+}
+
+function createLineHTML(ID){
+	var StringID=ID.toString();
+	var IDTable="table"+StringID;
+	var output = document.getElementById(IDTable),trs;
+	var trNew  = document.createElement('tr');
+	var Colonnes=output.getElementsByClassName('col');
+	var nbColonnes=Colonnes.length;
+
+
+	for (var i = 0; i < nbColonnes; i++) {
+		var td = document.createElement('td');
+		var EntreeTexte  = document.createElement('input');
+		EntreeTexte.type="text";
+		EntreeTexte.disabled=Tables["EnsembleTable"][IDTable].getBloquer();
+		EntreeTexte.placeholder="Valeur attribut";
+		td.appendChild(EntreeTexte);
+		trNew.appendChild(td);	
+    }
+	if (output) {
+	    trs = output.getElementsByTagName('tr');
+
+	    if (trs[1]) { // Le <tr> de Chrome
+	        trs[1].parentNode.insertBefore(trNew, trs[1]);
+	    }
+	}
+}
+
+
+
 
 function createUnion(TABLE1,TABLE2){
 	if(TABLE1.constructor.name!="Table" || TABLE2.constructor.name!="Table"){
@@ -239,6 +428,7 @@ function createUnion(TABLE1,TABLE2){
 		}
 	}
 	console.log(TableUnion);
+	tableToHTML(TableUnion);
 	return true; 
 
 }
@@ -270,16 +460,17 @@ function createIntersection(TABLE1,TABLE2){
 	}
 	for(var i=0;i<TABLE1.getNombreLigne();i++){
 		var ligneCourante=recupereLigne(TABLE1,i);
-		console.log("i="+ligneCourante);
+		//console.log("i="+ligneCourante);
 		for(var j=0;j<TABLE2.getNombreLigne();j++){
-			console.log("j="+recupereLigne(TABLE2,j));
+			//console.log("j="+recupereLigne(TABLE2,j));
 			if(JSON.stringify(ligneCourante)==JSON.stringify(recupereLigne(TABLE2,j))){
 				TableIntersection.ajoutLigne(ligneCourante);
 				break;
 			}
 		}
 	}
-	console.log(TableIntersection);
+	//console.log(TableIntersection);
+	tableToHTML(TableIntersection);
 	return true; 
 }
 function recupereLigne(TABLE,NumeroLigne){
@@ -680,6 +871,8 @@ function load(modele) {
 				Tables.id++;
 				continue;
 			}
+			
+			
 			createArray();
 			
 			var nbContenu = Object.keys(RestoredTables["EnsembleTable"][IDTable].Contenu.E0).length;

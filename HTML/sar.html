@@ -7,14 +7,14 @@
   <link rel="shortcut icon" type="image/png" href="../ressources/images/favicon.png"/>
   <script src="../JS/sar.js"></script>
 </head>
-<body>
+<body onload="affichageModele()">
 	<h1>Algèbre Relationelle</h1>
 	<div id="Req">
 	<form name="Requete">
 	<p>Requête à entrer :
 			<span>R=
 				<select name="Table1" id="select1">
-					<option value="table1">table1</option>
+					
 				</select>
 				<select name="operateur" id="operateur">
 					<option value="0">Click</option>
@@ -22,7 +22,7 @@
 					<option value="2">&#8746;</option>
 				</select>
 				<select name="Table2" id="select2">
-					<option value="table1">table1</option>
+					
 				</select>
 				<input type="button" value="OK" onclick="createRelation()">
 			</span>
@@ -30,7 +30,7 @@
 	</form>
 	</div>
 	
-	<form id="options" onclick="affichageModele()">
+	<form id="options">
         <p>Modele :</p>
 		<div id="modele">
         </div>
@@ -48,33 +48,5 @@
 			<!-- <input type="button" id="boutonModification" value="Modif" onclick="modification()"> -->
 		</span>
 	</p>
-		<div class="EmplacementTable" id="EmplacementTable1">
-			<div class="drag">
-			<input type="button" value="+C" onclick="createColumn('1')">
-			<input type="button" value="+L" onclick="createLine('1')">
-			<span contenteditable="true">1</span>
-			<input class="btnReduc" type="button" value="-" onclick="reduction('1')">
-            <input id="buttonSuppr" type="button" value="X" onclick="suppression('1')">
-			<a class="boutonLock" href="#" onclick="modification(1)"></a>
-			</div>
-			<div class="relation">
-			<table id="table1">
-			    <thead>
-			        <tr>
-			            <th class="col"><input type="text" name="text" disabled="" placeholder="Nom attribut"></th>
-			        </tr>
-			    </thead>
-			    <tbody>
-			    	
-			        <tr>
-			        	<!--
-			            <td><input type="text" name="text" disabled="" placeholder="Valeur attribut"></td>
-			            --> 
-			        </tr>         
-			    </tbody>
-			</table>
-			</div>
-		</div>
-	</div>
 </body>
 </html>

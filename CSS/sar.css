@@ -86,6 +86,19 @@ th{
 	border:none;
 }
 
+.nomTable {
+	text-align:center;
+	background:rgba(255, 228, 196, 0.2);
+	margin-bottom:5px;
+	padding:2px 10px;
+	border-radius:4px;
+	border: 2px outset grey;
+	position:absolute;
+	top:-27px;
+	left:-1px;
+	float:left;
+}
+
 
 
 /****************************************************
@@ -167,7 +180,7 @@ th{
 	height:16px;
 	width:16px;
 	float:right;
-	margin:2px;
+	margin:4px 2px 2px 2px;
 }
 
 .boutonLock:hover{
@@ -182,7 +195,7 @@ th{
 	height:16px;
 	width:16px;
 	float:right;
-	margin:2px;
+	margin:4px 2px 2px 2px;
 }
 
 .boutonUnlock:hover{

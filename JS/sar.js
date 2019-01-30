@@ -677,10 +677,10 @@ function modification(IDTable){
 		if(th[i].type==="text")
 			th[i].disabled = bloque;
 	}
-	var emplacement = document.getElementById('EmplacementTable'+IDTable);
+    var emplacement = document.getElementById('EmplacementTable'+IDTable);
 	var titre = emplacement.getElementsByClassName('nomTable');
 	titre[0].disabled = bloque;
-	var relation = document.getElementById("EmplacementTable"+stringID);
+    var relation = document.getElementById("EmplacementTable"+stringID);
 	var bouton = relation.getElementsByClassName('boutonLock')[0];
 	bouton.setAttribute('class','boutonUnlock')
 	bouton.setAttribute('onclick',"sauvegarderModif("+IDTable+")");
@@ -749,7 +749,7 @@ function reduction(IDTable){
 	var divRelation = table.getElementsByClassName('relation');
 	divRelation[0].style.visibility='hidden';
 	var divDrag = table.getElementsByClassName('drag');
-	divDrag[0].style.width = '155px';
+	divDrag[0].style.width = '184px';
 	var btnReduc = divDrag[0].getElementsByClassName('btnReduc');
 	btnReduc[0].setAttribute('onclick',"agrandissement("+IDTable+")");
 }

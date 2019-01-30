@@ -24,6 +24,9 @@ input[type=button]{
 	border:none;
 	color:#fff;
 }*/
+input[type=button]{
+	margin:2px;
+}
 
 input[id=btnSuppr]{
 	width:20px;
@@ -60,19 +63,30 @@ select::-ms-expand {
 	display: none;
 }
 
-table, td {
+table {
+	padding: 2px;
+}
+
+th input[type=text]{
+	border:2px solid black;
+	padding:1px;
+	font-weight:bold;
+}
+
+/*td {
 	border: 1px solid black;
 }
 th{
 	border: 3px solid black;
-}
+}*/
 .drag{
-	background:#40A497;
-	border: 1px solid black;
+	/*background:#40A497;*/
+	background:rgba(60 ,60,60,0.8);
 }
 
 .relation{
-	background: #E06666;
+	/*background: #E06666;*/
+	background: rgba(105,105,105,0.8);
 }
 
 .EmplacementTable{
@@ -89,14 +103,12 @@ th{
 .nomTable {
 	text-align:center;
 	background:rgba(255, 228, 196, 0.2);
-	margin-bottom:5px;
-	padding:2px 10px;
-	border-radius:4px;
-	border: 2px outset grey;
+	padding:2px 0px;
+	border: 1px solid rgba(0, 0, 0, 0.3);
 	position:absolute;
-	top:-27px;
-	left:-1px;
-	float:left;
+	top:-23px;
+	width:182px;
+}
 }
 
 

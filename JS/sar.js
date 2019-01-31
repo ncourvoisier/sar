@@ -277,23 +277,11 @@ function tableToHTML(TABLE){
 	divNew.id=IDEmplacement;
 	DeplacementHauteur=120+NombreTable*100;
 	divNew.style.top = DeplacementHauteur+'px';
-	dragDrop.initElement(IDEmplacement);
+	//dragDrop.initElement(IDEmplacement);
 	recupTable();
-	
-	
-	//POUR RAJOUTER LES COLONNES ET LIGNES
 	
 	var nbEntete = Object.keys(TABLE.Entete).length;
 	var nbContenu = Object.keys(TABLE.Contenu.E0).length;
-	/*
-	for (var entete = 2; entete <= nbEntete; entete++) {
-		createColumnHTML(NombreTable);
-	}
-	
-	for (var contenu = 1; contenu <= nbContenu; contenu++) {
-		createLineHTML(NombreTable);
-	}*/
-	
 	var contenuMAJ = "<thead><tr>";
 	for (var entete = 0; entete < nbEntete; entete++) {
 		var position = "E"+entete;
@@ -307,14 +295,13 @@ function tableToHTML(TABLE){
 		for (var entete = 0; entete < nbEntete; entete++) {
 			var position = "E"+entete;
 			var valeur = TABLE.Contenu[position];
-			console.log(valeur);
 			contenuMAJ += "<td><input type=\"text\" value=\""+valeur[contenu]+"\" disabled=\"\"></td>";
 		}
 		contenuMAJ += "</tr>";
 	}
 	contenuMAJ += "</tbody>";
 	document.getElementById("table"+NombreTable).innerHTML = contenuMAJ;
-	
+	dragDrop.initElement(IDEmplacement);
 }
 
 function createColumnHTML(ID) {

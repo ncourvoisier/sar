@@ -92,6 +92,9 @@ class Table{
 	getBloquer(){
 		return this.bloque;
 	}
+	getNom(){
+		return this.Libelle;
+	}
 	setX(x) {
 		this.X=x;
 	}
@@ -580,6 +583,10 @@ function createArray() {
 	var output = document.getElementById('EmplacementTables');
 	var divNew  = document.createElement('div');
 	var divDrag  = document.createElement('div');
+	var divTitre = document.createElement('input');
+	divTitre.type = 'text';
+	divTitre.className= 'nomTable';
+	divTitre.setAttribute('placeholder','Nom Table');
 	divDrag.className = "drag";
 	divNew.className = "EmplacementTable";
 	output.appendChild(divNew);
@@ -606,13 +613,13 @@ function createArray() {
 	ajoutButtonModif.href = "#";
 	ajoutButtonModif.setAttribute('class',"boutonLock");
 	ajoutButtonModif.setAttribute('onclick',"modification("+NombreTable+")");
-	var ajoutNumero  = document.createElement('span');
-	ajoutNumero.innerHTML=NombreTable;
+	//var ajoutNumero  = document.createElement('span');
+	//ajoutNumero.innerHTML=NombreTable;
 	//divNew.appendChild(ajoutColonneNew);
-
+	divDrag.appendChild(divTitre);
 	divDrag.appendChild(ajoutColonneNew);
 	divDrag.appendChild(ajoutLigneNew);
-	divDrag.appendChild(ajoutNumero);
+//	divDrag.appendChild(ajoutNumero);
 	divDrag.appendChild(ajoutButtonReduc);
 	divDrag.appendChild(ajoutButtonSuppr);
 	divDrag.appendChild(ajoutButtonModif);
@@ -670,7 +677,10 @@ function modification(IDTable){
 		if(th[i].type==="text")
 			th[i].disabled = bloque;
 	}
-	var relation = document.getElementById("EmplacementTable"+stringID);
+    var emplacement = document.getElementById('EmplacementTable'+IDTable);
+	var titre = emplacement.getElementsByClassName('nomTable');
+	titre[0].disabled = bloque;
+    var relation = document.getElementById("EmplacementTable"+stringID);
 	var bouton = relation.getElementsByClassName('boutonLock')[0];
 	bouton.setAttribute('class','boutonUnlock')
 	bouton.setAttribute('onclick',"sauvegarderModif("+IDTable+")");
@@ -688,6 +698,9 @@ function sauvegarderModif(IDTable){
 			th[i].disabled = bloque;
 		}
 	}
+	var emplacement = document.getElementById('EmplacementTable'+IDTable);
+	var titre = emplacement.getElementsByClassName('nomTable');
+	titre[0].disabled = bloque;
 	recuperationContenu(IDTable);
 	var relation = document.getElementById("EmplacementTable"+stringID);
 	var bouton = relation.getElementsByClassName('boutonUnlock')[0];
@@ -714,6 +727,8 @@ function recuperationContenu(IDTable){
 			}
 		}
 	}
+	var titre = document.getElementById('EmplacementTable'+IDTable);
+	Tables["EnsembleTable"][ID].getNom(titre.value);
 }
 function suppression(IDTable){
 	if(suppression.caller.name === "load" || confirm("Supprimer la table "+IDTable+" ?")) {
@@ -734,6 +749,7 @@ function reduction(IDTable){
 	var divRelation = table.getElementsByClassName('relation');
 	divRelation[0].style.visibility='hidden';
 	var divDrag = table.getElementsByClassName('drag');
+	divDrag[0].style.width = '184px';
 	var btnReduc = divDrag[0].getElementsByClassName('btnReduc');
 	btnReduc[0].setAttribute('onclick',"agrandissement("+IDTable+")");
 }
@@ -745,6 +761,7 @@ function agrandissement(IDTable){
 	var divRelation = table.getElementsByClassName('relation');
 	divRelation[0].style.visibility='visible';
 	var divDrag = table.getElementsByClassName('drag');
+	divDrag[0].style.width = '';
 	var btnReduc = divDrag[0].getElementsByClassName('btnReduc');
 	btnReduc[0].setAttribute('onclick',"reduction("+IDTable+")");
 }

@@ -69,7 +69,6 @@ table {
 
 th input[type=text]{
 	border:2px solid black;
-	padding:1px;
 	font-weight:bold;
 }
 
@@ -87,10 +86,12 @@ th{
 .relation{
 	/*background: #E06666;*/
 	background: rgba(105,105,105,0.8);
+	display:block;
 }
 
 .EmplacementTable{
 	position: absolute;
+	z-index:1;
 }
 #EmplacementTables{
 	height: 800px;
@@ -103,14 +104,21 @@ th{
 .nomTable {
 	text-align:center;
 	background:rgba(255, 228, 196, 0.2);
-	padding:2px 0px;
+	padding:2px 10px;
 	border: 1px solid rgba(0, 0, 0, 0.3);
 	position:absolute;
 	top:-23px;
-	width:182px;
-}
+	display: inline;
 }
 
+
+.btnCote {
+	float:left;
+	display:block;
+	position:absolute;
+	top:20px;
+	left:-31px;
+}
 
 
 /****************************************************

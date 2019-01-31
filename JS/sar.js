@@ -135,7 +135,7 @@ dragDrop = {
 			element = document.getElementById(element);
 		zone_drag=element.getElementsByClassName("drag");
 		zone_drag[0].onmousedown = dragDrop.startDragMouse;
-		//NomTable = element.children[2].firstElementChild.id;
+		// NomTable = element.children[2].firstElementChild.id;
 	},
 	startDragMouse: function (e) {
 		dragDrop.startDrag(this.parentNode);
@@ -281,13 +281,16 @@ function tableToHTML(TABLE){
 	recupTable();
 	
 	
+	//POUR RAJOUTER LES COLONNES ET LIGNES
+	var nbEntete = Object.keys(TABLE.Entete).length;
+	var nbContenu = Object.keys(TABLE.Contenu.E0).length;
 	var contenuMAJ = "<thead><tr>";
 	for (var entete = 0; entete < nbEntete; entete++) {
-@@ -321,15 +301,14 @@ function tableToHTML(TABLE){
+		var position = "E"+entete;
+		var valeur = TABLE.Entete[position];
 		contenuMAJ += "<th class=\"col\"><input type=\"text\" value=\""+valeur+"\" disabled=\"\"></th>";
 	}
 	contenuMAJ += "</tr></thead><tbody>";
-	for (var entete = 0; entete < nbEntete; entete++) {
 
 	for (var contenu = 0; contenu < nbContenu; contenu++) {
 		contenuMAJ += "<tr>";
@@ -299,8 +302,8 @@ function tableToHTML(TABLE){
 		}
 		contenuMAJ += "</tr>";
 	}
-	
-	
+	contenuMAJ += "</tbody>";
+	document.getElementById("table"+NombreTable).innerHTML = contenuMAJ;
 }
 
 

@@ -963,8 +963,6 @@ function load(modele) {
 		}
 		Tables.id = 0;
 		NombreTable = 0;
-		
-		//Tables["EnsembleTable"] = RestoredTables["EnsembleTable"];
 		for(var RestoredT in RestoredTables["EnsembleTable"]){
 			var NewTable =new Table();
 			NewTable.Entete=RestoredTables.EnsembleTable[RestoredT].Entete;

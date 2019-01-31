@@ -197,7 +197,6 @@ function afficherPremierPlan(obj) {
 	var tables = document.getElementsByClassName("EmplacementTable");
 	for (var tab in tables) {
 		if(tables[tab].tagName === 'DIV'){
-			//console.log(tables[tab].style["z-index"] == 1);
 			(tables[tab].style["z-index"] == 1) ? tables[tab].style["z-index"] = 1 : tables[tab].style["z-index"] = tables[tab].style["z-index"] - 1;
 		}
 		if (obj === tables[tab]) {
@@ -207,13 +206,6 @@ function afficherPremierPlan(obj) {
 }
 
 function tableToHTML(TABLE){
-	//TABLE c'est un objet REMPLI de la classe Table. (La table "TableIntersection") dans la function 
-	//createIntersection par exemple, ou la table que tu saves.
-	//Il faut que ça créée la table en html sans modifié la table dans le modèle de donnée
-	
-	
-	console.log(TABLE);
-
 	var output = document.getElementById('EmplacementTables');
 	var divNew  = document.createElement('div');
 	var divDrag  = document.createElement('div');
@@ -231,8 +223,7 @@ function tableToHTML(TABLE){
 	var ajoutLigneNew  = document.createElement('input');
 	ajoutLigneNew.type = "button" ;
 	ajoutLigneNew.value = "+L" ;
-	ajoutLigneNew.setAttribute("onClick","createLine("+NombreTable+")") ;
-	//divNew.appendChild(ajoutLigneNew);
+	ajoutLigneNew.setAttribute("onClick","createLine("+NombreTable+")");
 	var ajoutColonneNew  = document.createElement('input');
 	ajoutColonneNew.type = "button" ;
 	ajoutColonneNew.value = "+C" ;
@@ -251,12 +242,8 @@ function tableToHTML(TABLE){
 	ajoutButtonModif.href = "#";
 	ajoutButtonModif.setAttribute('class',"boutonLock");
 	ajoutButtonModif.setAttribute('onclick',"modification("+NombreTable+")");
-	//var ajoutNumero  = document.createElement('span');
-	//ajoutNumero.innerHTML=NombreTable;
-	//divNew.appendChild(ajoutColonneNew);
 	divDrag.appendChild(ajoutColonneNew);
 	divDrag.appendChild(ajoutLigneNew);
-//	divDrag.appendChild(ajoutNumero);
 	divDrag.appendChild(ajoutButtonReduc);
 	divDrag.appendChild(ajoutButtonSuppr);
 	divDrag.appendChild(ajoutButtonModif);
@@ -275,21 +262,11 @@ function tableToHTML(TABLE){
 	EntreeTexte.disabled=bloquage;
 	EntreeTexte.placeholder="Nom attribut";
 	thNew.appendChild(EntreeTexte);
-	//thNew.appendChild(document.createTextNode('Nouvelle colonne'));
 	trNew.appendChild(thNew);
 	theadNew.appendChild(trNew);
 	tabNew.appendChild(theadNew);
 	var tbodyNew=document.createElement('tbody');
 	var trBodyNew=document.createElement('tr');
-	/*
-	var tdBodyNew=document.createElement('td');
-	var EntreeTexte2  = document.createElement('input');
-	EntreeTexte2.type="text";
-	EntreeTexte2.disabled=bloquage;
-	EntreeTexte2.placeholder="Valeur attribut";
-	tdBodyNew.appendChild(EntreeTexte2);
-	trBodyNew.appendChild(tdBodyNew);
-	*/
 	tbodyNew.appendChild(trBodyNew);
 	tabNew.appendChild(tbodyNew);
 	divRelation.appendChild(tabNew);
@@ -304,7 +281,6 @@ function tableToHTML(TABLE){
 	recupTable();
 	var taille = divDrag.offsetWidth-22;
 	var NomTable="table"+NombreTable;
-	console.log(Tables["EnsembleTable"][NomTable]);
     Tables["EnsembleTable"][NomTable].tailleMin=divDrag.offsetWidth;
     divTitre.style["min-width"] = taille.toString()+"px";
 
@@ -324,7 +300,6 @@ function tableToHTML(TABLE){
 		for (var entete = 0; entete < nbEntete; entete++) {
 			var position = "E"+entete;
 			var valeur = TABLE.Contenu[position];
-			console.log(valeur);
 			contenuMAJ += "<td><input type=\"text\" value=\""+valeur[contenu]+"\" disabled=\"\"></td>";
 		}
 		contenuMAJ += "</tr>";
@@ -471,9 +446,7 @@ function createIntersection(TABLE1,TABLE2){
 	}
 	for(var i=0;i<TABLE1.getNombreLigne();i++){
 		var ligneCourante=recupereLigne(TABLE1,i);
-		//console.log("i="+ligneCourante);
 		for(var j=0;j<TABLE2.getNombreLigne();j++){
-			//console.log("j="+recupereLigne(TABLE2,j));
 			if(JSON.stringify(ligneCourante)==JSON.stringify(recupereLigne(TABLE2,j))){
 				TableIntersection.ajoutLigne(ligneCourante);
 				break;
@@ -614,7 +587,6 @@ function createArray() {
 	ajoutLigneNew.type = "button" ;
 	ajoutLigneNew.value = "+L" ;
 	ajoutLigneNew.setAttribute("onClick","createLine("+NombreTable+")") ;
-	//divNew.appendChild(ajoutLigneNew);
 	var ajoutColonneNew  = document.createElement('input');
 	ajoutColonneNew.type = "button" ;
 	ajoutColonneNew.value = "+C" ;
@@ -633,12 +605,8 @@ function createArray() {
 	ajoutButtonModif.href = "#";
 	ajoutButtonModif.setAttribute('class',"boutonLock");
 	ajoutButtonModif.setAttribute('onclick',"modification("+NombreTable+")");
-	//var ajoutNumero  = document.createElement('span');
-	//ajoutNumero.innerHTML=NombreTable;
-	//divNew.appendChild(ajoutColonneNew);
 	divDrag.appendChild(ajoutColonneNew);
 	divDrag.appendChild(ajoutLigneNew);
-//	divDrag.appendChild(ajoutNumero);
 	divDrag.appendChild(ajoutButtonReduc);
 	divDrag.appendChild(ajoutButtonSuppr);
 	divDrag.appendChild(ajoutButtonModif);
@@ -663,15 +631,6 @@ function createArray() {
 	tabNew.appendChild(theadNew);
 	var tbodyNew=document.createElement('tbody');
 	var trBodyNew=document.createElement('tr');
-	/*
-	var tdBodyNew=document.createElement('td');
-	var EntreeTexte2  = document.createElement('input');
-	EntreeTexte2.type="text";
-	EntreeTexte2.disabled=bloquage;
-	EntreeTexte2.placeholder="Valeur attribut";
-	tdBodyNew.appendChild(EntreeTexte2);
-	trBodyNew.appendChild(tdBodyNew);
-	*/
 	tbodyNew.appendChild(trBodyNew);
 	tabNew.appendChild(tbodyNew);
 	divRelation.appendChild(tabNew);
@@ -779,7 +738,7 @@ function reduction(IDTable){
 	var divRelation = table.getElementsByClassName('relation');
 	divRelation[0].style.display='none';
 	var divDrag = table.getElementsByClassName('drag');
-	console.log(Tables["EnsembleTable"][ID].getTMin());
+	// console.log(Tables["EnsembleTable"][ID].getTMin());
 	divDrag[0].style.width = Tables["EnsembleTable"][ID].getTMin()+"px";
 	var btnReduc = divDrag[0].getElementsByClassName('btnReduc');
 	btnReduc[0].setAttribute('onclick',"agrandissement("+IDTable+")");
@@ -917,8 +876,6 @@ function load(modele) {
 			NewTable.tailleMin=RestoredTables.EnsembleTable[RestoredT].tailleMin;
 			Tables.AjoutTable(NewTable);
 		}
-		
-		console.log(Tables);
 		for (var nbtable in Tables["EnsembleTable"]) {
 			NombreTable++;
 			tableToHTML(Tables["EnsembleTable"][nbtable]);

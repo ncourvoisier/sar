@@ -68,10 +68,6 @@ class Table{
 		else{
 			for(var NomEntete in this.Entete){
 				if(compteurEntete == Entete){
-					// console.log(NomEntete);
-					// console.log(Position);
-					// console.log(this);
-					// console.log(Contenu);
 					this.Contenu[NomEntete][Position]=Contenu;
 				}
 				compteurEntete++;
@@ -201,7 +197,7 @@ function afficherPremierPlan(obj) {
 	var tables = document.getElementsByClassName("EmplacementTable");
 	for (var tab in tables) {
 		if(tables[tab].tagName === 'DIV'){
-			console.log(tables[tab].style["z-index"] == 1);
+			//console.log(tables[tab].style["z-index"] == 1);
 			(tables[tab].style["z-index"] == 1) ? tables[tab].style["z-index"] = 1 : tables[tab].style["z-index"] = tables[tab].style["z-index"] - 1;
 		}
 		if (obj === tables[tab]) {

@@ -213,16 +213,14 @@ function tableToHTML(TABLE){
 	
 	
 	console.log(TABLE);
-	
-	Tables.AjoutTable(TABLE);
-	NombreTable++;
+
 	var output = document.getElementById('EmplacementTables');
 	var divNew  = document.createElement('div');
 	var divDrag  = document.createElement('div');
 	var divTitre = document.createElement('div');
 	divTitre.setAttribute('contenteditable',"false");
 	divTitre.className= 'nomTable';
-	divTitre.textContent = Tables["EnsembleTable"]["table"+NombreTable].getNom();
+	divTitre.textContent = TABLE.Libelle;
 	divDrag.className = "drag";
 	divNew.className = "EmplacementTable";
 	output.appendChild(divNew);
@@ -305,7 +303,9 @@ function tableToHTML(TABLE){
 	//dragDrop.initElement(IDEmplacement);
 	recupTable();
 	var taille = divDrag.offsetWidth-22;
-    Tables["EnsembleTable"]["table"+NombreTable].setTMin(divDrag.offsetWidth);
+	var NomTable="table"+NombreTable;
+	console.log(Tables["EnsembleTable"][NomTable]);
+    Tables["EnsembleTable"][NomTable].tailleMin=divDrag.offsetWidth;
     divTitre.style["min-width"] = taille.toString()+"px";
 
 	//POUR RAJOUTER LES COLONNES ET LIGNES
@@ -439,6 +439,8 @@ function createUnion(TABLE1,TABLE2){
 		}
 	}
 	console.log(TableUnion);
+	Tables.AjoutTable(TableUnion);
+	NombreTable++;
 	tableToHTML(TableUnion);
 	return true; 
 
@@ -478,7 +480,8 @@ function createIntersection(TABLE1,TABLE2){
 			}
 		}
 	}
-	//console.log(TableIntersection);
+	Tables.AjoutTable(TableIntersection);
+	NombreTable++;
 	tableToHTML(TableIntersection);
 	return true; 
 }
@@ -902,82 +905,25 @@ function load(modele) {
 		Tables.id = 0;
 		NombreTable = 0;
 		
-		Tables["EnsembleTable"] = RestoredTables["EnsembleTable"];
+		//Tables["EnsembleTable"] = RestoredTables["EnsembleTable"];
+		for(var RestoredT in RestoredTables["EnsembleTable"]){
+			var NewTable =new Table();
+			NewTable.Entete=RestoredTables.EnsembleTable[RestoredT].Entete;
+			NewTable.X=RestoredTables.EnsembleTable[RestoredT].X;
+			NewTable.Y=RestoredTables.EnsembleTable[RestoredT].Y;
+			NewTable.reduit=RestoredTables.EnsembleTable[RestoredT].reduit;
+			NewTable.Libelle=RestoredTables.EnsembleTable[RestoredT].Libelle;
+			NewTable.Contenu=RestoredTables.EnsembleTable[RestoredT].Contenu;
+			NewTable.ColonneId=RestoredTables.EnsembleTable[RestoredT].ColonneId;
+			NewTable.bloque=RestoredTables.EnsembleTable[RestoredT].bloque;
+			NewTable.tailleMin=RestoredTables.EnsembleTable[RestoredT].tailleMin;
+			Tables.AjoutTable(NewTable);
+		}
 		
 		console.log(Tables);
-		
 		for (var nbtable in Tables["EnsembleTable"]) {
-			console.log(nbtable);
-			console.log(Tables["EnsembleTable"][nbtable]);
-			
+			NombreTable++;
 			tableToHTML(Tables["EnsembleTable"][nbtable]);
-			
-			
-			
-			
-			
-			
-			
-			/*if(!RestoredTables["EnsembleTable"][IDTable]) {
-				NombreTable++;
-				Tables.id++;
-				continue;
-			}
-			
-			
-			createArray();
-			
-			var nbContenu = Object.keys(RestoredTables["EnsembleTable"][IDTable].Contenu.E0).length;
-			for (var contenu = 1; contenu <= nbContenu; contenu++) {
-				createLine(nbTable);
-			}
-
-			var nbEntete = Object.keys(RestoredTables["EnsembleTable"][IDTable].Entete).length;
-			for (var entete = 2; entete <= nbEntete; entete++) {
-				createColumn(nbTable);
-			}
-			
-			if (RestoredTables["EnsembleTable"][IDTable].reduit) {
-				reduction(nbTable);
-			}
-			
-			var x = RestoredTables["EnsembleTable"][IDTable].X;
-			var y = RestoredTables["EnsembleTable"][IDTable].Y;
-			
-			//console.log(x+","+y+"   "+nbTable);
-			
-			Tables["EnsembleTable"][IDTable].X = x;
-			Tables["EnsembleTable"][IDTable].Y = y;
-			
-			x += 20;
-			y += 200*nbTable;*/
-			
-			
-			/*
-			console.log(RestoredTables["EnsembleTable"][IDTable]);
-		
-			var nbEntete = Object.keys(RestoredTables["EnsembleTable"][IDTable].Entete).length;
-			var nbContenu = Object.keys(RestoredTables["EnsembleTable"][IDTable].Contenu.E0).length;
-			var contenuMAJ = "<thead><tr>";
-			for (var entete = 0; entete < nbEntete; entete++) {
-				var position = "E"+entete;
-				Tables["EnsembleTable"][IDTable].Entete[position] = valeur;
-				contenuMAJ += "<th class=\"col\"><input type=\"text\" value=\""+valeur+"\" disabled=\"\"></th>";
-			}
-			contenuMAJ += "</tr></thead><tbody>";
-
-			for (var contenu = 0; contenu < nbContenu; contenu++) {
-				contenuMAJ += "<tr>";
-				for (var entete = 0; entete < nbEntete; entete++) {
-					var position = "E"+entete;
-					var valeur = RestoredTables["EnsembleTable"][IDTable].Contenu[position];
-					
-					contenuMAJ += "<td><input type=\"text\" value=\""+valeur[contenu]+"\" disabled=\"\"></td>";
-				}
-				contenuMAJ += "</tr>";
-			}
-			contenuMAJ += "</tbody>";
-			document.getElementById("table"+NombreTable).innerHTML = contenuMAJ;*/
 		}
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");

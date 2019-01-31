@@ -135,7 +135,7 @@ dragDrop = {
 			element = document.getElementById(element);
 		zone_drag=element.getElementsByClassName("drag");
 		zone_drag[0].onmousedown = dragDrop.startDragMouse;
-		NomTable = element.children[2].firstElementChild.id;
+		//NomTable = element.children[2].firstElementChild.id;
 	},
 	startDragMouse: function (e) {
 		dragDrop.startDrag(this.parentNode);
@@ -164,8 +164,8 @@ dragDrop = {
 	setPosition: function (dx,dy) {
 		dragDrop.draggedObject.style.left = dragDrop.startX + dx + 'px';
 		dragDrop.draggedObject.style.top = dragDrop.startY + dy + 'px';
-		Tables["EnsembleTable"][NomTable].setX(dx);
-		Tables["EnsembleTable"][NomTable].setY(dy);
+		//Tables["EnsembleTable"][NomTable].setX(dx);
+		//Tables["EnsembleTable"][NomTable].setY(dy);
 	},
 	releaseElement: function(obj) {
 		removeEventSimple(document,'mousemove',dragDrop.dragMouse);
@@ -245,7 +245,6 @@ function tableToHTML(TABLE){
 
 	divDrag.appendChild(ajoutColonneNew);
 	divDrag.appendChild(ajoutLigneNew);
-	divDrag.appendChild(ajoutNumero);
 	divDrag.appendChild(ajoutButtonReduc);
 	divDrag.appendChild(ajoutButtonSuppr);
 	divDrag.appendChild(ajoutButtonModif);
@@ -283,36 +282,17 @@ function tableToHTML(TABLE){
 	
 	
 	//POUR RAJOUTER LES COLONNES ET LIGNES
+	
 	var nbEntete = Object.keys(TABLE.Entete).length;
+	var nbContenu = Object.keys(TABLE.Contenu.E0).length;
+	/*
 	for (var entete = 2; entete <= nbEntete; entete++) {
 		createColumnHTML(NombreTable);
 	}
-	var nbContenu = Object.keys(TABLE.Contenu.E0).length;
+	
 	for (var contenu = 1; contenu <= nbContenu; contenu++) {
 		createLineHTML(NombreTable);
-	}
-	
-	/*
-	<thead>
-	<tr>
-	    <th class=\"col\"><input type=\"text\" name=\"text\" placeholder=\"Nom attribut\" disabled=\"\"></th>
-		<th class=\"col\"><input type=\"text\" placeholder=\"Nom attribut\" disabled=\"\"></th>
-		<th class=\"col\"><input type=\"text\" placeholder=\"Nom attribut\" disabled=\"\"></th>
-	</tr>
-	</thead>
-	<tbody>
-	    <tr>
-		<td><input type=\"text\" placeholder=\"Valeur attribut\" disabled=\"\"></td>
-		<td><input type=\"text\" placeholder=\"Valeur attribut\" disabled=\"\"></td>
-		<td><input placeholder=\"Valeur attribut\" type=\"text\" disabled=\"\"></td>
-		</tr>
-		<tr>
-		<td><input type=\"text\" placeholder=\"Valeur attribut\" disabled=\"\"></td>
-		<td><input type=\"text\" placeholder=\"Valeur attribut\" disabled=\"\"></td>
-		<td><input placeholder=\"Valeur attribut\" type=\"text\" disabled=\"\"></td>
-		</tr>
-	</tbody>
-	*/
+	}*/
 	
 	var contenuMAJ = "<thead><tr>";
 	for (var entete = 0; entete < nbEntete; entete++) {
@@ -321,15 +301,14 @@ function tableToHTML(TABLE){
 		contenuMAJ += "<th class=\"col\"><input type=\"text\" value=\""+valeur+"\" disabled=\"\"></th>";
 	}
 	contenuMAJ += "</tr></thead><tbody>";
-	for (var entete = 0; entete < nbEntete; entete++) {
+
+	for (var contenu = 0; contenu < nbContenu; contenu++) {
 		contenuMAJ += "<tr>";
-		var position = "E"+entete;
-		console.log(position);
-		var valeur = TABLE.Contenu[position];
-		//console.log(TABLE.Contenu[position][0]);
-		for (var contenu = 1; contenu <= nbContenu; contenu++) {
-			console.log(valeur[contenu-1]);
-			contenuMAJ += "<td><input type=\"text\" value=\""+valeur[contenu-1]+"\" disabled=\"\"></td>";
+		for (var entete = 0; entete < nbEntete; entete++) {
+			var position = "E"+entete;
+			var valeur = TABLE.Contenu[position];
+			console.log(valeur);
+			contenuMAJ += "<td><input type=\"text\" value=\""+valeur[contenu]+"\" disabled=\"\"></td>";
 		}
 		contenuMAJ += "</tr>";
 	}

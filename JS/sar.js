@@ -465,7 +465,63 @@ function recupereLigne(TABLE,NumeroLigne){
 	}
 	return res;
 }
-
+function createDiff(TABLE1,TABLE2){
+	if(TABLE1.constructor.name!="Table" || TABLE2.constructor.name!="Table"){
+		console.log("Erreur Diff");
+		return false;
+	}
+	if(TABLE1.getNombreColonne()!=TABLE2.getNombreColonne()){
+		console.log("Erreur Diff");
+		return false;
+	}
+	for(var colonne in TABLE1.Entete){
+		if(TABLE1.Entete[colonne]!=TABLE2.Entete[colonne]){
+			console.log("Erreur Diff: Le nom des attributs des 2 tables doivent être identique");
+			return false;
+		}
+	}
+	var TableDiff=new Table();
+	TableDiff.attribuerNom("Diff: "+TABLE1.Libelle+" \ "+TABLE2.Libelle);
+	TableDiff.Entete=TABLE1.Entete;
+	var compteur=0;
+	for(var i in TableDiff.Entete){
+		var NomNouvelleEntree="E"+compteur;
+		TableDiff.Contenu[NomNouvelleEntree]=[];
+		compteur++;
+	}
+	for(var i=0;i<TABLE1.getNombreLigne();i++){
+		var ligneCourante=recupereLigne(TABLE1,i);
+		//console.log("i="+ligneCourante);
+		var boolEstPresent=false;
+		for(var j=0;j<TABLE2.getNombreLigne();j++){
+			//console.log("j="+recupereLigne(TABLE2,j));
+			if(JSON.stringify(ligneCourante)==JSON.stringify(recupereLigne(TABLE2,j))){
+				boolEstPresent=true;
+			}
+		}
+		if(!boolEstPresent){
+			TableDiff.ajoutLigne(ligneCourante);
+		}
+	}
+	for(var i=0;i<TABLE2.getNombreLigne();i++){
+		var ligneCourante=recupereLigne(TABLE2,i);
+		//console.log("i="+ligneCourante);
+		var boolEstPresent=false;
+		for(var j=0;j<TABLE1.getNombreLigne();j++){
+			//console.log("j="+recupereLigne(TABLE2,j));
+			if(JSON.stringify(ligneCourante)==JSON.stringify(recupereLigne(TABLE1,j))){
+				boolEstPresent=true;
+			}
+		}
+		if(!boolEstPresent){
+			TableDiff.ajoutLigne(ligneCourante);
+		}
+	}
+	Tables.AjoutTable(TableDiff);
+	NombreTable++;
+	tableToHTML(TableDiff);
+	return true; 
+}
 function createRelation(){
 	var select1 = document.getElementById("select1");
 	var select2 = document.getElementById("select2");
@@ -475,6 +531,9 @@ function createRelation(){
 	}
 	if(operateur.value=="2"){
 		createUnion(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+	}
+	if(operateur.value=="3"){
+		createDiff(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
 	}
 }
 function recupValeur(){

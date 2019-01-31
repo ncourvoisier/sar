@@ -211,14 +211,25 @@ function tableToHTML(TABLE){
 	//createIntersection par exemple, ou la table que tu saves.
 	//Il faut que ça créée la table en html sans modifié la table dans le modèle de donnée
 	
+	
+	console.log(TABLE);
+	
 	Tables.AjoutTable(TABLE);
 	NombreTable++;
 	var output = document.getElementById('EmplacementTables');
 	var divNew  = document.createElement('div');
 	var divDrag  = document.createElement('div');
+	var divTitre = document.createElement('div');
+	divTitre.setAttribute('contenteditable',"false");
+	divTitre.className= 'nomTable';
+	divTitre.textContent = Tables["EnsembleTable"]["table"+NombreTable].getNom();
 	divDrag.className = "drag";
 	divNew.className = "EmplacementTable";
 	output.appendChild(divNew);
+	divNew.style["z-index"] = 1;
+	divNew.addEventListener('mousedown',function(){
+		afficherPremierPlan(divNew);
+	});
 	var ajoutLigneNew  = document.createElement('input');
 	ajoutLigneNew.type = "button" ;
 	ajoutLigneNew.value = "+L" ;
@@ -242,9 +253,12 @@ function tableToHTML(TABLE){
 	ajoutButtonModif.href = "#";
 	ajoutButtonModif.setAttribute('class',"boutonLock");
 	ajoutButtonModif.setAttribute('onclick',"modification("+NombreTable+")");
-
+	//var ajoutNumero  = document.createElement('span');
+	//ajoutNumero.innerHTML=NombreTable;
+	//divNew.appendChild(ajoutColonneNew);
 	divDrag.appendChild(ajoutColonneNew);
 	divDrag.appendChild(ajoutLigneNew);
+//	divDrag.appendChild(ajoutNumero);
 	divDrag.appendChild(ajoutButtonReduc);
 	divDrag.appendChild(ajoutButtonSuppr);
 	divDrag.appendChild(ajoutButtonModif);
@@ -263,15 +277,26 @@ function tableToHTML(TABLE){
 	EntreeTexte.disabled=bloquage;
 	EntreeTexte.placeholder="Nom attribut";
 	thNew.appendChild(EntreeTexte);
+	//thNew.appendChild(document.createTextNode('Nouvelle colonne'));
 	trNew.appendChild(thNew);
 	theadNew.appendChild(trNew);
 	tabNew.appendChild(theadNew);
 	var tbodyNew=document.createElement('tbody');
 	var trBodyNew=document.createElement('tr');
+	/*
+	var tdBodyNew=document.createElement('td');
+	var EntreeTexte2  = document.createElement('input');
+	EntreeTexte2.type="text";
+	EntreeTexte2.disabled=bloquage;
+	EntreeTexte2.placeholder="Valeur attribut";
+	tdBodyNew.appendChild(EntreeTexte2);
+	trBodyNew.appendChild(tdBodyNew);
+	*/
 	tbodyNew.appendChild(trBodyNew);
 	tabNew.appendChild(tbodyNew);
 	divRelation.appendChild(tabNew);
 	divNew.appendChild(divDrag);
+    divNew.appendChild(divTitre);
 	divNew.appendChild(divRelation);
 	var IDEmplacement="EmplacementTable"+StringID;
 	divNew.id=IDEmplacement;
@@ -279,8 +304,34 @@ function tableToHTML(TABLE){
 	divNew.style.top = DeplacementHauteur+'px';
 	dragDrop.initElement(IDEmplacement);
 	recupTable();
+	var taille = divDrag.offsetWidth-22;
+    Tables["EnsembleTable"]["table"+NombreTable].setTMin(divDrag.offsetWidth);
+    divTitre.style["min-width"] = taille.toString()+"px";
 	
 	
+	//POUR RAJOUTER LES COLONNES ET LIGNES
+	var nbEntete = Object.keys(TABLE.Entete).length;
+	var nbContenu = Object.keys(TABLE.Contenu.E0).length;
+	var contenuMAJ = "<thead><tr>";
+	for (var entete = 0; entete < nbEntete; entete++) {
+		var position = "E"+entete;
+		var valeur = TABLE.Entete[position];
+		contenuMAJ += "<th class=\"col\"><input type=\"text\" value=\""+valeur+"\" disabled=\"\"></th>";
+	}
+	contenuMAJ += "</tr></thead><tbody>";
+
+	for (var contenu = 0; contenu < nbContenu; contenu++) {
+		contenuMAJ += "<tr>";
+		for (var entete = 0; entete < nbEntete; entete++) {
+			var position = "E"+entete;
+			var valeur = TABLE.Contenu[position];
+			console.log(valeur);
+			contenuMAJ += "<td><input type=\"text\" value=\""+valeur[contenu]+"\" disabled=\"\"></td>";
+		}
+		contenuMAJ += "</tr>";
+	}
+	contenuMAJ += "</tbody>";
+	document.getElementById("table"+NombreTable).innerHTML = contenuMAJ;
 }
 
 
@@ -851,10 +902,23 @@ function load(modele) {
 		Tables.id = 0;
 		NombreTable = 0;
 		
-		for (var nbTable = 1; nbTable <= RestoredTables.id; nbTable++) {
-			var IDTable = "table"+nbTable;
+		Tables["EnsembleTable"] = RestoredTables["EnsembleTable"];
+		
+		console.log(Tables);
+		
+		for (var nbtable in Tables["EnsembleTable"]) {
+			console.log(nbtable);
+			console.log(Tables["EnsembleTable"][nbtable]);
 			
-			if(!RestoredTables["EnsembleTable"][IDTable]) {
+			tableToHTML(Tables["EnsembleTable"][nbtable]);
+			
+			
+			
+			
+			
+			
+			
+			/*if(!RestoredTables["EnsembleTable"][IDTable]) {
 				NombreTable++;
 				Tables.id++;
 				continue;
@@ -886,11 +950,34 @@ function load(modele) {
 			Tables["EnsembleTable"][IDTable].Y = y;
 			
 			x += 20;
-			y += 200*nbTable;
+			y += 200*nbTable;*/
 			
-			//var emplacemenTable = "EmplacementTable"+nbTable;
-			//document.getElementById(emplacemenTable).style.left = x+"px";
-			//document.getElementById(emplacemenTable).style.top = y+"px";
+			
+			/*
+			console.log(RestoredTables["EnsembleTable"][IDTable]);
+		
+			var nbEntete = Object.keys(RestoredTables["EnsembleTable"][IDTable].Entete).length;
+			var nbContenu = Object.keys(RestoredTables["EnsembleTable"][IDTable].Contenu.E0).length;
+			var contenuMAJ = "<thead><tr>";
+			for (var entete = 0; entete < nbEntete; entete++) {
+				var position = "E"+entete;
+				Tables["EnsembleTable"][IDTable].Entete[position] = valeur;
+				contenuMAJ += "<th class=\"col\"><input type=\"text\" value=\""+valeur+"\" disabled=\"\"></th>";
+			}
+			contenuMAJ += "</tr></thead><tbody>";
+
+			for (var contenu = 0; contenu < nbContenu; contenu++) {
+				contenuMAJ += "<tr>";
+				for (var entete = 0; entete < nbEntete; entete++) {
+					var position = "E"+entete;
+					var valeur = RestoredTables["EnsembleTable"][IDTable].Contenu[position];
+					
+					contenuMAJ += "<td><input type=\"text\" value=\""+valeur[contenu]+"\" disabled=\"\"></td>";
+				}
+				contenuMAJ += "</tr>";
+			}
+			contenuMAJ += "</tbody>";
+			document.getElementById("table"+NombreTable).innerHTML = contenuMAJ;*/
 		}
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");

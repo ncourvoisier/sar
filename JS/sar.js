@@ -902,21 +902,14 @@ function load(modele) {
 		Tables.id = 0;
 		NombreTable = 0;
 		
-		Tables["EnsembleTable"] = RestoredTables["EnsembleTable"];
+		Tables = RestoredTables;
 		
-		console.log(Tables);
 		
 		for (var nbtable in Tables["EnsembleTable"]) {
 			console.log(nbtable);
 			console.log(Tables["EnsembleTable"][nbtable]);
 			
 			tableToHTML(Tables["EnsembleTable"][nbtable]);
-			
-			
-			
-			
-			
-			
 			
 			/*if(!RestoredTables["EnsembleTable"][IDTable]) {
 				NombreTable++;
@@ -950,10 +943,10 @@ function load(modele) {
 			Tables["EnsembleTable"][IDTable].Y = y;
 			
 			x += 20;
-			y += 200*nbTable;*/
+			y += 200*nbTable;
 			
 			
-			/*
+			
 			console.log(RestoredTables["EnsembleTable"][IDTable]);
 		
 			var nbEntete = Object.keys(RestoredTables["EnsembleTable"][IDTable].Entete).length;

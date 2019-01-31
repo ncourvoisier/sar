@@ -302,13 +302,12 @@ function tableToHTML(TABLE){
 	divNew.id=IDEmplacement;
 	DeplacementHauteur=120+NombreTable*100;
 	divNew.style.top = DeplacementHauteur+'px';
-	dragDrop.initElement(IDEmplacement);
+	//dragDrop.initElement(IDEmplacement);
 	recupTable();
 	var taille = divDrag.offsetWidth-22;
     Tables["EnsembleTable"]["table"+NombreTable].setTMin(divDrag.offsetWidth);
     divTitre.style["min-width"] = taille.toString()+"px";
-	
-	
+
 	//POUR RAJOUTER LES COLONNES ET LIGNES
 	var nbEntete = Object.keys(TABLE.Entete).length;
 	var nbContenu = Object.keys(TABLE.Contenu.E0).length;
@@ -332,6 +331,7 @@ function tableToHTML(TABLE){
 	}
 	contenuMAJ += "</tbody>";
 	document.getElementById("table"+NombreTable).innerHTML = contenuMAJ;
+	dragDrop.initElement(IDEmplacement);
 }
 
 

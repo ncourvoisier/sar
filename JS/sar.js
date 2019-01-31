@@ -281,29 +281,6 @@ function tableToHTML(TABLE){
 	recupTable();
 	
 	
-	//POUR RAJOUTER LES COLONNES ET LIGNES
-	var nbEntete = Object.keys(TABLE.Entete).length;
-	var nbContenu = Object.keys(TABLE.Contenu.E0).length;
-	var contenuMAJ = "<thead><tr>";
-	for (var entete = 0; entete < nbEntete; entete++) {
-		var position = "E"+entete;
-		var valeur = TABLE.Entete[position];
-		contenuMAJ += "<th class=\"col\"><input type=\"text\" value=\""+valeur+"\" disabled=\"\"></th>";
-	}
-	contenuMAJ += "</tr></thead><tbody>";
-
-	for (var contenu = 0; contenu < nbContenu; contenu++) {
-		contenuMAJ += "<tr>";
-		for (var entete = 0; entete < nbEntete; entete++) {
-			var position = "E"+entete;
-			var valeur = TABLE.Contenu[position];
-			console.log(valeur);
-			contenuMAJ += "<td><input type=\"text\" value=\""+valeur[contenu]+"\" disabled=\"\"></td>";
-		}
-		contenuMAJ += "</tr>";
-	}
-	contenuMAJ += "</tbody>";
-	document.getElementById("table"+NombreTable).innerHTML = contenuMAJ;
 }
 
 

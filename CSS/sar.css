@@ -24,6 +24,9 @@ input[type=button]{
 	border:none;
 	color:#fff;
 }*/
+input[type=button]{
+	margin:2px;
+}
 
 input[id=btnSuppr]{
 	width:20px;
@@ -60,23 +63,35 @@ select::-ms-expand {
 	display: none;
 }
 
-table, td {
+table {
+	padding: 2px;
+}
+
+th input[type=text]{
+	border:2px solid black;
+	font-weight:bold;
+}
+
+/*td {
 	border: 1px solid black;
 }
 th{
 	border: 3px solid black;
-}
+}*/
 .drag{
-	background:#40A497;
-	border: 1px solid black;
+	/*background:#40A497;*/
+	background:rgba(60 ,60,60,0.8);
 }
 
 .relation{
-	background: #E06666;
+	/*background: #E06666;*/
+	background: rgba(105,105,105,0.8);
+	display:block;
 }
 
 .EmplacementTable{
 	position: absolute;
+	z-index:1;
 }
 #EmplacementTables{
 	height: 800px;
@@ -86,6 +101,24 @@ th{
 	border:none;
 }
 
+.nomTable {
+	text-align:center;
+	background:rgba(255, 228, 196, 0.2);
+	padding:2px 10px;
+	border: 1px solid rgba(0, 0, 0, 0.3);
+	position:absolute;
+	top:-23px;
+	display: inline;
+}
+
+
+.btnCote {
+	float:left;
+	display:block;
+	position:absolute;
+	top:20px;
+	left:-31px;
+}
 
 
 /****************************************************
@@ -167,7 +200,7 @@ th{
 	height:16px;
 	width:16px;
 	float:right;
-	margin:2px;
+	margin:4px 2px 2px 2px;
 }
 
 .boutonLock:hover{
@@ -182,7 +215,7 @@ th{
 	height:16px;
 	width:16px;
 	float:right;
-	margin:2px;
+	margin:4px 2px 2px 2px;
 }
 
 .boutonUnlock:hover{

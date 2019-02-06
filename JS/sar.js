@@ -940,12 +940,50 @@ function load(modele) {
 		alert("Sorry, your browser does not support Web Storage...");
 	}
 	
+	// projection();
+	
 }
 
 	
 
+
+function projection() {
+	
+	var colonneSelectionner = ["E0","E2"];
+	console.log(colonneSelectionner);
+	var NomTable = "table2";
+	console.log(NomTable);
+	
+	var TableProjection = new Table();
+	
+	var nomNvTable = "Projection "+NomTable;
+	for (var i = 0, c = colonneSelectionner.length; i < c; i++) {
+		nomNvTable += " "+Tables["EnsembleTable"][NomTable].Entete[colonneSelectionner[i]];
+		TableProjection.Entete["E"+i]=Tables["EnsembleTable"][NomTable].Entete[colonneSelectionner[i]];
+		TableProjection.Contenu["E"+i]=Tables["EnsembleTable"][NomTable].Contenu[colonneSelectionner[i]];
+	}
+	
+	TableProjection.attribuerNom(nomNvTable);
+	console.log(TableProjection);
 	
 	
+	Tables.AjoutTable(TableProjection);
+	NombreTable++;
+	tableToHTML(TableProjection);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

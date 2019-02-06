@@ -126,6 +126,13 @@ class Table{
 			this.Contenu[entete][j]=temp;
 		}
 	}
+	triEntete(){
+		var tab=[];
+		for(var cleEntete in this.Entete){
+			tab.push(this.Entete[cleEntete]);
+		}
+		return tab.sort();
+	}
 }
 
 //----------------------------Ensemble Tables----------------------------
@@ -400,8 +407,14 @@ function createUnion(TABLE1,TABLE2){
 		console.log("Erreur Intersection");
 		return false;
 	}
-	for(var colonne in TABLE1.Entete){
-		if(TABLE1.Entete[colonne]!=TABLE2.Entete[colonne]){
+	var t1=TABLE1.triEntete();
+	var t2=TABLE2.triEntete();
+	if(t1.length!=t2.length){
+		console.log("Erreur Intersection");
+		return false;
+	}
+	for(var colonne in t1){
+		if(t1[colonne]!=t2[colonne]){
 			console.log("Erreur Intersection: Le nom des attributs des 2 tables doivent être identique");
 			return false;
 		}

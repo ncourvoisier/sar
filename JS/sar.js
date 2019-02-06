@@ -106,7 +106,7 @@ class Table{
     }
     tri(NomAttribut){
     	var EnteteAtt;
-    	for(cleEntete in this.Entete){
+    	for(var cleEntete in this.Entete){
     		if(this.Entete[cleEntete]==NomAttribut){
     			EnteteAtt=cleEntete;
     		}
@@ -114,14 +114,14 @@ class Table{
     	for (var i1 = 0; i1 < this.Contenu[EnteteAtt].length;i1++){
 			var i2 = i1 + 1;
 			while (this.Contenu[EnteteAtt][i1] > this.Contenu[EnteteAtt][i2]){
-				swapLigne(i1,i2);
+				this.swapLigne(i1,i2);
 				i2++;
 		    }
 		}
 	}
 	swapLigne(i,j){
 		for(var entete in this.Entete){
-			temp=this.Contenu[entete][i];
+			var temp=this.Contenu[entete][i];
 			this.Contenu[entete][i]=this.Contenu[entete][j];
 			this.Contenu[entete][j]=temp;
 		}

@@ -157,7 +157,6 @@ dragDrop = {
 			element = document.getElementById(element);
 		zone_drag=element.getElementsByClassName("drag");
 		zone_drag[0].onmousedown = dragDrop.startDragMouse;
-		// NomTable = element.children[2].firstElementChild.id;
 	},
 	startDragMouse: function (e) {
 		dragDrop.startDrag(this.parentNode);
@@ -186,9 +185,6 @@ dragDrop = {
 	setPosition: function (dx,dy) {
 		dragDrop.draggedObject.style.left = dragDrop.startX + dx + 'px';
 		dragDrop.draggedObject.style.top = dragDrop.startY + dy + 'px';
-		// Tables["EnsembleTable"][NomTable].setX(dx);
-		// Tables["EnsembleTable"][NomTable].setY(dy);
-		console.log(this);
 	},
 	releaseElement: function(obj) {
 		removeEventSimple(document,'mousemove',dragDrop.dragMouse);

@@ -48,7 +48,7 @@ select {
 	display: inline-block;
 	width: 5%;
 	cursor: pointer;
-	padding: 0% 1% 0% 1%;
+	/* padding: 0% 1% 0% 1%; */
 	outline: 0;
 	border: 0;
 	border-radius: 0;

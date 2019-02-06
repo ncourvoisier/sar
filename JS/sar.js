@@ -567,6 +567,9 @@ function createRelation(){
 	if(operateur.value=="3"){
 		createDiff(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
 	}
+	// if(operateur.value=="4") {
+		// projection(Tables.EnsembleTable[select1.value]);
+	// }
 }
 function recupValeur(){
 	if(document.forms["Requete"].elements["Table1"].value==0 || document.forms["Requete"].elements["Table2"].value==0 || document.forms["Requete"].elements["operateur"].value==0){
@@ -582,6 +585,7 @@ function recupValeur(){
 		val2=document.forms["Requete"].elements["Table2"].value;
 		console.log("Valeur deuxieme table ="+val2);
 	}
+	console.log("test");
 	document.forms["Requete"].elements["Table1"].value=0;
 	document.forms["Requete"].elements["operateur"].value=0;
 	document.forms["Requete"].elements["Table2"].value=0;
@@ -590,12 +594,22 @@ function recupValeur(){
 function recupTable(){
 	var select1 = document.getElementById("select1");
 	var select2 = document.getElementById("select2");
+	var selectOp = document.getElementById("operateur");
+	// var val1=document.forms["Requete"].elements["Table1"].value;
+	// console.log(val1);
 	select1.innerHTML="";
 	select2.innerHTML="";
+	// if(selectOp.value === 4) {
+		// var entete = Tables["EnsembleTable"][val1].Entete
+		// for(var ent in entete){
+			// select2.innerHTML+="<option value="+entete[ent]+">"+entete[ent]+"</option>";
+		// }
+	// }
 	for(var table in Tables["EnsembleTable"]){
 		select1.innerHTML+="<option value="+table+">"+table+"</option>";
 		select2.innerHTML+="<option value="+table+">"+table+"</option>";
 	}
+	
 }
 
 function createLine(ID){
@@ -983,25 +997,16 @@ function load(modele) {
 
 
 function projection() {
-	
 	var colonneSelectionner = ["E0","E2"];
-	console.log(colonneSelectionner);
 	var NomTable = "table2";
-	console.log(NomTable);
-	
 	var TableProjection = new Table();
-	
 	var nomNvTable = "Projection "+NomTable;
 	for (var i = 0, c = colonneSelectionner.length; i < c; i++) {
 		nomNvTable += " "+Tables["EnsembleTable"][NomTable].Entete[colonneSelectionner[i]];
 		TableProjection.Entete["E"+i]=Tables["EnsembleTable"][NomTable].Entete[colonneSelectionner[i]];
 		TableProjection.Contenu["E"+i]=Tables["EnsembleTable"][NomTable].Contenu[colonneSelectionner[i]];
 	}
-	
 	TableProjection.attribuerNom(nomNvTable);
-	console.log(TableProjection);
-	
-	
 	Tables.AjoutTable(TableProjection);
 	NombreTable++;
 	tableToHTML(TableProjection);

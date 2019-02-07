@@ -131,6 +131,7 @@ class Table{
 				}
 			}
 		}
+		console.log(this.OrdreEntete);
 
 	}
 	swapColonne(E1,E2){
@@ -450,12 +451,21 @@ function createUnion(TABLE1,TABLE2){
 			return false;
 		}
 	}
-	TABLE1.triEntete();
-	TABLE2.triEntete();
+	TABLE1.TriOrdreEntete();
+	TABLE2.TriOrdreEntete();
 	var TableUnion=new Table();
 	TableUnion.attribuerNom("Union: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
-	TableUnion.Entete=TABLE1.Entete;
-	var compteur=0;
+	var compteur =0;
+	for(cleEntete in TABLE1.OrdreEntete){
+		var NomNouvelleEntree="E"+compteur;
+		TableUnion.Entete[NomNouvelleEntree]=TABLE1.Entete[TABLE1.OrdreEntete[cleEntete]];
+		//console.log(TABLE1.Entete[this.OrdreEntete[cleEntete]]);
+		if(compteur!=0)TableUnion.OrdreEntete.push(NomNouvelleEntree);
+		compteur++;
+	}
+	//TableUnion.Entete=TABLE1.Entete;
+	//TableUnion.OrdreEntete=TABLE1.OrdreEntete;
+	compteur=0;
 	for(var i in TableUnion.Entete){
 		var NomNouvelleEntree="E"+compteur;
 		TableUnion.Contenu[NomNouvelleEntree]=[];
@@ -526,7 +536,7 @@ function createIntersection(TABLE1,TABLE2){
 function recupereLigne(TABLE,NumeroLigne){
 	var res=[];
 	for(var i in TABLE.OrdreEntete){
-		res.push(TABLE.Contenu[i][NumeroLigne]);
+		res.push(TABLE.Contenu[TABLE.OrdreEntete[i]][NumeroLigne]);
 	}
 	return res;
 }

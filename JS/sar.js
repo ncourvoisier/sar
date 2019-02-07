@@ -557,19 +557,33 @@ function createIntersection(TABLE1,TABLE2){
 		console.log("Erreur Intersection");
 		return false;
 	}
-	for(var colonne in TABLE1.Entete){
-		if(TABLE1.Entete[colonne]!=TABLE2.Entete[colonne]){
+	var t1=TABLE1.triEntete();
+	var t2=TABLE2.triEntete();
+	if(t1.length!=t2.length){
+		console.log("Erreur Intersection");
+		return false;
+	}
+	for(var colonne in t1){
+		if(t1[colonne]!=t2[colonne]){
 			console.log("Erreur Intersection: Le nom des attributs des 2 tables doivent être identique");
 			return false;
 		}
 	}
+	TABLE1.TriOrdreEntete();
+	TABLE2.TriOrdreEntete();
 	var TableIntersection=new Table();
 	TableIntersection.attribuerNom("Intersection: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
-	TableIntersection.Entete=TABLE1.Entete;
-	var compteur=0;
-	for(var i in TableIntersection.Entete){
+	var compteur =0;
+	for(var i in TABLE1.Entete){
 		var NomNouvelleEntree="E"+compteur;
 		TableIntersection.Contenu[NomNouvelleEntree]=[];
+		compteur++;
+	}
+	compteur=0;
+	for(cleEntete in TABLE1.OrdreEntete){
+		var NomNouvelleEntree="E"+compteur;
+		TableIntersection.Entete[NomNouvelleEntree]=TABLE1.Entete[TABLE1.OrdreEntete[cleEntete]];
+		if(compteur!=0)TableIntersection.OrdreEntete.push(NomNouvelleEntree);
 		compteur++;
 	}
 	for(var i=0;i<TABLE1.getNombreLigne();i++){
@@ -583,6 +597,7 @@ function createIntersection(TABLE1,TABLE2){
 	}
 	Tables.AjoutTable(TableIntersection);
 	NombreTable++;
+	console.log(TableIntersection);
 	tableToHTML(TableIntersection);
 	return true; 
 }
@@ -602,21 +617,37 @@ function createDiff(TABLE1,TABLE2){
 		console.log("Erreur Diff");
 		return false;
 	}
-	for(var colonne in TABLE1.Entete){
-		if(TABLE1.Entete[colonne]!=TABLE2.Entete[colonne]){
+	var t1=TABLE1.triEntete();
+	var t2=TABLE2.triEntete();
+	if(t1.length!=t2.length){
+		console.log("Erreur Diff");
+		return false;
+	}
+	for(var colonne in t1){
+		if(t1[colonne]!=t2[colonne]){
 			console.log("Erreur Diff: Le nom des attributs des 2 tables doivent être identique");
 			return false;
 		}
 	}
+	TABLE1.TriOrdreEntete();
+	TABLE2.TriOrdreEntete();
 	var TableDiff=new Table();
-	TableDiff.attribuerNom("Diff: "+TABLE1.Libelle+" \ "+TABLE2.Libelle);
-	TableDiff.Entete=TABLE1.Entete;
-	var compteur=0;
-	for(var i in TableDiff.Entete){
+	TableDiff.attribuerNom("Diff: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
+	var compteur =0;
+	for(var i in TABLE1.Entete){
 		var NomNouvelleEntree="E"+compteur;
 		TableDiff.Contenu[NomNouvelleEntree]=[];
 		compteur++;
 	}
+	compteur =0;
+	for(cleEntete in TABLE1.OrdreEntete){
+		var NomNouvelleEntree="E"+compteur;
+		TableDiff.Entete[NomNouvelleEntree]=TABLE1.Entete[TABLE1.OrdreEntete[cleEntete]];
+		//console.log(TABLE1.Entete[this.OrdreEntete[cleEntete]]);
+		if(compteur!=0)TableDiff.OrdreEntete.push(NomNouvelleEntree);
+		compteur++;
+	}
+
 	for(var i=0;i<TABLE1.getNombreLigne();i++){
 		var ligneCourante=recupereLigne(TABLE1,i);
 		//console.log("i="+ligneCourante);

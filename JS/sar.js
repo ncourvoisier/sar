@@ -358,7 +358,7 @@ function tableToHTML(TABLE){
 		}
 		contenuMAJ += "</tr>";
 	}
-	contenuMAJ += "</tbody>";
+	contenuMAJ += "<tr></tr></tbody>";
 	document.getElementById("table"+NombreTable).innerHTML = contenuMAJ;
 	dragDrop.initElement(IDEmplacement);
 }
@@ -736,7 +736,7 @@ function createLine(ID){
     }
 	if (output) {
 	    trs = output.getElementsByTagName('tr');
-
+	    console.log(trs);
 	    if (trs[1]) { // Le <tr> de Chrome
 	        trs[1].parentNode.insertBefore(trNew, trs[1]);
 	    }

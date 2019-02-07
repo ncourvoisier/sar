@@ -12,6 +12,7 @@ class Table{
 		this.ColonneId=1;
 		this.bloque = true;
 		this.tailleMin = undefined;
+		this.OrdreEntete=["E0"];
 	}
 	attribuerNom(Nom) {
 		this.Libelle=Nom;
@@ -40,6 +41,7 @@ class Table{
 	ajoutColonne(){
 		var NomNouvelleEntree="E"+this.getColonneID();
 		this.Entete[NomNouvelleEntree]="";
+		this.OrdreEntete.push(NomNouvelleEntree);
 		if(this.getNombreLigne()==0){
 			this.Contenu[NomNouvelleEntree]=[];
 		}
@@ -119,6 +121,32 @@ class Table{
 		    }
 		}
 	}
+	TriOrdreEntete(){
+		var tab=this.triEntete();
+		for(var i=0;i<tab.length;i++){
+			for(var cleEntete in this.Entete){
+				if(this.Entete[cleEntete]==tab[i]){
+					this.OrdreEntete[i]=cleEntete;
+					break;
+				}
+			}
+		}
+
+	}
+	swapColonne(E1,E2){
+		var i1,i2;
+		for(var i=0; i<this.OrdreEntete.length;i++){
+			if(this.OrdreEntete[i]==E1){
+				i1=i;
+			}
+			if(this.OrdreEntete[i]==E1){
+				i2=i;
+			}
+		}
+		this.OrdreEntete[i1]=E2;
+		this.OrdreEntete[i2]=E1;
+	}
+	
 	swapLigne(i,j){
 		for(var entete in this.Entete){
 			var temp=this.Contenu[entete][i];
@@ -456,25 +484,27 @@ function createEquiJointure(table1,table2,e_table1,e_table2){
 
 function createUnion(TABLE1,TABLE2){
 	if(TABLE1.constructor.name!="Table" || TABLE2.constructor.name!="Table"){
-		console.log("Erreur Intersection");
+		console.log("Erreur Union");
 		return false;
 	}
 	if(TABLE1.getNombreColonne()!=TABLE2.getNombreColonne()){
-		console.log("Erreur Intersection");
+		console.log("Erreur Union");
 		return false;
 	}
 	var t1=TABLE1.triEntete();
 	var t2=TABLE2.triEntete();
 	if(t1.length!=t2.length){
-		console.log("Erreur Intersection");
+		console.log("Erreur Union");
 		return false;
 	}
 	for(var colonne in t1){
 		if(t1[colonne]!=t2[colonne]){
-			console.log("Erreur Intersection: Le nom des attributs des 2 tables doivent être identique");
+			console.log("Erreur Union: Le nom des attributs des 2 tables doivent être identique");
 			return false;
 		}
 	}
+	TABLE1.triEntete();
+	TABLE2.triEntete();
 	var TableUnion=new Table();
 	TableUnion.attribuerNom("Union: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
 	TableUnion.Entete=TABLE1.Entete;
@@ -548,7 +578,7 @@ function createIntersection(TABLE1,TABLE2){
 }
 function recupereLigne(TABLE,NumeroLigne){
 	var res=[];
-	for(var i in TABLE.Contenu){
+	for(var i in TABLE.OrdreEntete){
 		res.push(TABLE.Contenu[i][NumeroLigne]);
 	}
 	return res;
@@ -1091,7 +1121,7 @@ function load(modele) {
 		alert("Sorry, your browser does not support Web Storage...");
 	}
 	
-	// projection();
+	jointureNaturelle();
 	
 }
 
@@ -1113,3 +1143,110 @@ function projection() {
 	NombreTable++;
 	tableToHTML(TableProjection);
 }
+
+
+function jointureNaturelle() {
+	var colonnePourJointureNaturelle = "NumeroEtudiant*";
+	var table1 = Tables["EnsembleTable"]["table1"];
+	var table2 = Tables["EnsembleTable"]["table2"];
+	var jointureTable1Possible = false;
+	var jointureTable2Possible = false;
+	
+	for (var tb1ent in table1.Entete) {
+		if (table1.Entete[tb1ent] === colonnePourJointureNaturelle) {
+			jointureTable1Possible = true;
+			// console.log(table1.Entete[tb1ent]);
+		}
+	}
+	for (var tb2ent in table2.Entete) {
+		if (table2.Entete[tb2ent] === colonnePourJointureNaturelle) {
+			jointureTable2Possible = true;
+			// console.log(table2.Entete[tb2ent]);
+		}
+	}
+	if (!jointureTable1Possible || !jointureTable2Possible) {
+		console.log("Pas possible de faire une jointure");
+		return;
+	}
+	
+	
+	for (var tb1ent in table1.Entete) {
+		
+		for (var tb2ent in table2.Entete) {
+			if (table2.Entete[tb2ent] === colonnePourJointureNaturelle) {
+				jointureTable2Possible = true;
+				// console.log(table2.Entete[tb2ent]);
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

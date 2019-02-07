@@ -194,7 +194,6 @@ dragDrop = {
 	},
 	startDragMouse: function (e) {
         e.stopPropagation();
-        console.log(e.currentTarget);
 		dragDrop.startDrag(this.parentNode);
 		var evt = e;
 		dragDrop.initialMouseX = evt.clientX;
@@ -509,6 +508,7 @@ function createUnion(TABLE1,TABLE2){
 		if(compteur!=0)TableUnion.OrdreEntete.push(NomNouvelleEntree);
 		compteur++;
 	}
+	TableUnion.ColonneId=compteur;
 	compteur=0;
 	for(var i in TableUnion.Entete){
 		var NomNouvelleEntree="E"+compteur;
@@ -569,6 +569,7 @@ function createIntersection(TABLE1,TABLE2){
 		TableIntersection.Contenu[NomNouvelleEntree]=[];
 		compteur++;
 	}
+	TableIntersection.ColonneId=compteur;
 	compteur=0;
 	for(cleEntete in TABLE1.OrdreEntete){
 		var NomNouvelleEntree="E"+compteur;
@@ -628,6 +629,7 @@ function createDiff(TABLE1,TABLE2){
 		TableDiff.Contenu[NomNouvelleEntree]=[];
 		compteur++;
 	}
+	TableDiff.ColonneId=compteur;
 	compteur =0;
 	for(cleEntete in TABLE1.OrdreEntete){
 		var NomNouvelleEntree="E"+compteur;

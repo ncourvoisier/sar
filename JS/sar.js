@@ -989,7 +989,7 @@ function load(modele) {
 		alert("Sorry, your browser does not support Web Storage...");
 	}
 	
-	// projection();
+	jointureNaturelle();
 	
 }
 
@@ -1011,3 +1011,110 @@ function projection() {
 	NombreTable++;
 	tableToHTML(TableProjection);
 }
+
+
+function jointureNaturelle() {
+	var colonnePourJointureNaturelle = "NumeroEtudiant*";
+	var table1 = Tables["EnsembleTable"]["table1"];
+	var table2 = Tables["EnsembleTable"]["table2"];
+	var jointureTable1Possible = false;
+	var jointureTable2Possible = false;
+	
+	for (var tb1ent in table1.Entete) {
+		if (table1.Entete[tb1ent] === colonnePourJointureNaturelle) {
+			jointureTable1Possible = true;
+			// console.log(table1.Entete[tb1ent]);
+		}
+	}
+	for (var tb2ent in table2.Entete) {
+		if (table2.Entete[tb2ent] === colonnePourJointureNaturelle) {
+			jointureTable2Possible = true;
+			// console.log(table2.Entete[tb2ent]);
+		}
+	}
+	if (!jointureTable1Possible || !jointureTable2Possible) {
+		console.log("Pas possible de faire une jointure");
+		return;
+	}
+	
+	
+	for (var tb1ent in table1.Entete) {
+		
+		for (var tb2ent in table2.Entete) {
+			if (table2.Entete[tb2ent] === colonnePourJointureNaturelle) {
+				jointureTable2Possible = true;
+				// console.log(table2.Entete[tb2ent]);
+			}
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1152,6 +1152,7 @@ function load(modele) {
 			NewTable.ColonneId=RestoredTables.EnsembleTable[RestoredT].ColonneId;
 			NewTable.bloque=RestoredTables.EnsembleTable[RestoredT].bloque;
 			NewTable.tailleMin=RestoredTables.EnsembleTable[RestoredT].tailleMin;
+			NewTable.OrdreEntete=RestoredTables.EnsembleTable[RestoredT].OrdreEntete;
 			Tables.AjoutTable(NewTable);
 		}
 		for (var nbtable in Tables["EnsembleTable"]) {

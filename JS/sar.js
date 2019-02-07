@@ -428,7 +428,60 @@ function createLineHTML(ID){
 }
 
 
-
+function createEquiJointure(table1,table2,e_table1,e_table2){
+    if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
+        console.log("Erreur equi-jointure");
+        return false;
+    }
+    var tableEquiJointure = new Table();
+    tableEquiJointure.attribuerNom(table1.Libelle + "["+e_table1+" = "+e_table2+"]"+table2.Libelle);
+    tableEquiJointure.Entete = table1.Entete;
+    var compteur = tableEquiJointure.getNombreColonne();
+    for(var i in table2.Entete){
+        var NomNouvelleEntree="E"+compteur;
+        tableEquiJointure.Entete[NomNouvelleEntree]=table2.Entete[i];
+        compteur++;
+    }
+    compteur = 0;
+    for(var i in tableEquiJointure.Entete){
+        var NomNouvelleEntree="E"+compteur;
+        tableEquiJointure.Contenu[NomNouvelleEntree]=[];
+        compteur++;
+    }
+    var numEntTab1;
+    for(var i in table1.Entete){
+        if(table1.Entete[i] == e_table1){
+            numEntTab1 = i;
+            console.log(numEntTab1);
+        }
+    }
+    var numEntTab2;
+    for(var i in table2.Entete){
+        if(table2.Entete[i] == e_table2){
+            numEntTab2 = i;
+            console.log(numEntTab2);
+        }
+    }
+    var lTab1 = 0;
+    var lTab2 = 0;
+    for(var i in table1.Contenu[numEntTab1]){
+        var attEnteteCourant = table1.Contenu[numEntTab1][i];
+        for(var n in table2.Contenu[numEntTab2]){
+            if(attEnteteCourant == table2.Contenu[numEntTab2][n]){
+              var newLigne = recupereLigne(table1,lTab1).concat(recupereLigne(table2,lTab2));
+              tableEquiJointure.ajoutLigne(newLigne);
+            }
+            lTab2++;
+        }
+        lTab2 = 0;
+        lTab1++;
+    }
+    console.log(tableEquiJointure);
+    Tables.AjoutTable(tableEquiJointure);
+    NombreTable++;
+    tableToHTML(tableEquiJointure);
+    return true;
+}
 
 function createUnion(TABLE1,TABLE2){
 	if(TABLE1.constructor.name!="Table" || TABLE2.constructor.name!="Table"){

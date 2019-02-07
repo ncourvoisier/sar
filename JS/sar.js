@@ -131,8 +131,6 @@ class Table{
 				}
 			}
 		}
-		console.log(this.OrdreEntete);
-
 	}
 	swapColonne(E1,E2){
 		var i1,i2;
@@ -192,8 +190,7 @@ dragDrop = {
 		if (typeof element == 'string')
 			element = document.getElementById(element);
 		zone_drag=element.getElementsByClassName("drag");
-        console.log(zone_drag[0]);
-		zone_drag[0].onmousedown = dragDrop.startDragMouse;
+			zone_drag[0].onmousedown = dragDrop.startDragMouse;
 	},
 	startDragMouse: function (e) {
         e.stopPropagation();
@@ -452,14 +449,12 @@ function createEquiJointure(table1,table2,e_table1,e_table2){
     for(var i in table1.Entete){
         if(table1.Entete[i] == e_table1){
             numEntTab1 = i;
-            console.log(numEntTab1);
         }
     }
     var numEntTab2;
     for(var i in table2.Entete){
         if(table2.Entete[i] == e_table2){
             numEntTab2 = i;
-            console.log(numEntTab2);
         }
     }
     var lTab1 = 0;
@@ -476,7 +471,6 @@ function createEquiJointure(table1,table2,e_table1,e_table2){
         lTab2 = 0;
         lTab1++;
     }
-    console.log(tableEquiJointure);
     Tables.AjoutTable(tableEquiJointure);
     NombreTable++;
     tableToHTML(tableEquiJointure);
@@ -512,12 +506,9 @@ function createUnion(TABLE1,TABLE2){
 	for(cleEntete in TABLE1.OrdreEntete){
 		var NomNouvelleEntree="E"+compteur;
 		TableUnion.Entete[NomNouvelleEntree]=TABLE1.Entete[TABLE1.OrdreEntete[cleEntete]];
-		//console.log(TABLE1.Entete[this.OrdreEntete[cleEntete]]);
 		if(compteur!=0)TableUnion.OrdreEntete.push(NomNouvelleEntree);
 		compteur++;
 	}
-	//TableUnion.Entete=TABLE1.Entete;
-	//TableUnion.OrdreEntete=TABLE1.OrdreEntete;
 	compteur=0;
 	for(var i in TableUnion.Entete){
 		var NomNouvelleEntree="E"+compteur;
@@ -541,7 +532,6 @@ function createUnion(TABLE1,TABLE2){
 			TableUnion.ajoutLigne(ligneCourante);
 		}
 	}
-	console.log(TableUnion);
 	Tables.AjoutTable(TableUnion);
 	NombreTable++;
 	tableToHTML(TableUnion);
@@ -597,7 +587,6 @@ function createIntersection(TABLE1,TABLE2){
 	}
 	Tables.AjoutTable(TableIntersection);
 	NombreTable++;
-	console.log(TableIntersection);
 	tableToHTML(TableIntersection);
 	return true; 
 }
@@ -643,17 +632,14 @@ function createDiff(TABLE1,TABLE2){
 	for(cleEntete in TABLE1.OrdreEntete){
 		var NomNouvelleEntree="E"+compteur;
 		TableDiff.Entete[NomNouvelleEntree]=TABLE1.Entete[TABLE1.OrdreEntete[cleEntete]];
-		//console.log(TABLE1.Entete[this.OrdreEntete[cleEntete]]);
 		if(compteur!=0)TableDiff.OrdreEntete.push(NomNouvelleEntree);
 		compteur++;
 	}
 
 	for(var i=0;i<TABLE1.getNombreLigne();i++){
 		var ligneCourante=recupereLigne(TABLE1,i);
-		//console.log("i="+ligneCourante);
 		var boolEstPresent=false;
 		for(var j=0;j<TABLE2.getNombreLigne();j++){
-			//console.log("j="+recupereLigne(TABLE2,j));
 			if(JSON.stringify(ligneCourante)==JSON.stringify(recupereLigne(TABLE2,j))){
 				boolEstPresent=true;
 			}
@@ -664,10 +650,8 @@ function createDiff(TABLE1,TABLE2){
 	}
 	for(var i=0;i<TABLE2.getNombreLigne();i++){
 		var ligneCourante=recupereLigne(TABLE2,i);
-		//console.log("i="+ligneCourante);
 		var boolEstPresent=false;
 		for(var j=0;j<TABLE1.getNombreLigne();j++){
-			//console.log("j="+recupereLigne(TABLE2,j));
 			if(JSON.stringify(ligneCourante)==JSON.stringify(recupereLigne(TABLE1,j))){
 				boolEstPresent=true;
 			}
@@ -694,9 +678,6 @@ function createRelation(){
 	if(operateur.value=="3"){
 		createDiff(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
 	}
-	// if(operateur.value=="4") {
-		// projection(Tables.EnsembleTable[select1.value]);
-	// }
 }
 function recupValeur(){
 	if(document.forms["Requete"].elements["Table1"].value==0 || document.forms["Requete"].elements["Table2"].value==0 || document.forms["Requete"].elements["operateur"].value==0){
@@ -722,16 +703,9 @@ function recupTable(){
 	var select1 = document.getElementById("select1");
 	var select2 = document.getElementById("select2");
 	var selectOp = document.getElementById("operateur");
-	// var val1=document.forms["Requete"].elements["Table1"].value;
-	// console.log(val1);
+
 	select1.innerHTML="";
 	select2.innerHTML="";
-	// if(selectOp.value === 4) {
-		// var entete = Tables["EnsembleTable"][val1].Entete
-		// for(var ent in entete){
-			// select2.innerHTML+="<option value="+entete[ent]+">"+entete[ent]+"</option>";
-		// }
-	// }
 	for(var table in Tables["EnsembleTable"]){
 		select1.innerHTML+="<option value="+table+">"+table+"</option>";
 		select2.innerHTML+="<option value="+table+">"+table+"</option>";
@@ -895,7 +869,6 @@ function createArray() {
 	EntreeTexte.placeholder="Nom attribut";
 	thNew.appendChild(EntreeTexte);
 	thNew.appendChild(divBtnTriSupr);
-	//thNew.appendChild(document.createTextNode('Nouvelle colonne'));
 	trNew.appendChild(thNew);
 	theadNew.appendChild(trNew);
 	tabNew.appendChild(theadNew);
@@ -905,7 +878,6 @@ function createArray() {
 	tabNew.appendChild(tbodyNew);
 	divRelation.appendChild(tabNew);
 	divNew.appendChild(divDrag);
-    //divNew.appendChild(divTitre);
 	divNew.appendChild(divRelation);
 	var IDEmplacement="EmplacementTable"+StringID;
 	divNew.id=IDEmplacement;
@@ -1042,7 +1014,6 @@ window.onload=function()   {
 }
 
 function supprimerUnModele(modele) {
-	console.log(modele.value);
 	var nomTableASupprimer = modele.value;
 	if(confirm("Vous êtes sure de vouloir supprimer le modèle "+nomTableASupprimer+" ?")) {
 		localStorage.removeItem(nomTableASupprimer);
@@ -1197,13 +1168,11 @@ function jointureNaturelle() {
 	for (var tb1ent in table1.Entete) {
 		if (table1.Entete[tb1ent] === colonnePourJointureNaturelle) {
 			jointureTable1Possible = true;
-			// console.log(table1.Entete[tb1ent]);
 		}
 	}
 	for (var tb2ent in table2.Entete) {
 		if (table2.Entete[tb2ent] === colonnePourJointureNaturelle) {
 			jointureTable2Possible = true;
-			// console.log(table2.Entete[tb2ent]);
 		}
 	}
 	if (!jointureTable1Possible || !jointureTable2Possible) {
@@ -1217,7 +1186,6 @@ function jointureNaturelle() {
 		for (var tb2ent in table2.Entete) {
 			if (table2.Entete[tb2ent] === colonnePourJointureNaturelle) {
 				jointureTable2Possible = true;
-				// console.log(table2.Entete[tb2ent]);
 			}
 		}
 	}

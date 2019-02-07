@@ -450,6 +450,8 @@ function createUnion(TABLE1,TABLE2){
 			return false;
 		}
 	}
+	TABLE1.triEntete();
+	TABLE2.triEntete();
 	var TableUnion=new Table();
 	TableUnion.attribuerNom("Union: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
 	TableUnion.Entete=TABLE1.Entete;

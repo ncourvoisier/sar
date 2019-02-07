@@ -163,12 +163,12 @@ dragDrop = {
 		if (typeof element == 'string')
 			element = document.getElementById(element);
 		zone_drag=element.getElementsByClassName("drag");
-        console.log(zone_drag[0]);
+        // console.log(zone_drag[0]);
 		zone_drag[0].onmousedown = dragDrop.startDragMouse;
 	},
 	startDragMouse: function (e) {
         e.stopPropagation();
-        console.log(e.currentTarget);
+        // console.log(e.currentTarget);
 		dragDrop.startDrag(this.parentNode);
 		var evt = e;
 		dragDrop.initialMouseX = evt.clientX;
@@ -1067,53 +1067,70 @@ function jointureNaturelle() {
 	var table1 = Tables["EnsembleTable"]["table1"];
 	var table2 = Tables["EnsembleTable"]["table2"];
 	var jointureTable1Possible = false;
+	var positionTable1 = -1;
 	var jointureTable2Possible = false;
-	
+	var positionTable2 = -1;
 	for (var tb1ent in table1.Entete) {
 		if (table1.Entete[tb1ent] === colonnePourJointureNaturelle) {
 			jointureTable1Possible = true;
-			// console.log(table1.Entete[tb1ent]);
+			positionTable1 = tb1ent.toString();
 		}
 	}
 	for (var tb2ent in table2.Entete) {
 		if (table2.Entete[tb2ent] === colonnePourJointureNaturelle) {
 			jointureTable2Possible = true;
-			// console.log(table2.Entete[tb2ent]);
+			positionTable2 = tb2ent.toString();
 		}
 	}
 	if (!jointureTable1Possible || !jointureTable2Possible) {
 		console.log("Pas possible de faire une jointure");
 		return;
 	}
-	
-	
-	for (var tb1ent in table1.Entete) {
-		
-		for (var tb2ent in table2.Entete) {
-			if (table2.Entete[tb2ent] === colonnePourJointureNaturelle) {
-				jointureTable2Possible = true;
-				// console.log(table2.Entete[tb2ent]);
+	var positionLigneASaveTable1 = [];
+	var positionLigneASaveTable2 = [];
+	var TableJointureNaturelle = new Table();
+	var NomTable = table1.Libelle+"["+colonnePourJointureNaturelle+"]"+table2.Libelle;
+	for (var tb1ctn in table1.Contenu[positionTable1]) {
+		for (var tb2ctn in table2.Contenu[positionTable2]) {
+			if (table1.Contenu[positionTable1][tb1ctn] === table2.Contenu[positionTable2][tb2ctn]) {
+				positionLigneASaveTable1.push(tb1ctn);
+				positionLigneASaveTable2.push(tb2ctn);
 			}
 		}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	var t1lght = Object.keys(table1.Entete).length;
+	for (var i = 0; i < t1lght; i++) { 
+		TableJointureNaturelle.Entete["E"+i]=table1.Entete["E"+i];
+	}
+	for (var i = t1lght, j = 0, c = Object.keys(table2.Entete).length-1; i < t1lght + c; i++, j++) {
+		if (table2.Entete["E"+j] === colonnePourJointureNaturelle) {
+			i--;
+			continue;
+		}
+		TableJointureNaturelle.Entete["E"+i]=table2.Entete["E"+j];
+	}
+	for (var i = 0, c = Object.keys(TableJointureNaturelle.Entete).length; i < c; i++) {
+		TableJointureNaturelle.Contenu["E"+i]=[];
+	}
+	for (var i = 0, c = positionLigneASaveTable1.length; i<c; i++) {
+		var lgtTable1 = Object.keys(table1.Contenu).length;
+		for (var j = 0, jcl = Object.keys(table1.Contenu).length; j < jcl; j++){
+			var t = positionLigneASaveTable1[i];
+			TableJointureNaturelle.Contenu["E"+j][i]=table1.Contenu["E"+j][t];
+		}
+		for (var j = 0, jcl = Object.keys(table2.Contenu).length; j < jcl; j++){
+			if (table2.Entete["E"+j] === colonnePourJointureNaturelle) {
+				continue;
+			}
+			var te = j + lgtTable1 -1;
+			var t = positionLigneASaveTable1[i];
+			TableJointureNaturelle.Contenu["E"+te][i]=table2.Contenu["E"+j][t];
+		}
+	}
+	TableJointureNaturelle.attribuerNom(NomTable);
+	Tables.AjoutTable(TableJointureNaturelle);
+	NombreTable++;
+	tableToHTML(TableJointureNaturelle);
 }
 
 

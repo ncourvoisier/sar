@@ -163,9 +163,12 @@ dragDrop = {
 		if (typeof element == 'string')
 			element = document.getElementById(element);
 		zone_drag=element.getElementsByClassName("drag");
+        console.log(zone_drag[0]);
 		zone_drag[0].onmousedown = dragDrop.startDragMouse;
 	},
 	startDragMouse: function (e) {
+        e.stopPropagation();
+        console.log(e.currentTarget);
 		dragDrop.startDrag(this.parentNode);
 		var evt = e;
 		dragDrop.initialMouseX = evt.clientX;
@@ -658,12 +661,29 @@ function createColumn(ID){
 		ligne[i].appendChild(td);
 	}
 	var trNew  = document.createElement('th');
-	trNew.className = "col";
+	trNew.className = 'col';
+
+    var divBtnTriSupr = document.createElement('div');
+    divBtnTriSupr.className = 'btnCol';
+    var btnTri = document.createElement('img');
+    btnTri.src = "../ressources/images/btnTri.png";
+    btnTri.setAttribute('class',"tri");
+    var btnrevTri = document.createElement('img');
+    btnrevTri.src = "../ressources/images/reverseTri.png";
+    btnrevTri.setAttribute('class',"reverseTri");
+    var btnSuprCol = document.createElement('img');
+    btnSuprCol.src = "../ressources/images/suprCol.png";
+    btnSuprCol.setAttribute('class',"suprCol");
+    divBtnTriSupr.appendChild(btnTri);
+    divBtnTriSupr.appendChild(btnrevTri);
+    divBtnTriSupr.appendChild(btnSuprCol);
+
 	var EntreeTexte  = document.createElement('input');
 	EntreeTexte.type="text";
 	EntreeTexte.disabled=Tables["EnsembleTable"][IDTable].getBloquer();
 	EntreeTexte.placeholder="Nom attribut";
 	trNew.appendChild(EntreeTexte);
+	trNew.appendChild(divBtnTriSupr);
 	if (output) {
 	    trs = output.getElementsByTagName('th');
 	    if (trs[nbColonnes-1]) { // Le <tr> de Chrome
@@ -678,6 +698,8 @@ function createArray() {
 	var divNew  = document.createElement('div');
 	var divDrag  = document.createElement('div');
 	var divTitre = document.createElement('div');
+	var divBouton = document.createElement('div');
+	divBouton.className = 'bcBouton';
 	divTitre.setAttribute('contenteditable',"false");
 	divTitre.className= 'nomTable';
 	divTitre.textContent = Tables["EnsembleTable"]["table"+NombreTable].getNom();
@@ -710,11 +732,13 @@ function createArray() {
 	ajoutButtonModif.href = "#";
 	ajoutButtonModif.setAttribute('class',"boutonLock");
 	ajoutButtonModif.setAttribute('onclick',"modification("+NombreTable+")");
-	divDrag.appendChild(ajoutColonneNew);
-	divDrag.appendChild(ajoutLigneNew);
-	divDrag.appendChild(ajoutButtonReduc);
-	divDrag.appendChild(ajoutButtonSuppr);
-	divDrag.appendChild(ajoutButtonModif);
+	divBouton.appendChild(ajoutColonneNew);
+    divBouton.appendChild(ajoutLigneNew);
+    divBouton.appendChild(ajoutButtonReduc);
+    divBouton.appendChild(ajoutButtonSuppr);
+    divBouton.appendChild(ajoutButtonModif);
+    divDrag.appendChild(divTitre);
+    divDrag.appendChild(divBouton)
 	var divRelation = document.createElement('div');
 	divRelation.setAttribute('class',"relation");
 	var tabNew=document.createElement('table');
@@ -725,11 +749,28 @@ function createArray() {
 	var trNew=document.createElement('tr');
 	var thNew=document.createElement('th');
 	thNew.className="col";
+
+	var divBtnTriSupr = document.createElement('div');
+	divBtnTriSupr.className = 'btnCol';
+	var btnTri = document.createElement('img');
+    btnTri.src = "../ressources/images/btnTri.png";
+    btnTri.setAttribute('class',"tri");
+    var btnrevTri = document.createElement('img');
+    btnrevTri.src = "../ressources/images/reverseTri.png";
+    btnrevTri.setAttribute('class',"reverseTri");
+    var btnSuprCol = document.createElement('img');
+    btnSuprCol.src = "../ressources/images/suprCol.png";
+    btnSuprCol.setAttribute('class',"suprCol");
+    divBtnTriSupr.appendChild(btnTri);
+    divBtnTriSupr.appendChild(btnrevTri);
+    divBtnTriSupr.appendChild(btnSuprCol);
+
 	var EntreeTexte  = document.createElement('input');
 	EntreeTexte.type="text";
 	EntreeTexte.disabled=bloquage;
 	EntreeTexte.placeholder="Nom attribut";
 	thNew.appendChild(EntreeTexte);
+	thNew.appendChild(divBtnTriSupr);
 	//thNew.appendChild(document.createTextNode('Nouvelle colonne'));
 	trNew.appendChild(thNew);
 	theadNew.appendChild(trNew);
@@ -740,7 +781,7 @@ function createArray() {
 	tabNew.appendChild(tbodyNew);
 	divRelation.appendChild(tabNew);
 	divNew.appendChild(divDrag);
-    divNew.appendChild(divTitre);
+    //divNew.appendChild(divTitre);
 	divNew.appendChild(divRelation);
 	var IDEmplacement="EmplacementTable"+StringID;
 	divNew.id=IDEmplacement;
@@ -764,6 +805,10 @@ function modification(IDTable){
 		if(th[i].type==="text")
 			th[i].disabled = bloque;
 	}
+    var col = document.getElementsByClassName('col');
+    for(var n in col){
+        col[n].className = 'col btn';
+    }
     var emplacement = document.getElementById('EmplacementTable'+IDTable);
 	var titre = emplacement.getElementsByClassName('nomTable');
     titre[0].setAttribute('contenteditable',"true");
@@ -785,6 +830,10 @@ function sauvegarderModif(IDTable){
 			th[i].disabled = bloque;
 		}
 	}
+	var col = document.getElementsByClassName('col');
+	for(var n in col){
+	    col[n].className = 'col';
+    }
 	var emplacement = document.getElementById('EmplacementTable'+IDTable);
 	var titre = emplacement.getElementsByClassName('nomTable');
 	titre[0].setAttribute('contenteditable',"false");

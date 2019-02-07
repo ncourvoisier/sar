@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="1c544c0b-0b61-4192-8617-72bac10e3218" name="Default Changelist" comment="" />
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/JS/sar.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="386">
+              <caret line="667" column="47" lean-forward="true" selection-start-line="667" selection-start-column="47" selection-end-line="667" selection-end-column="47" />
+              <folding>
+                <element signature="n#!!block;n#addEventSimple#0" />
+                <element signature="n#!!block;n#removeEventSimple#0" />
+                <element signature="n#!!block;n#afficherPremierPlan#0" />
+                <element signature="n#!!block;n#tableToHTML#0" />
+                <element signature="n#!!block;n#createColumnHTML#0" />
+                <element signature="n#!!block;n#createLineHTML#0" />
+                <element signature="n#!!block;n#createUnion#0" />
+                <element signature="n#!!block;n#createIntersection#0" />
+                <element signature="n#!!block;n#createDiff#0" />
+                <element signature="n#!!block;n#createRelation#0" />
+                <element signature="n#!!block;n#recupValeur#0" />
+                <element signature="n#!!block;n#recupTable#0" />
+                <element signature="n#!!block;n#createLine#0" />
+                <element signature="n#!!block;n#recuperationContenu#0" />
+                <element signature="n#!!block;n#suppression#0" />
+                <element signature="n#!!block;n#reduction#0" />
+                <element signature="n#!!block;n#agrandissement#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/HTML/sar.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="799">
+              <caret line="51" column="10" selection-start-line="51" selection-start-column="10" selection-end-line="51" selection-end-column="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CSS/sar.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="187">
+              <caret line="77" column="1" lean-forward="true" selection-start-line="77" selection-start-column="1" selection-end-line="77" selection-end-column="1" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/CSS/sar.css" />
+        <option value="$PROJECT_DIR$/JS/sar.js" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="260" />
+    <option name="y" value="20" />
+    <option name="width" value="1400" />
+    <option name="height" value="1000" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="sar" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sar" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sar" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sar" type="462c0819:PsiDirectoryNode" />
+              <item name="JS" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sar" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sar" type="462c0819:PsiDirectoryNode" />
+              <item name="ressources" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sar" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sar" type="462c0819:PsiDirectoryNode" />
+              <item name="ressources" type="462c0819:PsiDirectoryNode" />
+              <item name="images" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1c544c0b-0b61-4192-8617-72bac10e3218" name="Default Changelist" comment="" />
+      <created>1542975260100</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1542975260100</updated>
+      <workItem from="1542975262784" duration="4180000" />
+      <workItem from="1543595868041" duration="591000" />
+      <workItem from="1544534131765" duration="7000" />
+      <workItem from="1548519618738" duration="771000" />
+      <workItem from="1548592447687" duration="4732000" />
+      <workItem from="1548600646835" duration="497000" />
+      <workItem from="1548605759221" duration="1146000" />
+      <workItem from="1548872520074" duration="5153000" />
+      <workItem from="1548884955366" duration="7104000" />
+      <workItem from="1548936655259" duration="10312000" />
+      <workItem from="1548955542524" duration="3159000" />
+      <workItem from="1548963526199" duration="197000" />
+      <workItem from="1549209445233" duration="658000" />
+      <workItem from="1549543994793" duration="1567000" />
+      <workItem from="1549547899888" duration="6147000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="6267000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14383562" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="8" />
+      <window_info anchor="bottom" id="Terminal" order="9" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/ressources/images/btnTri.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/HTML/sar.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="799">
+          <caret line="51" column="10" selection-start-line="51" selection-start-column="10" selection-end-line="51" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CSS/sar.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="77" column="1" lean-forward="true" selection-start-line="77" selection-start-column="1" selection-end-line="77" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/JS/sar.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="386">
+          <caret line="667" column="47" lean-forward="true" selection-start-line="667" selection-start-column="47" selection-end-line="667" selection-end-column="47" />
+          <folding>
+            <element signature="n#!!block;n#addEventSimple#0" />
+            <element signature="n#!!block;n#removeEventSimple#0" />
+            <element signature="n#!!block;n#afficherPremierPlan#0" />
+            <element signature="n#!!block;n#tableToHTML#0" />
+            <element signature="n#!!block;n#createColumnHTML#0" />
+            <element signature="n#!!block;n#createLineHTML#0" />
+            <element signature="n#!!block;n#createUnion#0" />
+            <element signature="n#!!block;n#createIntersection#0" />
+            <element signature="n#!!block;n#createDiff#0" />
+            <element signature="n#!!block;n#createRelation#0" />
+            <element signature="n#!!block;n#recupValeur#0" />
+            <element signature="n#!!block;n#recupTable#0" />
+            <element signature="n#!!block;n#createLine#0" />
+            <element signature="n#!!block;n#recuperationContenu#0" />
+            <element signature="n#!!block;n#suppression#0" />
+            <element signature="n#!!block;n#reduction#0" />
+            <element signature="n#!!block;n#agrandissement#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

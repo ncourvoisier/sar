@@ -378,7 +378,7 @@ function tableToHTML(TABLE){
 		}
 		contenuMAJ += "</tr>";
 	}
-	contenuMAJ += "</tbody>";
+	contenuMAJ += "<tr></tr></tbody>";
 	document.getElementById("table"+NombreTable).innerHTML = contenuMAJ;
 	dragDrop.initElement(IDEmplacement);
 }

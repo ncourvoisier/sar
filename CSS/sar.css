@@ -108,14 +108,23 @@ th input[type=text] {
 }
 
 tr:hover .btnSuprLigne {
-    display:inline;
+    display:inline-block;
     position:absolute;
+	width:40px;
+	height:20px;
     float:left;
-    left:-10px;
+    left:-34px;
     box-sizing:border-box;
-    background:red;
+	text-align: center;
 }
 
+.btnSuprLigne img{
+	position:relative;
+	margin:auto;
+}
+.btnSuprLigne img:hover {
+	border: 1px solid rgba(60, 60, 60, 0.8);
+}
 .btnSuprLigne {
     display:none;
 }

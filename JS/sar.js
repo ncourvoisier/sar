@@ -1193,7 +1193,8 @@ function load(modele) {
 		alert("Sorry, your browser does not support Web Storage...");
 	}
 	
-	jointureNaturelle();
+	// jointureNaturelle();
+	// createEquiJointure(Tables["EnsembleTable"]["table1"], Tables["EnsembleTable"]["table2"],"Responsable","NoHarpege*");
 	
 }
 
@@ -1286,6 +1287,7 @@ function jointureNaturelle() {
 	Tables.AjoutTable(TableJointureNaturelle);
 	NombreTable++;
 	tableToHTML(TableJointureNaturelle);
+	return true;
 }
 
 

@@ -106,6 +106,8 @@ class Table{
 	getTMin(){
 	    return this.tailleMin;
     }
+
+    //POUR CONVERIR NOMBRE => operateur unaire +"chaine"
     tri(NomAttribut,NumTable){
     	var EnteteAtt;
     	for(var cleEntete in this.Entete){
@@ -113,11 +115,11 @@ class Table{
     			EnteteAtt=cleEntete;
     		}
     	}
-    	for (var i1 = 0; i1 < this.Contenu[EnteteAtt].length;i1++){
-			var i2 = i1+1;
-			while (this.Contenu[EnteteAtt][i1] > this.Contenu[EnteteAtt][i2]){
-				this.swapLigne(i1,i2);
-				i2++;
+    	for (var i1 = this.Contenu[EnteteAtt].length-1; i1 >0;i1--){
+    		for (var i2 = 0; i2<i1;i2++){
+    			if(this.Contenu[EnteteAtt][i2]>this.Contenu[EnteteAtt][i2+1]){
+    				this.swapLigne(i2,i1);
+    			}
 		    }
 		}
 		var NomTable="EmplacementTable"+NumTable;
@@ -131,11 +133,11 @@ class Table{
     			EnteteAtt=cleEntete;
     		}
     	}
-    	for (var i1 = 0; i1 < this.Contenu[EnteteAtt].length;i1++){
-			var i2 = i1+1;
-			while (this.Contenu[EnteteAtt][i1] < this.Contenu[EnteteAtt][i2]){
-				this.swapLigne(i1,i2);
-				i2++;
+    	for (var i1 = this.Contenu[EnteteAtt].length-1; i1 >0;i1--){
+    		for (var i2 = 0; i2<i1;i2++){
+    			if(this.Contenu[EnteteAtt][i2]<this.Contenu[EnteteAtt][i2+1]){
+    				this.swapLigne(i2,i1);
+    			}
 		    }
 		}
 		var NomTable="EmplacementTable"+NumTable;

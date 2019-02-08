@@ -16,17 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/JS/sar.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="765">
-              <caret line="369" column="5" lean-forward="true" selection-start-line="369" selection-start-column="5" selection-end-line="369" selection-end-column="5" />
-              <folding>
-                <element signature="n#!!block;n#createLineHTML#0" />
-                <element signature="n#!!block;n#recupereLigne#0" />
-                <element signature="n#!!block;n#createDiff#0" />
-                <element signature="n#!!block;n#createRelation#0" />
-                <element signature="n#!!block;n#recupValeur#0" />
-                <element signature="n#!!block;n#recupTable#0" />
-                <element signature="n#!!block;n#createLine#0" />
-              </folding>
+            <state relative-caret-position="686">
+              <caret line="903" column="32" selection-start-line="903" selection-start-column="32" selection-end-line="903" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -67,7 +58,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="260" />
     <option name="y" value="20" />
     <option name="width" value="1400" />
@@ -150,12 +141,12 @@
       <workItem from="1549209445233" duration="658000" />
       <workItem from="1549543994793" duration="1567000" />
       <workItem from="1549547899888" duration="11339000" />
-      <workItem from="1549628984740" duration="4635000" />
+      <workItem from="1549628984740" duration="5232000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="16094000" />
+    <option name="totallyTimeSpent" value="16691000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -203,17 +194,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/JS/sar.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="765">
-          <caret line="369" column="5" lean-forward="true" selection-start-line="369" selection-start-column="5" selection-end-line="369" selection-end-column="5" />
-          <folding>
-            <element signature="n#!!block;n#createLineHTML#0" />
-            <element signature="n#!!block;n#recupereLigne#0" />
-            <element signature="n#!!block;n#createDiff#0" />
-            <element signature="n#!!block;n#createRelation#0" />
-            <element signature="n#!!block;n#recupValeur#0" />
-            <element signature="n#!!block;n#recupTable#0" />
-            <element signature="n#!!block;n#createLine#0" />
-          </folding>
+        <state relative-caret-position="686">
+          <caret line="903" column="32" selection-start-line="903" selection-start-column="32" selection-end-line="903" selection-end-column="32" />
         </state>
       </provider>
     </entry>

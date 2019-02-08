@@ -16,29 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/JS/sar.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="206">
-              <caret line="435" column="57" selection-start-line="435" selection-start-column="57" selection-end-line="435" selection-end-column="57" />
-              <folding>
-                <element signature="e#2735#2996#0" />
-                <element signature="e#3067#4830#0" />
-                <element signature="n#!!block;n#addEventSimple#0" />
-                <element signature="n#!!block;n#removeEventSimple#0" />
-                <element signature="n#!!block;n#afficherPremierPlan#0" />
-                <element signature="n#!!block;n#tableToHTML#0" />
-                <element signature="n#!!block;n#createColumnHTML#0" />
-                <element signature="n#!!block;n#createLineHTML#0" />
-                <element signature="n#!!block;n#createUnion#0" />
-                <element signature="n#!!block;n#createIntersection#0" />
-                <element signature="n#!!block;n#createDiff#0" />
-                <element signature="n#!!block;n#createRelation#0" />
-                <element signature="n#!!block;n#recupValeur#0" />
-                <element signature="n#!!block;n#recupTable#0" />
-                <element signature="n#!!block;n#createLine#0" />
-                <element signature="n#!!block;n#recuperationContenu#0" />
-                <element signature="n#!!block;n#suppression#0" />
-                <element signature="n#!!block;n#reduction#0" />
-                <element signature="n#!!block;n#agrandissement#0" />
-              </folding>
+            <state relative-caret-position="686">
+              <caret line="903" column="32" selection-start-line="903" selection-start-column="32" selection-end-line="903" selection-end-column="32" />
             </state>
           </provider>
         </entry>
@@ -55,8 +34,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CSS/sar.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="77" column="1" lean-forward="true" selection-start-line="77" selection-start-column="1" selection-end-line="77" selection-end-column="1" />
+            <state relative-caret-position="292">
+              <caret line="101" column="1" selection-start-line="101" selection-start-column="1" selection-end-line="101" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -161,12 +140,13 @@
       <workItem from="1548963526199" duration="197000" />
       <workItem from="1549209445233" duration="658000" />
       <workItem from="1549543994793" duration="1567000" />
-      <workItem from="1549547899888" duration="11070000" />
+      <workItem from="1549547899888" duration="11339000" />
+      <workItem from="1549628984740" duration="5232000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11190000" />
+    <option name="totallyTimeSpent" value="16691000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -207,36 +187,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CSS/sar.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="77" column="1" lean-forward="true" selection-start-line="77" selection-start-column="1" selection-end-line="77" selection-end-column="1" />
+        <state relative-caret-position="292">
+          <caret line="101" column="1" selection-start-line="101" selection-start-column="1" selection-end-line="101" selection-end-column="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/JS/sar.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="206">
-          <caret line="435" column="57" selection-start-line="435" selection-start-column="57" selection-end-line="435" selection-end-column="57" />
-          <folding>
-            <element signature="e#2735#2996#0" />
-            <element signature="e#3067#4830#0" />
-            <element signature="n#!!block;n#addEventSimple#0" />
-            <element signature="n#!!block;n#removeEventSimple#0" />
-            <element signature="n#!!block;n#afficherPremierPlan#0" />
-            <element signature="n#!!block;n#tableToHTML#0" />
-            <element signature="n#!!block;n#createColumnHTML#0" />
-            <element signature="n#!!block;n#createLineHTML#0" />
-            <element signature="n#!!block;n#createUnion#0" />
-            <element signature="n#!!block;n#createIntersection#0" />
-            <element signature="n#!!block;n#createDiff#0" />
-            <element signature="n#!!block;n#createRelation#0" />
-            <element signature="n#!!block;n#recupValeur#0" />
-            <element signature="n#!!block;n#recupTable#0" />
-            <element signature="n#!!block;n#createLine#0" />
-            <element signature="n#!!block;n#recuperationContenu#0" />
-            <element signature="n#!!block;n#suppression#0" />
-            <element signature="n#!!block;n#reduction#0" />
-            <element signature="n#!!block;n#agrandissement#0" />
-          </folding>
+        <state relative-caret-position="686">
+          <caret line="903" column="32" selection-start-line="903" selection-start-column="32" selection-end-line="903" selection-end-column="32" />
         </state>
       </provider>
     </entry>

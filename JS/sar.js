@@ -106,6 +106,8 @@ class Table{
 	getTMin(){
 	    return this.tailleMin;
     }
+
+    //POUR CONVERIR NOMBRE => operateur unaire +"chaine"
     tri(NomAttribut,NumTable){
     	var EnteteAtt;
     	for(var cleEntete in this.Entete){

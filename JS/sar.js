@@ -191,12 +191,9 @@ dragDrop = {
 		if (typeof element == 'string')
 			element = document.getElementById(element);
 		zone_drag=element.getElementsByClassName("drag");
-        console.log(zone_drag[0]);
 		zone_drag[0].onmousedown = dragDrop.startDragMouse;
 	},
 	startDragMouse: function (e) {
-        e.stopPropagation();
-        console.log(e.currentTarget);
 		dragDrop.startDrag(this.parentNode);
 		var evt = e;
 		dragDrop.initialMouseX = evt.clientX;
@@ -313,12 +310,29 @@ function tableToHTML(TABLE){
 	var theadNew=document.createElement('thead');
 	var trNew=document.createElement('tr');
 	var thNew=document.createElement('th');
+
+	var divBtnTriSupr = document.createElement('div');
+	divBtnTriSupr.className = 'btnCol';
+	var btnTri = document.createElement('img');
+	btnTri.src = "../ressources/images/btnTri.png";
+	btnTri.setAttribute('class',"tri");
+	var btnrevTri = document.createElement('img');
+	btnrevTri.src = "../ressources/images/reverseTri.png";
+	btnrevTri.setAttribute('class',"reverseTri");
+	var btnSuprCol = document.createElement('img');
+	btnSuprCol.src = "../ressources/images/suprCol.png";
+	btnSuprCol.setAttribute('class',"suprCol");
+	divBtnTriSupr.appendChild(btnTri);
+	divBtnTriSupr.appendChild(btnrevTri);
+	divBtnTriSupr.appendChild(btnSuprCol);
+
 	thNew.className="col";
 	var EntreeTexte  = document.createElement('input');
 	EntreeTexte.type="text";
 	EntreeTexte.disabled=bloquage;
 	EntreeTexte.placeholder="Nom attribut";
 	thNew.appendChild(EntreeTexte);
+	thNew.appendChild(divBtnTriSupr);
 	trNew.appendChild(thNew);
 	theadNew.appendChild(trNew);
 	tabNew.appendChild(theadNew);
@@ -336,10 +350,10 @@ function tableToHTML(TABLE){
 	divNew.style.top = DeplacementHauteur+'px';
 	//dragDrop.initElement(IDEmplacement);
 	recupTable();
-	var taille = divDrag.offsetWidth-22;
 	var NomTable="table"+NombreTable;
     Tables["EnsembleTable"][NomTable].tailleMin=divDrag.offsetWidth;
-    divTitre.style["min-width"] = taille.toString()+"px";
+	thNew.getElementsByClassName('tri')[0].setAttribute('onclick','console.log("Tri croissant")');
+	thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick','console.log("Tri décroissant")');
 
 	//POUR RAJOUTER LES COLONNES ET LIGNES
 	var nbEntete = Object.keys(TABLE.Entete).length;
@@ -348,7 +362,11 @@ function tableToHTML(TABLE){
 	for (var entete = 0; entete < nbEntete; entete++) {
 		var position = "E"+entete;
 		var valeur = TABLE.Entete[position];
-		contenuMAJ += "<th class=\"col\"><input type=\"text\" value=\""+valeur+"\" disabled=\"\"></th>";
+		contenuMAJ += "<th class=\"col\"><input type=\"text\" value=\""+valeur+"\" disabled=\"\">";
+		contenuMAJ += "<div class=\"btnCol\"><img class=\"tri\" src=\"../ressources/images/btnTri.png\" onclick=\"console.log(\"tri croissant\")\">";
+		contenuMAJ += "<img class=\"reverseTri\" src=\"../ressources/images/reverseTri.png\" onclick=\"console.log(\"tri décroissant\")\">";
+		contenuMAJ += "<img class=\"suprCol\" src=\"../ressources/images/suprCol.png\">";
+		contenuMAJ += "</th>";
 	}
 	contenuMAJ += "</tr></thead><tbody>";
 
@@ -385,12 +403,14 @@ function createColumnHTML(ID) {
 		ligne[i].appendChild(td);
 	}
 	var trNew  = document.createElement('th');
-	trNew.className = "col";
+	(Tables["EnsembleTable"][IDTable].getBloquer())? trNew.className = 'col':trNew.className = 'col btn';
 	var EntreeTexte  = document.createElement('input');
 	EntreeTexte.type="text";
 	EntreeTexte.disabled=Tables["EnsembleTable"][IDTable].getBloquer();
 	EntreeTexte.placeholder="Nom attribut";
 	trNew.appendChild(EntreeTexte);
+	trNew.getElementsByClassName('tri')[0].setAttribute('onclick','console.log("Tri croissant")');
+	trNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick','console.log("Tri décroissant")');
 	if (output) {
 	    trs = output.getElementsByTagName('th');
 	    if (trs[nbColonnes-1]) { // Le <tr> de Chrome
@@ -744,7 +764,7 @@ function createColumn(ID){
 		ligne[i].appendChild(td);
 	}
 	var trNew  = document.createElement('th');
-	trNew.className = 'col';
+	(Tables["EnsembleTable"][IDTable].getBloquer())? trNew.className = 'col':trNew.className = 'col btn';
 
     var divBtnTriSupr = document.createElement('div');
     divBtnTriSupr.className = 'btnCol';
@@ -767,6 +787,8 @@ function createColumn(ID){
 	EntreeTexte.placeholder="Nom attribut";
 	trNew.appendChild(EntreeTexte);
 	trNew.appendChild(divBtnTriSupr);
+	trNew.getElementsByClassName('tri')[0].setAttribute('onclick','console.log("Tri croissant")');
+	trNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick','console.log("Tri décroissant")');
 	if (output) {
 	    trs = output.getElementsByTagName('th');
 	    if (trs[nbColonnes-1]) { // Le <tr> de Chrome
@@ -820,7 +842,6 @@ function createArray() {
     divBouton.appendChild(ajoutButtonReduc);
     divBouton.appendChild(ajoutButtonSuppr);
     divBouton.appendChild(ajoutButtonModif);
-    divDrag.appendChild(divTitre);
     divDrag.appendChild(divBouton)
 	var divRelation = document.createElement('div');
 	divRelation.setAttribute('class',"relation");
@@ -832,7 +853,6 @@ function createArray() {
 	var trNew=document.createElement('tr');
 	var thNew=document.createElement('th');
 	thNew.className="col";
-
 	var divBtnTriSupr = document.createElement('div');
 	divBtnTriSupr.className = 'btnCol';
 	var btnTri = document.createElement('img');
@@ -864,7 +884,7 @@ function createArray() {
 	tabNew.appendChild(tbodyNew);
 	divRelation.appendChild(tabNew);
 	divNew.appendChild(divDrag);
-    //divNew.appendChild(divTitre);
+    divNew.appendChild(divTitre);
 	divNew.appendChild(divRelation);
 	var IDEmplacement="EmplacementTable"+StringID;
 	divNew.id=IDEmplacement;
@@ -872,9 +892,9 @@ function createArray() {
 	divNew.style.top = DeplacementHauteur+'px';
 	dragDrop.initElement(IDEmplacement);
 	recupTable();
-	var taille = divDrag.offsetWidth-22;
     Tables["EnsembleTable"]["table"+NombreTable].setTMin(divDrag.offsetWidth);
-    divTitre.style["min-width"] = taille.toString()+"px";
+	thNew.getElementsByClassName('tri')[0].setAttribute('onclick','console.log("Tri croissant")');
+	thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick','console.log("Tri décroissant")');
 }
 
 function modification(IDTable){
@@ -888,9 +908,14 @@ function modification(IDTable){
 		if(th[i].type==="text")
 			th[i].disabled = bloque;
 	}
-    var col = document.getElementsByClassName('col');
+    var col = table.getElementsByClassName('col');
     for(var n in col){
         col[n].className = 'col btn';
+        if(col[n].tagName == 'TH'){
+        	col[n].getElementsByClassName('tri')[0].setAttribute('onclick','console.log("Tri croissant")');
+			col[n].getElementsByClassName('reverseTri')[0].setAttribute('onclick','console.log("Tri décroissant")');
+			//col[n].getElementsByTagName('input')[0].value;
+		}
     }
     var emplacement = document.getElementById('EmplacementTable'+IDTable);
 	var titre = emplacement.getElementsByClassName('nomTable');

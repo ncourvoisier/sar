@@ -766,10 +766,13 @@ function createLine(ID){
 	Tables["EnsembleTable"][IDTable].ajoutLigne();
 	var output = document.getElementById(IDTable),trs;
 	var trNew  = document.createElement('tr');
+	var divNew = document.createElement('div');
 	var imgBtnSuprLigne = document.createElement('img');
-	imgBtnSuprLigne.className = 'btnSuprLigne';
+	divNew.className = 'btnSuprLigne';
 	imgBtnSuprLigne.width = '16';
 	imgBtnSuprLigne.height = '16';
+	imgBtnSuprLigne.src = '../ressources/images/suprCol.png';
+	divNew.appendChild(imgBtnSuprLigne);
 	var Colonnes=output.getElementsByClassName('col');
 	var nbColonnes=Colonnes.length;
 
@@ -782,7 +785,7 @@ function createLine(ID){
 		EntreeTexte.placeholder="Valeur attribut";
 		td.appendChild(EntreeTexte);
 		if(i == 0){
-			td.appendChild(imgBtnSuprLigne);
+			td.appendChild(divNew);
 		}
 		trNew.appendChild(td);	
     }

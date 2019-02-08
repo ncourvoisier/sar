@@ -107,6 +107,19 @@ th input[type=text] {
 	float:right;
 }
 
+tr:hover .btnSuprLigne {
+    display:inline;
+    position:absolute;
+    float:left;
+    left:-10px;
+    box-sizing:border-box;
+    background:red;
+}
+
+.btnSuprLigne {
+    display:none;
+}
+
 /*td {
 	border: 1px solid black;
 }

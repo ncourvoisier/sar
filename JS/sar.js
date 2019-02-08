@@ -764,6 +764,10 @@ function createLine(ID){
 	Tables["EnsembleTable"][IDTable].ajoutLigne();
 	var output = document.getElementById(IDTable),trs;
 	var trNew  = document.createElement('tr');
+	var imgBtnSuprLigne = document.createElement('img');
+	imgBtnSuprLigne.className = 'btnSuprLigne';
+	imgBtnSuprLigne.width = '16';
+	imgBtnSuprLigne.height = '16';
 	var Colonnes=output.getElementsByClassName('col');
 	var nbColonnes=Colonnes.length;
 
@@ -775,11 +779,13 @@ function createLine(ID){
 		EntreeTexte.disabled=Tables["EnsembleTable"][IDTable].getBloquer();
 		EntreeTexte.placeholder="Valeur attribut";
 		td.appendChild(EntreeTexte);
+		if(i == 0){
+			td.appendChild(imgBtnSuprLigne);
+		}
 		trNew.appendChild(td);	
     }
 	if (output) {
 	    trs = output.getElementsByTagName('tr');
-	    console.log(trs);
 	    if (trs[1]) { // Le <tr> de Chrome
 	        trs[1].parentNode.insertBefore(trNew, trs[1]);
 	    }

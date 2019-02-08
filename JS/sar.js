@@ -1196,8 +1196,9 @@ function load(modele) {
 		alert("Sorry, your browser does not support Web Storage...");
 	}
 	
-	// jointureNaturelle();
+	// createJointureNaturelle();
 	// createEquiJointure(Tables["EnsembleTable"]["table1"], Tables["EnsembleTable"]["table2"],"Responsable","NoHarpege*");
+	// createTetaJointure(Tables["EnsembleTable"]["table1"], Tables["EnsembleTable"]["table2"],"Responsable","NoHarpege*");
 	
 }
 
@@ -1221,7 +1222,7 @@ function projection() {
 }
 
 
-function jointureNaturelle() {
+function createJointureNaturelle() {
 	var colonnePourJointureNaturelle = "NumeroEtudiant*";
 	var table1 = Tables["EnsembleTable"]["table1"];
 	var table2 = Tables["EnsembleTable"]["table2"];
@@ -1302,7 +1303,57 @@ function jointureNaturelle() {
 
 
 
-
+function createTetaJointure(table1,table2,e_table1,e_table2){
+    if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
+        console.log("Erreur equi-jointure");
+        return false;
+    }
+    var tableTetaJointure = new Table();
+    tableTetaJointure.attribuerNom(table1.Libelle + "["+e_table1+" = "+e_table2+"]"+table2.Libelle);
+    tableTetaJointure.Entete = table1.Entete;
+    var compteur = tableTetaJointure.getNombreColonne();
+    for(var i in table2.Entete){
+        var NomNouvelleEntree="E"+compteur;
+        tableTetaJointure.Entete[NomNouvelleEntree]=table2.Entete[i];
+        compteur++;
+    }
+    compteur = 0;
+    for(var i in tableTetaJointure.Entete){
+        var NomNouvelleEntree="E"+compteur;
+        tableTetaJointure.Contenu[NomNouvelleEntree]=[];
+        compteur++;
+    }
+    var numEntTab1;
+    for(var i in table1.Entete){
+        if(table1.Entete[i] == e_table1){
+            numEntTab1 = i;
+        }
+    }
+    var numEntTab2;
+    for(var i in table2.Entete){
+        if(table2.Entete[i] == e_table2){
+            numEntTab2 = i;
+        }
+    }
+    var lTab1 = 0;
+    var lTab2 = 0;
+    for(var i in table1.Contenu[numEntTab1]){
+        var attEnteteCourant = table1.Contenu[numEntTab1][i];
+        for(var n in table2.Contenu[numEntTab2]){
+            if(attEnteteCourant !== table2.Contenu[numEntTab2][n]){
+              var newLigne = recupereLigne(table1,lTab1).concat(recupereLigne(table2,lTab2));
+              tableTetaJointure.ajoutLigne(newLigne);
+            }
+            lTab2++;
+        }
+        lTab2 = 0;
+        lTab1++;
+    }
+    Tables.AjoutTable(tableTetaJointure);
+    NombreTable++;
+    tableToHTML(tableTetaJointure);
+    return true;
+}
 
 
 

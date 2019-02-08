@@ -106,7 +106,7 @@ class Table{
 	getTMin(){
 	    return this.tailleMin;
     }
-    tri(NomAttribut){
+    tri(NomAttribut,NumTable){
     	var EnteteAtt;
     	for(var cleEntete in this.Entete){
     		if(this.Entete[cleEntete]==NomAttribut){
@@ -114,12 +114,33 @@ class Table{
     		}
     	}
     	for (var i1 = 0; i1 < this.Contenu[EnteteAtt].length;i1++){
-			var i2 = i1 + 1;
+			var i2 = i1+1;
 			while (this.Contenu[EnteteAtt][i1] > this.Contenu[EnteteAtt][i2]){
 				this.swapLigne(i1,i2);
 				i2++;
 		    }
 		}
+		var NomTable="EmplacementTable"+NumTable;
+		document.getElementById(NomTable).remove();
+		tableToHTML(this);
+	}
+	triReverse(NomAttribut,NumTable){
+		var EnteteAtt;
+    	for(var cleEntete in this.Entete){
+    		if(this.Entete[cleEntete]==NomAttribut){
+    			EnteteAtt=cleEntete;
+    		}
+    	}
+    	for (var i1 = 0; i1 < this.Contenu[EnteteAtt].length;i1++){
+			var i2 = i1+1;
+			while (this.Contenu[EnteteAtt][i1] < this.Contenu[EnteteAtt][i2]){
+				this.swapLigne(i1,i2);
+				i2++;
+		    }
+		}
+		var NomTable="EmplacementTable"+NumTable;
+		document.getElementById(NomTable).remove();
+		tableToHTML(this);
 	}
 	TriOrdreEntete(){
 		var tab=this.triEntete();

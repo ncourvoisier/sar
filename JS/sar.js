@@ -772,6 +772,9 @@ function createLine(ID){
 	imgBtnSuprLigne.width = '16';
 	imgBtnSuprLigne.height = '16';
 	imgBtnSuprLigne.src = '../ressources/images/suprCol.png';
+	imgBtnSuprLigne.addEventListener('click',function(){
+		supprLigne(IDTable,Tables["EnsembleTable"][IDTable].getNombreLigne()-1);
+	})
 	divNew.appendChild(imgBtnSuprLigne);
 	var Colonnes=output.getElementsByClassName('col');
 	var nbColonnes=Colonnes.length;
@@ -840,11 +843,37 @@ function createColumn(ID){
 	trNew.appendChild(divBtnTriSupr);
 	trNew.getElementsByClassName('tri')[0].setAttribute('onclick','console.log("Tri croissant")');
 	trNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick','console.log("Tri décroissant")');
+	trNew.getElementsByClassName('suprCol')[0].setAttribute('onclick','supprColum('+IDTable+','+nbColonnes+')');
 	if (output) {
 	    trs = output.getElementsByTagName('th');
 	    if (trs[nbColonnes-1]) { // Le <tr> de Chrome
 	        trs[nbColonnes-1].parentNode.insertBefore(trNew, trs[nbColonnes-1].nextSibling);
 	    }
+	}
+}
+
+function supprColum(Table,IDColonne){
+	recuperationContenu(Table.id.substring(Table.id.length-1));
+	var nomTable = Tables["EnsembleTable"][Table.id.toString()].Libelle;
+	if(confirm("Supprimer la colonne ["+IDColonne+"] de la table ["+nomTable+"] ?")){
+		var firstTh = Table.getElementsByClassName('col');
+		var tr = Table.getElementsByTagName('tr');
+		tr[0].removeChild(firstTh[IDColonne]);
+		for (var i = 1; i < tr.length - 1; i++) {
+			var td = tr[i].getElementsByTagName('td');
+			tr[i].removeChild(td[IDColonne]);
+		}
+	}
+}
+
+function supprLigne(IDTable,IDLigne){
+	recuperationContenu(IDTable.substring(IDTable.length-1));
+	var nomTable = Tables["EnsembleTable"][IDTable.toString()].Libelle;
+	var Table = document.getElementById(IDTable);
+	if(confirm("Supprimer la ligne ["+IDLigne+"] de la table ["+nomTable+"] ?")){
+		var tbody = Table.getElementsByTagName('tbody');
+		var tr = tbody[0].getElementsByTagName('tr');
+		console.log(tr[IDLigne]);
 	}
 }
 function createArray() {
@@ -945,6 +974,7 @@ function createArray() {
     Tables["EnsembleTable"]["table"+NombreTable].setTMin(divDrag.offsetWidth);
 	thNew.getElementsByClassName('tri')[0].setAttribute('onclick','console.log("Tri croissant")');
 	thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick','console.log("Tri décroissant")');
+	trNew.getElementsByClassName('suprCol')[0].setAttribute('onclick','supprColum('+IDTable+',0)');
 }
 
 function modification(IDTable){
@@ -958,13 +988,17 @@ function modification(IDTable){
 		if(th[i].type==="text")
 			th[i].disabled = bloque;
 	}
+	var tbody = table.getElementsByTagName('tbody');
+	var tr = tbody[0].getElementsByTagName('tr');
+	for(var i in tr){
+		tr[i].className = 'btnLigne';
+	}
     var col = table.getElementsByClassName('col');
     for(var n in col){
         col[n].className = 'col btn';
         if(col[n].tagName == 'TH'){
         	col[n].getElementsByClassName('tri')[0].setAttribute('onclick','console.log("Tri croissant")');
 			col[n].getElementsByClassName('reverseTri')[0].setAttribute('onclick','console.log("Tri décroissant")');
-			//col[n].getElementsByTagName('input')[0].value;
 		}
     }
     var emplacement = document.getElementById('EmplacementTable'+IDTable);
@@ -988,6 +1022,11 @@ function sauvegarderModif(IDTable){
 			th[i].disabled = bloque;
 		}
 	}
+	var tbody = table.getElementsByTagName('tbody');
+	var tr = tbody[0].getElementsByTagName('tr');
+	for(var i in tr){
+		tr[i].className = '';
+	}
 	var col = document.getElementsByClassName('col');
 	for(var n in col){
 	    col[n].className = 'col';
@@ -1003,7 +1042,6 @@ function sauvegarderModif(IDTable){
 }
 function recuperationContenu(IDTable){
 	var ID = "table"+IDTable;
-	Tables["EnsembleTable"][ID].bloquer();
 	var table = document.getElementById(ID);
 	var th = table.getElementsByTagName('input');
 	var tr = table.getElementsByClassName('col');

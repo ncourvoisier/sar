@@ -107,7 +107,7 @@ th input[type=text] {
 	float:right;
 }
 
-tr:hover .btnSuprLigne {
+.btnLigne:hover .btnSuprLigne {
     display:inline-block;
     position:absolute;
 	width:40px;
@@ -118,9 +118,8 @@ tr:hover .btnSuprLigne {
 	text-align: center;
 }
 
-.btnSuprLigne img{
+.btnLigne .btnSuprLigne img{
 	position:relative;
-	margin:auto;
 	background:rgba(105,105,105,0.8);
 }
 .btnSuprLigne img:hover {
@@ -128,6 +127,7 @@ tr:hover .btnSuprLigne {
 }
 .btnSuprLigne {
     display:none;
+	padding-top:2px;
 }
 
 /*td {

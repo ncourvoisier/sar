@@ -725,6 +725,10 @@ function createRelation(){
 	if(operateur.value=="3"){
 		createDiff(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
 	}
+	if(operateur.value=="4"){
+		createDivision(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+	}
+	
 }
 function recupValeur(){
 	if(document.forms["Requete"].elements["Table1"].value==0 || document.forms["Requete"].elements["Table2"].value==0 || document.forms["Requete"].elements["operateur"].value==0){
@@ -1088,7 +1092,6 @@ function reduction(IDTable){
 	var divRelation = table.getElementsByClassName('relation');
 	divRelation[0].style.display='none';
 	var divDrag = table.getElementsByClassName('drag');
-	// console.log(Tables["EnsembleTable"][ID].getTMin());
 	divDrag[0].style.width = Tables["EnsembleTable"][ID].getTMin()+"px";
 	var btnReduc = divDrag[0].getElementsByClassName('btnReduc');
 	btnReduc[0].setAttribute('onclick',"agrandissement("+IDTable+")");
@@ -1234,7 +1237,9 @@ function load(modele) {
 		alert("Sorry, your browser does not support Web Storage...");
 	}
 	
-	jointureNaturelle();
+	// createJointureNaturelle();
+	// createEquiJointure(Tables["EnsembleTable"]["table1"], Tables["EnsembleTable"]["table2"],"Responsable","NoHarpege*");
+	// createTetaJointure(Tables["EnsembleTable"]["table1"], Tables["EnsembleTable"]["table2"],"Responsable","NoHarpege*");
 	
 }
 
@@ -1258,7 +1263,7 @@ function projection() {
 }
 
 
-function jointureNaturelle() {
+function createJointureNaturelle() {
 	var colonnePourJointureNaturelle = "NumeroEtudiant*";
 	var table1 = Tables["EnsembleTable"]["table1"];
 	var table2 = Tables["EnsembleTable"]["table2"];
@@ -1327,6 +1332,7 @@ function jointureNaturelle() {
 	Tables.AjoutTable(TableJointureNaturelle);
 	NombreTable++;
 	tableToHTML(TableJointureNaturelle);
+	return true;
 }
 
 
@@ -1338,13 +1344,133 @@ function jointureNaturelle() {
 
 
 
+function createTetaJointure(table1,table2,e_table1,e_table2){
+    if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
+        console.log("Erreur equi-jointure");
+        return false;
+    }
+    var tableTetaJointure = new Table();
+    tableTetaJointure.attribuerNom(table1.Libelle + "["+e_table1+" = "+e_table2+"]"+table2.Libelle);
+    tableTetaJointure.Entete = table1.Entete;
+    var compteur = tableTetaJointure.getNombreColonne();
+    for(var i in table2.Entete){
+        var NomNouvelleEntree="E"+compteur;
+        tableTetaJointure.Entete[NomNouvelleEntree]=table2.Entete[i];
+        compteur++;
+    }
+    compteur = 0;
+    for(var i in tableTetaJointure.Entete){
+        var NomNouvelleEntree="E"+compteur;
+        tableTetaJointure.Contenu[NomNouvelleEntree]=[];
+        compteur++;
+    }
+    var numEntTab1;
+    for(var i in table1.Entete){
+        if(table1.Entete[i] == e_table1){
+            numEntTab1 = i;
+        }
+    }
+    var numEntTab2;
+    for(var i in table2.Entete){
+        if(table2.Entete[i] == e_table2){
+            numEntTab2 = i;
+        }
+    }
+    var lTab1 = 0;
+    var lTab2 = 0;
+    for(var i in table1.Contenu[numEntTab1]){
+        var attEnteteCourant = table1.Contenu[numEntTab1][i];
+        for(var n in table2.Contenu[numEntTab2]){
+            if(attEnteteCourant !== table2.Contenu[numEntTab2][n]){
+              var newLigne = recupereLigne(table1,lTab1).concat(recupereLigne(table2,lTab2));
+              tableTetaJointure.ajoutLigne(newLigne);
+            }
+            lTab2++;
+        }
+        lTab2 = 0;
+        lTab1++;
+    }
+    Tables.AjoutTable(tableTetaJointure);
+    NombreTable++;
+    tableToHTML(tableTetaJointure);
+    return true;
+}
 
 
+function createDivision(table1, table2) {
+	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
+        console.log("Erreur division");
+        return false;
+    }
+	if(table1.Contenu["E0"].length < table2.Contenu["E0"].length){
+		console.log("Erreur division, la relation dividende possède moins de ligne que la relation diviseur.");
+		return false;
+	}
+	var EnteteTrue = true;
+	var TableDivision = new Table();
+	var compteur = 0;
+	var positionEnt = -1;
+	for(var i in table1.Entete){
+        for(var j in table2.Entete){
+			if(table1.Entete[i] === table2.Entete[j]){
+				EnteteTrue = false;
+				positionEnt = i;
+				break;
+			} 
+		}
+    }
+	if (EnteteTrue) {
+		console.log("Erreur division, les relations n'ont pas d'entete commune.");
+		return false;
+	}
+	
+	TableDivision.Entete["E0"]=table1.Entete["E0"];
+	
+	
+	var testTab = [];
+	for (j in table2.Contenu["E0"]) {
+		for (var i in table1.Contenu[positionEnt]){
+			if (table2.Contenu["E0"][j] === table1.Contenu[positionEnt][i]) {
+				testTab.push(recupereLigne(table1,i));
+			}
+		}
+	}
+	
+	var l2 = table2.getNombreLigne();
+	var resultDivOccu = [];
+	resultDivOccu = countOccurences(testTab, l2);
+	
+	var cpt = 0;
+	for (var i in resultDivOccu) {
+		TableDivision.Contenu["E0"][cpt] = resultDivOccu[i];
+		cpt++;
+	}
+	Tables.AjoutTable(TableDivision);
+    NombreTable++;
+    tableToHTML(TableDivision);
+    return true;
+}
 
 
-
-
-
+function countOccurences(tab, nbMax){
+	var result = {};
+	var res = [];
+	for (var i = 0; i < tab.length; i++) {
+		if(tab[i][0] in result){
+			result[tab[i][0]] = ++result[tab[i][0]];
+			if (result[tab[i][0]] === nbMax) {
+				res.push(tab[i][0]);
+			}
+		}
+		else{
+			result[tab[i][0]] = 1;
+			if (result[tab[i][0]] === nbMax) {
+				res.push(tab[i][0]);
+			}
+		}
+	}
+	return res;
+}
 
 
 

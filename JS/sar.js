@@ -62,7 +62,6 @@ class Table{
 		var it_contenu = 0;
 		var newEntete = {};
 		var newContenu = {};
-		console.log(indice);
 		delete this.Entete["E"+indice];
 		delete this.Contenu["E"+indice]
 		for(var i in this.Entete){
@@ -76,11 +75,12 @@ class Table{
 			it_contenu++;
 		}
 		for(var i in this.OrdreEntete){
-			if(this.OrdreEntete[i].substring(1) == indice){
-				console.log(this.OrdreEntete[i]);
+			if(this.OrdreEntete[i].substring(1) === indice.toString()){
 				this.OrdreEntete.splice(1,i);
 			}
-			if(this.OrdreEntete[i].substring(1) > indice){
+		}
+		for(var i in this.OrdreEntete){
+			if(this.OrdreEntete[i].substring(1) > indice.toString()){
 				var newIndice = this.OrdreEntete[i].substring(1);
 				newIndice -= 1;
 				this.OrdreEntete[i] = "E"+newIndice;
@@ -896,6 +896,12 @@ function createColumn(ID){
 function supprColum(Table,IDColonne){
 	recuperationContenu(Table.id.substring(Table.id.length-1));
 	var nomTable = Tables["EnsembleTable"][Table.id.toString()].Libelle;
+	var n = Tables["EnsembleTable"][Table.id.toString()].getNombreColonne();
+	if(n == 1){
+		if(confirm("Supprimer la table ?")){
+			
+		}
+	}
 	if(confirm("Supprimer la colonne ["+IDColonne+"] de la table ["+nomTable+"] ?")){
 		var firstTh = Table.getElementsByClassName('col');
 		var tr = Table.getElementsByTagName('tr');
@@ -905,6 +911,9 @@ function supprColum(Table,IDColonne){
 			tr[i].removeChild(td[IDColonne]);
 		}
 		Tables["EnsembleTable"][Table.id.toString()].supprimerColonne(IDColonne);
+		for(var i =0 ; i < n ; i++){
+			Table.getElementsByClassName('suprCol')[i].setAttribute('onclick','supprColum('+Table.id.toString()+','+i+')');
+		}
 	}
 }
 

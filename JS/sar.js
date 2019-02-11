@@ -779,9 +779,8 @@ function createLine(ID){
 	imgBtnSuprLigne.width = '16';
 	imgBtnSuprLigne.height = '16';
 	imgBtnSuprLigne.src = '../ressources/images/suprCol.png';
-	imgBtnSuprLigne.addEventListener('click',function(){
-		supprLigne(IDTable,Tables["EnsembleTable"][IDTable].getNombreLigne()-1);
-	})
+	var nbLigne = Tables["EnsembleTable"][IDTable].getNombreLigne()-1;
+	imgBtnSuprLigne.setAttribute('onclick','supprLigne('+IDTable+','+nbLigne+')');
 	divNew.appendChild(imgBtnSuprLigne);
 	var Colonnes=output.getElementsByClassName('col');
 	var nbColonnes=Colonnes.length;
@@ -874,8 +873,9 @@ function supprColum(Table,IDColonne){
 }
 
 function supprLigne(IDTable,IDLigne){
-	recuperationContenu(IDTable.substring(IDTable.length-1));
-	var nomTable = Tables["EnsembleTable"][IDTable.toString()].Libelle;
+	console.log(IDLigne);
+	recuperationContenu(IDTable);
+	var nomTable = Tables["EnsembleTable"]["table"+IDTable].Libelle;
 	var Table = document.getElementById(IDTable);
 	if(confirm("Supprimer la ligne ["+IDLigne+"] de la table ["+nomTable+"] ?")){
 		var tbody = Table.getElementsByTagName('tbody');

@@ -16,8 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/JS/sar.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
-              <caret line="775" column="78" selection-start-line="775" selection-start-column="78" selection-end-line="775" selection-end-column="78" />
+            <state relative-caret-position="680">
+              <caret line="874" column="51" selection-start-line="874" selection-start-column="51" selection-end-line="874" selection-end-column="51" />
             </state>
           </provider>
         </entry>
@@ -34,7 +34,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CSS/sar.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="332">
+            <state relative-caret-position="2040">
               <caret line="120" column="10" selection-start-line="120" selection-start-column="10" selection-end-line="120" selection-end-column="10" />
             </state>
           </provider>
@@ -144,16 +144,16 @@
       <workItem from="1549547899888" duration="11339000" />
       <workItem from="1549628984740" duration="7117000" />
       <workItem from="1549655176193" duration="1970000" />
-      <workItem from="1549738997032" duration="5848000" />
+      <workItem from="1549738997032" duration="5960000" />
+      <workItem from="1549778829136" duration="574000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26394000" />
+    <option name="totallyTimeSpent" value="27080000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.14383562" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -181,6 +181,13 @@
     <entry file="file://$PROJECT_DIR$/ressources/images/btnTri.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/JS/sar.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="874" column="51" selection-start-line="874" selection-start-column="51" selection-end-line="874" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/HTML/sar.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="867">
@@ -190,15 +197,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CSS/sar.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
+        <state relative-caret-position="2040">
           <caret line="120" column="10" selection-start-line="120" selection-start-column="10" selection-end-line="120" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/JS/sar.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="775" column="78" selection-start-line="775" selection-start-column="78" selection-end-line="775" selection-end-column="78" />
         </state>
       </provider>
     </entry>

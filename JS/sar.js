@@ -723,9 +723,12 @@ function createRelation(){
 		createUnion(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
 	}
 	if(operateur.value=="3"){
-		createDiff(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+		produitCartésien(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
 	}
 	if(operateur.value=="4"){
+		createDiff(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+	}
+	if(operateur.value=="5"){
 		createDivision(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
 	}
 	
@@ -1335,15 +1338,6 @@ function createJointureNaturelle() {
 	return true;
 }
 
-
-
-
-
-
-
-
-
-
 function createTetaJointure(table1,table2,e_table1,e_table2){
     if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
         console.log("Erreur equi-jointure");
@@ -1396,7 +1390,11 @@ function createTetaJointure(table1,table2,e_table1,e_table2){
     return true;
 }
 
-
+// La division n'est pas une opération de base, elle peut être réécrite 
+// en combinant le produit, la restriction et la différence.
+// R ÷ S = (T1 - T2) avec :
+// -> T1 = PROJECTION(R-S, (R))
+// -> T2 = PROJECTION(R-S ,(T1 X S) - R)
 function createDivision(table1, table2) {
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
         console.log("Erreur division");
@@ -1472,10 +1470,67 @@ function countOccurences(tab, nbMax){
 	return res;
 }
 
+// La division n'est pas une opération de base, elle peut être réécrite 
+// en combinant le produit, la restriction et la différence.
+// R ÷ S = (T1 - T2) avec :
+// -> T1 = PROJECTION(R-S, (R))
+// -> T2 = PROJECTION(R-S ,(T1 X S) - R)
+/*
+function createDivision2(table1, table2){
+	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
+        console.log("Erreur division");
+        return false;
+    }
+	if(table1.Contenu["E0"].length < table2.Contenu["E0"].length){
+		console.log("Erreur division, la relation dividende possède moins de ligne que la relation diviseur.");
+		return false;
+	}
+	
+	createDiff(table1, table2);
+	
+	
+	
+	
+}*/
 
 
-
-
+function produitCartésien(table1, table2) {
+	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
+        console.log("Erreur division");
+        return false;
+    }
+	console.log(table1.getNombreLigne());
+	
+	// recupereLigne
+	for (var tb1 = 0, tb1lgt = table1.getNombreLigne(); tb1 < tb1lgt; tb1++) {
+		console.log(recupereLigne(table1, tb1));
+	}
+	
+	var tb1Colonne = table1.getNombreColonne();
+	var tb2Colonne = table2.getNombreColonne();
+	var addtb1tb2Colonne = tb1Colonne + tb2Colonne;
+	
+	var tb1Ligne = table1.getNombreLigne();
+	var tb2Ligne = table2.getNombreLigne();
+	var addtb1tb2Ligne = tb1Ligne * tb2Ligne;
+	
+	TableProduitCartesien = new Table();
+	
+	TableProduitCartesien.Entete = table1.Entete;
+	for (var i = tb1Colonne; i < addtb1tb2Colonne; i++) {
+		TableProduitCartesien.Entete["E"+i] = table2.Entete["E"+(i-tb1Colonne)];
+	}
+	for (var i = 0; i < addtb1tb2Colonne; i++) {
+		TableProduitCartesien.Contenu["E"+i] = [];
+	}
+	
+	
+	
+	
+	console.log(TableProduitCartesien);
+	
+	
+}
 
 
 

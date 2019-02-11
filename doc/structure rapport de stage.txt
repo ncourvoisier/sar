@@ -1,0 +1,134 @@
+
+Page de couverture
+Remerciement
+Sommaire
+Liste des figures
+Liste des tableaux
+Glossaire
+Introduction/Avant-propos
+Corps du rapport
+Conclusion
+Bibliographi/Netographie
+Annexes
+Quatrième de couverture
+
+
+
+
+
+Sommaire :
+	Introduction
+	1.Présentation de l'algèbre relationnelle
+	2.Etude du projet
+	  A.Contrainte et situation initiale
+	  B.Gestion des tâches
+	  C.Diagramme de classe
+	  D.Objectifs à réaliser
+	3.Développement de l'application WEB
+	  A.Differentes phases du projet
+		 I.Découverte & apprentissage de JS
+		 II.Création des relations
+		 III.Opérateur de calculs simples
+		 IV.Opérateurs plus complexes (détail division + jointure)
+	  B.Problèmes rencontrés et solutions apportées
+	4.Resultats et perspectives
+	  A.Etat du projet actuel
+	  B.Ameliorations possibles
+
+	  
+	  
+Sommaire détaillé:
+	Introduction
+	1.Présentation de l'algèbre relationnelle
+		-Explication rapide de ce qu'est l'algèbre relationnelle
+		
+	2.Etude du projet
+		A.Contrainte et situation initiale
+			-Application web
+			-Simple et conviviale
+			-Langage imposé : HTML, CSS et JS
+			-Orienté object
+			-One-page up
+			-définir des relations et sont contenus
+			-calculs sur relations
+			-sauvegarde des modèles
+		B.Gestion des tâches
+			-Comment on s'est répatie le boulot
+			-Github, Trello
+			-Agilité
+			-RDV régulier avec M. Dadeau
+		C.Diagramme de classe
+			-Explication du modèle
+			-Les étapes par lesquelles on est passé pour atteindre ce modèle
+			-Précision qu'on avait commencé à dev sans ce modèle actuel
+			-Modèle qui a évolué au cours de l'avancé du dév
+			-(Peut-etre pas dans la bonne section, bouger dans phase du projet ?)
+		D.Objectifs à réaliser
+			-Peut-être redondant avec le 2A. (a voir)
+	3.Développement de l'application WEB
+		A.Differentes phases du projet
+			I.Découverte & apprentissage de JS
+				-Apprentissage du JS, projet debut en novembre et js vu a partir de janvier
+				-Réflexion à un modèle 
+			II.Création des relations
+				-Changement de modèle + accpetation de celui-ci
+				-Comment sauvegarder ce modèle et le relire
+				-Editer les tables
+			III.Opérateur de calculs simples
+				-Ajout des opérateurs simples (union, intersection et différence
+			IV.Opérateurs plus complexes (détail division + jointure)
+				-Ajout des opérateurs complexes, jointures (naturelle, equi, teta) et division
+				-Ajout du tri sur les colonnes pour chaqu'une d'entre elle
+			V.Convivialité & deisgn
+				-Drag&Drop
+				-Boutons (Ajout suppression des lignes et colonnes, réduction,...)
+				-Styles
+				-Nommage des tables, contenteditable
+		B.Problèmes rencontrés et solutions apportées
+			-
+	4.Resultats et perspectives
+		A.Etat du projet actuel
+			-Création de relations
+			-Sauvegarde et lecture de plusieurs modèles
+			-Caluls avec opérateurs simples
+			-Calculsavec opérateurs plus complexes
+		B.Ameliorations possibles
+			-Parser pour saisi de requête
+			-Application mobile
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  

@@ -731,7 +731,9 @@ function createRelation(){
 	if(operateur.value=="5"){
 		produitCartesien(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
 	}
-	
+	if(operateur.value=="6"){
+		differenceColonne(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+	}
 }
 function recupValeur(){
 	if(document.forms["Requete"].elements["Table1"].value==0 || document.forms["Requete"].elements["Table2"].value==0 || document.forms["Requete"].elements["operateur"].value==0){
@@ -1522,12 +1524,6 @@ function differenceColonne(table1, table2){
 
 
 function produitCartesien(table1, table2) {
-	
-	differenceColonne(table1, table2);
-	if (true) {
-		return false;
-	}
-	
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
         console.log("Erreur division");
         return false;

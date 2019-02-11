@@ -756,15 +756,17 @@ function createRelation(){
 		createUnion(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
 	}
 	if(operateur.value=="3"){
-		produitCartésien(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
-	}
-	if(operateur.value=="4"){
 		createDiff(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
 	}
-	if(operateur.value=="5"){
+	if(operateur.value=="4"){
 		createDivision(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
 	}
-	
+	if(operateur.value=="5"){
+		produitCartesien(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+	}
+	if(operateur.value=="6"){
+		differenceColonne(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+	}
 }
 function recupValeur(){
 	if(document.forms["Requete"].elements["Table1"].value==0 || document.forms["Requete"].elements["Table2"].value==0 || document.forms["Requete"].elements["operateur"].value==0){
@@ -1504,6 +1506,10 @@ function countOccurences(tab, nbMax){
 	return res;
 }
 
+
+
+
+
 // La division n'est pas une opération de base, elle peut être réécrite 
 // en combinant le produit, la restriction et la différence.
 // R ÷ S = (T1 - T2) avec :
@@ -1521,25 +1527,41 @@ function createDivision2(table1, table2){
 	}
 	
 	createDiff(table1, table2);
-	
-	
-	
-	
 }*/
 
-
-function produitCartésien(table1, table2) {
+function differenceColonne(table1, table2){
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
         console.log("Erreur division");
         return false;
     }
-	console.log(table1.getNombreLigne());
-	
-	// recupereLigne
-	for (var tb1 = 0, tb1lgt = table1.getNombreLigne(); tb1 < tb1lgt; tb1++) {
-		console.log(recupereLigne(table1, tb1));
+	var TableDifferenceColonne = new Table();
+	var positionEnt = 0;
+	for(var i = 0, c = table1.getNombreLigne(); i < c; i++){
+		var boolEstPresent=false;
+		for(var j = 0, z = table2.getNombreLigne(); j < z; j++){
+			if (table1.Entete["E"+i] === table2.Entete["E"+j]){
+				boolEstPresent=true;
+			}
+		}
+		if(!boolEstPresent){
+			TableDifferenceColonne.Entete["E"+positionEnt] = table1.Entete["E"+i];
+			TableDifferenceColonne.Contenu["E"+positionEnt] = table1.Contenu["E"+i];
+			positionEnt++;
+		}
 	}
-	
+	Tables.AjoutTable(TableDifferenceColonne);
+    NombreTable++;
+    tableToHTML(TableDifferenceColonne);
+    return true;
+}
+
+
+
+function produitCartesien(table1, table2) {
+	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
+        console.log("Erreur division");
+        return false;
+    }
 	var tb1Colonne = table1.getNombreColonne();
 	var tb2Colonne = table2.getNombreColonne();
 	var addtb1tb2Colonne = tb1Colonne + tb2Colonne;
@@ -1550,20 +1572,34 @@ function produitCartésien(table1, table2) {
 	
 	TableProduitCartesien = new Table();
 	
-	TableProduitCartesien.Entete = table1.Entete;
-	for (var i = tb1Colonne; i < addtb1tb2Colonne; i++) {
-		TableProduitCartesien.Entete["E"+i] = table2.Entete["E"+(i-tb1Colonne)];
-	}
-	for (var i = 0; i < addtb1tb2Colonne; i++) {
+	for (var i = 0; i < tb1Colonne; i++) {
+		TableProduitCartesien.Entete["E"+i] = table1.Entete["E"+i];
 		TableProduitCartesien.Contenu["E"+i] = [];
 	}
-	
-	
-	
-	
-	console.log(TableProduitCartesien);
-	
-	
+	for (var i = tb1Colonne; i < addtb1tb2Colonne; i++) {
+		TableProduitCartesien.Entete["E"+i] = table2.Entete["E"+(i-tb1Colonne)];
+		TableProduitCartesien.Contenu["E"+i] = [];
+	}
+	for (var i = 0; i < tb1Ligne; i++) {
+		var ltb1 = recupereLigne(table1, i);
+		for (var j = 0; j < tb2Ligne; j++) {
+			TableProduitCartesien.ajoutLigne(ltb1);
+		}
+	}
+	var h = 0;
+	for (var k = 0; k < tb1Ligne; k++) {
+		
+		for (var i = 0; i < tb2Colonne; i++) {
+			for (var j = 0; j < tb2Ligne; j++) {
+				TableProduitCartesien.Contenu["E"+(i+tb1Colonne)][j+h]=table2.Contenu["E"+i][j];
+			}
+		}
+		h += tb2Ligne;
+	}
+	Tables.AjoutTable(TableProduitCartesien);
+    NombreTable++;
+    tableToHTML(TableProduitCartesien);
+    return true;
 }
 
 

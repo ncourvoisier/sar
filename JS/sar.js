@@ -1470,6 +1470,10 @@ function countOccurences(tab, nbMax){
 	return res;
 }
 
+
+
+
+
 // La division n'est pas une opération de base, elle peut être réécrite 
 // en combinant le produit, la restriction et la différence.
 // R ÷ S = (T1 - T2) avec :
@@ -1487,14 +1491,43 @@ function createDivision2(table1, table2){
 	}
 	
 	createDiff(table1, table2);
-	
-	
-	
-	
 }*/
+
+function differenceColonne(table1, table2){
+	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
+        console.log("Erreur division");
+        return false;
+    }
+	var TableDifferenceColonne = new Table();
+	var positionEnt = 0;
+	for(var i = 0, c = table1.getNombreLigne(); i < c; i++){
+		var boolEstPresent=false;
+		for(var j = 0, z = table2.getNombreLigne(); j < z; j++){
+			if (table1.Entete["E"+i] === table2.Entete["E"+j]){
+				boolEstPresent=true;
+			}
+		}
+		if(!boolEstPresent){
+			TableDifferenceColonne.Entete["E"+positionEnt] = table1.Entete["E"+i];
+			TableDifferenceColonne.Contenu["E"+positionEnt] = table1.Contenu["E"+i];
+			positionEnt++;
+		}
+	}
+	Tables.AjoutTable(TableDifferenceColonne);
+    NombreTable++;
+    tableToHTML(TableDifferenceColonne);
+    return true;
+}
+
 
 
 function produitCartesien(table1, table2) {
+	
+	differenceColonne(table1, table2);
+	if (true) {
+		return false;
+	}
+	
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
         console.log("Erreur division");
         return false;

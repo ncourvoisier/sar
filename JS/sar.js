@@ -57,6 +57,39 @@ class Table{
 		}
 		this.ColonneId++;
 	}
+	supprimerColonne(indice){
+		var it_entete = 0
+		var it_contenu = 0;
+		var newEntete = {};
+		var newContenu = {};
+		console.log(indice);
+		delete this.Entete["E"+indice];
+		delete this.Contenu["E"+indice]
+		for(var i in this.Entete){
+			var nomEntete = "E" + it_entete;
+			newEntete[nomEntete] = this.Entete[i];
+			it_entete++;
+		}
+		for(var i in this.Contenu){
+			var nomEntContenu = "E"+it_contenu;
+			newContenu[nomEntContenu] = this.Contenu[i];
+			it_contenu++;
+		}
+		for(var i in this.OrdreEntete){
+			if(this.OrdreEntete[i].substring(1) == indice){
+				console.log(this.OrdreEntete[i]);
+				this.OrdreEntete.splice(1,i);
+			}
+			if(this.OrdreEntete[i].substring(1) > indice){
+				var newIndice = this.OrdreEntete[i].substring(1);
+				newIndice -= 1;
+				this.OrdreEntete[i] = "E"+newIndice;
+			}
+		}
+		this.Entete = newEntete;
+		this.Contenu = newContenu;
+		this.ColonneId--;
+	}
 	ajoutContenu(Entete,Position,Contenu,boolEntete){
 		var compteurEntete=0;
 		if(boolEntete){
@@ -865,10 +898,11 @@ function supprColum(Table,IDColonne){
 		var firstTh = Table.getElementsByClassName('col');
 		var tr = Table.getElementsByTagName('tr');
 		tr[0].removeChild(firstTh[IDColonne]);
-		for (var i = 1; i < tr.length - 1; i++) {
+		for (var i = 1 ; i < tr.length - 1; i++) {
 			var td = tr[i].getElementsByTagName('td');
 			tr[i].removeChild(td[IDColonne]);
 		}
+		Tables["EnsembleTable"][Table.id.toString()].supprimerColonne(IDColonne);
 	}
 }
 

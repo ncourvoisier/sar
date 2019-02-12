@@ -149,12 +149,30 @@ class Table{
     //POUR CONVERIR NOMBRE => operateur unaire +"chaine"
     tri(Entete,NumTable){
     	var EnteteAtt="E"+Entete;
-    	for (var i1 = this.Contenu[EnteteAtt].length-1; i1 >0;i1--){
-    		for (var i2 = 0; i2<i1;i2++){
-    			if(this.Contenu[EnteteAtt][i2]>this.Contenu[EnteteAtt][i2+1]){
-    				this.swapLigne(i2,i1);
-    			}
-		    }
+    	var isNombre=true;
+    	for(var i=0; i<this.getNombreLigne();++i){
+    		var i=+this.Contenu[EnteteAtt][i];
+    		if(i==NaN){
+    			isNombre=false;
+    		}
+    	}
+    	if(isNombre){
+    		for (var i1 = this.Contenu[EnteteAtt].length-1; i1 >0;i1--){
+	    		for (var i2 = 0; i2<i1;i2++){
+	    			if(+this.Contenu[EnteteAtt][i2]>+this.Contenu[EnteteAtt][i2+1]){
+	    				this.swapLigne(i2,i1);
+	    			}
+			    }
+			}
+    	}
+    	else{
+	    	for (var i1 = this.Contenu[EnteteAtt].length-1; i1 >0;i1--){
+	    		for (var i2 = 0; i2<i1;i2++){
+	    			if(this.Contenu[EnteteAtt][i2]>this.Contenu[EnteteAtt][i2+1]){
+	    				this.swapLigne(i2,i1);
+	    			}
+			    }
+			}
 		}
 		var NomTable="EmplacementTable"+NumTable;
 		document.getElementById(NomTable).remove();
@@ -162,12 +180,30 @@ class Table{
 	}
 	triReverse(Entete,NumTable){
 		var EnteteAtt="E"+Entete;
-    	for (var i1 = this.Contenu[EnteteAtt].length-1; i1 >0;i1--){
-    		for (var i2 = 0; i2<i1;i2++){
-    			if(this.Contenu[EnteteAtt][i2]<this.Contenu[EnteteAtt][i2+1]){
-    				this.swapLigne(i2,i1);
-    			}
-		    }
+		var isNombre=true;
+    	for(var i=0; i<this.getNombreLigne();++i){
+    		var i=+this.Contenu[EnteteAtt][i];
+    		if(i==NaN){
+    			isNombre=false;
+    		}
+    	}
+    	if(isNombre){
+    		for (var i1 = this.Contenu[EnteteAtt].length-1; i1 >0;i1--){
+	    		for (var i2 = 0; i2<i1;i2++){
+	    			if(+this.Contenu[EnteteAtt][i2]<+this.Contenu[EnteteAtt][i2+1]){
+	    				this.swapLigne(i2,i1);
+	    			}
+			    }
+			}
+    	}
+    	else{
+	    	for (var i1 = this.Contenu[EnteteAtt].length-1; i1 >0;i1--){
+	    		for (var i2 = 0; i2<i1;i2++){
+	    			if(this.Contenu[EnteteAtt][i2]<this.Contenu[EnteteAtt][i2+1]){
+	    				this.swapLigne(i2,i1);
+	    			}
+			    }
+			}
 		}
 		var NomTable="EmplacementTable"+NumTable;
 		document.getElementById(NomTable).remove();
@@ -740,7 +776,6 @@ function createDiff(TABLE1,TABLE2){
 		tableToHTML(TableDiff);
 		return true;
 	} else {
-		console.log("Test ok");
 		return TableDiff;
 	}
 }

@@ -147,13 +147,8 @@ class Table{
     }
 
     //POUR CONVERIR NOMBRE => operateur unaire +"chaine"
-    tri(NomAttribut,NumTable){
-    	var EnteteAtt;
-    	for(var cleEntete in this.Entete){
-    		if(this.Entete[cleEntete]==NomAttribut){
-    			EnteteAtt=cleEntete;
-    		}
-    	}
+    tri(Entete,NumTable){
+    	var EnteteAtt="E"+Entete;
     	for (var i1 = this.Contenu[EnteteAtt].length-1; i1 >0;i1--){
     		for (var i2 = 0; i2<i1;i2++){
     			if(this.Contenu[EnteteAtt][i2]>this.Contenu[EnteteAtt][i2+1]){
@@ -165,13 +160,8 @@ class Table{
 		document.getElementById(NomTable).remove();
 		tableToHTML(this);
 	}
-	triReverse(NomAttribut,NumTable){
-		var EnteteAtt;
-    	for(var cleEntete in this.Entete){
-    		if(this.Entete[cleEntete]==NomAttribut){
-    			EnteteAtt=cleEntete;
-    		}
-    	}
+	triReverse(Entete,NumTable){
+		var EnteteAtt="E"+Entete;
     	for (var i1 = this.Contenu[EnteteAtt].length-1; i1 >0;i1--){
     		for (var i2 = 0; i2<i1;i2++){
     			if(this.Contenu[EnteteAtt][i2]<this.Contenu[EnteteAtt][i2+1]){
@@ -413,8 +403,8 @@ function tableToHTML(TABLE){
 	recupTable();
 	var NomTable="table"+NombreTable;
     Tables["EnsembleTable"][NomTable].tailleMin=divDrag.offsetWidth;
-	thNew.getElementsByClassName('tri')[0].setAttribute('onclick','console.log("Tri croissant")');
-	thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick','console.log("Tri décroissant")');
+	thNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".tri(0,"+NombreTable+")");
+	thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".triReverse(0,"+NombreTable+")");
 
 	//POUR RAJOUTER LES COLONNES ET LIGNES
 	var nbEntete = Object.keys(TABLE.Entete).length;
@@ -425,7 +415,7 @@ function tableToHTML(TABLE){
 		var valeur = TABLE.Entete[position];
 		contenuMAJ += "<th class=\"col\"><input type=\"text\" value=\""+valeur+"\" disabled=\"\">";
 		contenuMAJ += "<div class=\"btnCol\"><img class=\"tri\" src=\"../ressources/images/btnTri.png\" onclick=\"console.log(\"tri croissant\")\">";
-		contenuMAJ += "<img class=\"reverseTri\" src=\"../ressources/images/reverseTri.png\" onclick=\"console.log(\"tri décroissant\")\">";
+		contenuMAJ += "<img class=\"reverseTri\" src=\"../ressources/images/reverseTri.png\" onclick=\"console.log(\"x="+entete+" TABLE="+NombreTable+"\")\">";
 		contenuMAJ += "<img class=\"suprCol\" src=\"../ressources/images/suprCol.png\">";
 		contenuMAJ += "</th>";
 	}
@@ -453,7 +443,7 @@ function createColumnHTML(ID) {
 	var Colonnes=output.getElementsByClassName('col');
 	var nbColonnes=Colonnes.length;
 	var ligne=output.getElementsByTagName('tr');
-	
+	var EnteteAtt="E"+ligne;
 	for(var i=1; i<ligne.length-1;i++){
 		var td = document.createElement('td');
 		var EntreeTexte  = document.createElement('input');
@@ -470,8 +460,8 @@ function createColumnHTML(ID) {
 	EntreeTexte.disabled=Tables["EnsembleTable"][IDTable].getBloquer();
 	EntreeTexte.placeholder="Nom attribut";
 	trNew.appendChild(EntreeTexte);
-	trNew.getElementsByClassName('tri')[0].setAttribute('onclick','console.log("Tri croissant")');
-	trNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick','console.log("Tri décroissant")');
+	trNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+ID+".tri("+EnteteAtt+","+ID+")");
+	trNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+ID+".triReverse("+EnteteAtt+","+ID+")");
 	if (output) {
 	    trs = output.getElementsByTagName('th');
 	    if (trs[nbColonnes-1]) { // Le <tr> de Chrome
@@ -892,8 +882,8 @@ function createColumn(ID){
 	EntreeTexte.placeholder="Nom attribut";
 	trNew.appendChild(EntreeTexte);
 	trNew.appendChild(divBtnTriSupr);
-	trNew.getElementsByClassName('tri')[0].setAttribute('onclick','console.log("Tri croissant")');
-	trNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick','console.log("Tri décroissant")');
+	trNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+ID+".tri("+Tables["EnsembleTable"][IDTable].getNombreColonne()+","+ID+")");
+	trNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+ID+".triReverse("+Tables["EnsembleTable"][IDTable].getNombreColonne()+","+ID+")");
 	trNew.getElementsByClassName('suprCol')[0].setAttribute('onclick','supprColum('+IDTable+','+nbColonnes+')');
 	if (output) {
 	    trs = output.getElementsByTagName('th');
@@ -1046,8 +1036,8 @@ function createArray() {
 	dragDrop.initElement(IDEmplacement);
 	recupTable();
     Tables["EnsembleTable"]["table"+NombreTable].setTMin(divDrag.offsetWidth);
-	thNew.getElementsByClassName('tri')[0].setAttribute('onclick','console.log("Tri croissant")');
-	thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick','console.log("Tri décroissant")');
+	thNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".tri(0,"+NombreTable+")");
+	thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".triReverse(0,"+NombreTable+")");
 	trNew.getElementsByClassName('suprCol')[0].setAttribute('onclick','supprColum('+IDTable+',0)');
 }
 
@@ -1071,8 +1061,8 @@ function modification(IDTable){
     for(var n in col){
         col[n].className = 'col btn';
         if(col[n].tagName == 'TH'){
-        	col[n].getElementsByClassName('tri')[0].setAttribute('onclick','console.log("Tri croissant")');
-			col[n].getElementsByClassName('reverseTri')[0].setAttribute('onclick','console.log("Tri décroissant")');
+        	col[n].getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+IDTable+".tri("+n+","+IDTable+")");
+			col[n].getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+IDTable+".triReverse("+n+","+IDTable+")");
 		}
     }
     var emplacement = document.getElementById('EmplacementTable'+IDTable);
@@ -1457,11 +1447,13 @@ function createTetaJointure(table1,table2,e_table1,e_table2){
     return true;
 }
 
+
 // La division n'est pas une opération de base, elle peut être réécrite 
 // en combinant le produit, la restriction et la différence.
 // R ÷ S = (T1 - T2) avec :
 // -> T1 = PROJECTION(R-S, (R))
 // -> T2 = PROJECTION(R-S ,(T1 X S) - R)
+/*
 function createDivision(table1, table2) {
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
         console.log("Erreur division");
@@ -1515,7 +1507,7 @@ function createDivision(table1, table2) {
     tableToHTML(TableDivision);
     return true;
 }
-
+*/
 
 function countOccurences(tab, nbMax){
 	var result = {};
@@ -1546,19 +1538,29 @@ function countOccurences(tab, nbMax){
 // R ÷ S = (T1 - T2) avec :
 // -> T1 = PROJECTION(R-S, (R))
 // -> T2 = PROJECTION(R-S ,(T1 X S) - R)
-/*
-function createDivision2(table1, table2){
+
+function createDivision(table1, table2){
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
         console.log("Erreur division");
         return false;
     }
-	if(table1.Contenu["E0"].length < table2.Contenu["E0"].length){
-		console.log("Erreur division, la relation dividende possède moins de ligne que la relation diviseur.");
-		return false;
-	}
+	var T1 = new Table();
+	T1 = differenceColonne(table1, table2);
+	console.log(T1);
 	
-	createDiff(table1, table2);
-}*/
+	var T1xS = new Table();
+	T1xS = produitCartesien(T1, table2);
+	console.log(T1xS);
+	
+	var T1xS_R = new Table();
+	T1xS_R = differenceColonne(T1xS, table1);
+	console.log(T1xS_R);
+}
+
+
+
+
+
 
 function differenceColonne(table1, table2){
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
@@ -1582,8 +1584,13 @@ function differenceColonne(table1, table2){
 	}
 	Tables.AjoutTable(TableDifferenceColonne);
     NombreTable++;
-    tableToHTML(TableDifferenceColonne);
-    return true;
+	if (differenceColonne.caller.name !== "createDivision") {
+		tableToHTML(TableDifferenceColonne);
+		return true;
+	} else {
+		console.log("Test ok");
+		return TableDifferenceColonne;
+	}
 }
 
 
@@ -1629,36 +1636,11 @@ function produitCartesien(table1, table2) {
 	}
 	Tables.AjoutTable(TableProduitCartesien);
     NombreTable++;
-    tableToHTML(TableProduitCartesien);
-    return true;
+	if (produitCartesien.caller.name !== "createDivision") {
+		tableToHTML(TableProduitCartesien);
+		return true;
+	} else {
+		console.log("Test ok");
+		return TableProduitCartesien;
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

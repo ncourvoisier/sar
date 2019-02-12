@@ -800,7 +800,18 @@ function recupValeur(){
 	document.forms["Requete"].elements["operateur"].value=0;
 	document.forms["Requete"].elements["Table2"].value=0;
 }
-
+function afficheAutre(){
+	var base = document.getElementById("Req");
+	var autre = document.getElementById("ReqJ");
+	if(autre.style.display=="none"){
+		autre.style.display="";
+		base.style.display="none";
+	}
+	else{
+		base.style.display="";
+		autre.style.display="none";
+	}
+}
 function recupTable(){
 	var select1 = document.getElementById("select1");
 	var select2 = document.getElementById("select2");

@@ -9,7 +9,7 @@
 </head>
 <body onload="affichageModele()">
 	<h1>Algèbre Relationelle</h1>
-	<div class="Req">
+	<div id="Req">
 	<form name="Requete">
 	<p>Requête opérateur :
 			<span>R=
@@ -29,29 +29,29 @@
 				</select>
 				<input type="button" value="OK" onclick="createRelation()">
 			</span>
-			<spa
+			<input type="button" value="Autres opérateurs" onclick="afficheAutre()">
 		</p>
 	</form>
 	</div>
-	
-	<div class="ReqJ">
+	<div id="ReqJ" style="display: none">
 	<p>Requête jointure :
 			<span>
 				<select id="operateurJ">
-					<option value="0">Click</option>
+					<option value="0">Opérateur</option>
 					<option value="8">Teta Jointure</option>
 					<option value="9">Equi Jointure</option>
 				</select>
 				R=
 				<select name="Table1J" id="select1J"> </select>
 				[
-				<input id="Att1">
+				<input id="Att1" placeholder="Attribut 1">
 				=
-				<input id="Att2">
+				<input id="Att2" placeholder="Attribut 1">
 				]
 				<select name="Table2J" id="select2J"> </select>
 				<input type="button" value="OK" onclick="createRelation()">
 			</span>
+			<input type="button" value="Autres opérateurs" onclick="afficheAutre()">
 		</p>
 	</div>
 	

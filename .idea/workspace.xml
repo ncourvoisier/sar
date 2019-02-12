@@ -16,36 +16,44 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/JS/sar.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="196">
-              <caret line="63" column="28" selection-start-line="63" selection-start-column="28" selection-end-line="63" selection-end-column="28" />
+            <state relative-caret-position="374">
+              <caret line="826" column="44" selection-start-line="826" selection-start-column="44" selection-end-line="826" selection-end-column="44" />
               <folding>
-                <element signature="n#!!block;n#ajoutContenu#0;n#Table#0" />
-                <element signature="n#!!block;n#getNombreLigne#0;n#Table#0" />
-                <element signature="n#!!block;n#getNombreColonne#0;n#Table#0" />
-                <element signature="n#!!block;n#getBloquer#0;n#Table#0" />
-                <element signature="n#!!block;n#getNom#0;n#Table#0" />
-                <element signature="n#!!block;n#setX#0;n#Table#0" />
-                <element signature="n#!!block;n#setY#0;n#Table#0" />
-                <element signature="n#!!block;n#setTMin#0;n#Table#0" />
-                <element signature="n#!!block;n#getTMin#0;n#Table#0" />
-                <element signature="n#!!block;n#tri#0;n#Table#0" />
-                <element signature="n#!!block;n#triReverse#0;n#Table#0" />
-                <element signature="n#!!block;n#TriOrdreEntete#0;n#Table#0" />
-                <element signature="n#!!block;n#swapLigne#0;n#Table#0" />
-                <element signature="n#!!block;n#triEntete#0;n#Table#0" />
-                <element signature="e#4318#6081#0" />
-                <element signature="n#!!block;n#addEventSimple#0" />
-                <element signature="n#!!block;n#removeEventSimple#0" />
-                <element signature="n#!!block;n#afficherPremierPlan#0" />
-                <element signature="n#!!block;n#tableToHTML#0" />
-                <element signature="n#!!block;n#createColumnHTML#0" />
-                <element signature="n#!!block;n#createLineHTML#0" />
-                <element signature="n#!!block;n#createEquiJointure#0" />
-                <element signature="n#!!block;n#createUnion#0" />
-                <element signature="n#!!block;n#createIntersection#0" />
-                <element signature="n#!!block;n#recupereLigne#0" />
-                <element signature="n#!!block;n#createDiff#0" />
+                <element signature="e#2074#2431#0" />
+                <element signature="e#2494#2631#0" />
+                <element signature="e#2651#2697#0" />
+                <element signature="e#2711#2737#0" />
+                <element signature="e#2747#2774#0" />
+                <element signature="e#2784#2800#0" />
+                <element signature="e#2810#2826#0" />
+                <element signature="e#2838#2867#0" />
+                <element signature="e#2878#2913#0" />
+                <element signature="e#3001#3490#0" />
+                <element signature="e#3524#4010#0" />
+                <element signature="e#4028#4234#0" />
+                <element signature="e#4488#4652#0" />
+                <element signature="e#4665#4782#0" />
+                <element signature="e#5203#6966#0" />
+                <element signature="e#7004#7131#0" />
+                <element signature="e#7172#7305#0" />
+                <element signature="e#7341#7694#0" />
+                <element signature="e#7723#13002#0" />
+                <element signature="e#13035#14401#0" />
+                <element signature="e#14430#15184#0" />
+                <element signature="e#15247#16898#0" />
+                <element signature="e#16935#18669#0" />
+                <element signature="e#18712#20311#0" />
+                <element signature="e#20353#20481#0" />
+                <element signature="e#20516#22420#0" />
                 <element signature="e#22446#23334#0" />
+                <element signature="e#23357#24087#0" />
+                <element signature="e#24110#24499#0" />
+                <element signature="e#25839#28078#0" />
+                <element signature="e#28116#29018#0" />
+                <element signature="e#29408#33717#0" />
+                <element signature="e#33749#35037#0" />
+                <element signature="e#35073#36113#0" />
+                <element signature="e#36151#36966#0" />
               </folding>
             </state>
           </provider>
@@ -54,7 +62,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/HTML/sar.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="867">
+            <state relative-caret-position="901">
               <caret line="53" column="10" selection-start-line="53" selection-start-column="10" selection-end-line="53" selection-end-column="10" />
             </state>
           </provider>
@@ -175,12 +183,13 @@
       <workItem from="1549655176193" duration="1970000" />
       <workItem from="1549738997032" duration="5960000" />
       <workItem from="1549778829136" duration="574000" />
-      <workItem from="1549905575995" duration="11358000" />
+      <workItem from="1549905575995" duration="11601000" />
+      <workItem from="1549996955333" duration="5733000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38438000" />
+    <option name="totallyTimeSpent" value="44414000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -214,43 +223,51 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/JS/sar.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="196">
-          <caret line="63" column="28" selection-start-line="63" selection-start-column="28" selection-end-line="63" selection-end-column="28" />
+        <state relative-caret-position="374">
+          <caret line="826" column="44" selection-start-line="826" selection-start-column="44" selection-end-line="826" selection-end-column="44" />
           <folding>
-            <element signature="n#!!block;n#ajoutContenu#0;n#Table#0" />
-            <element signature="n#!!block;n#getNombreLigne#0;n#Table#0" />
-            <element signature="n#!!block;n#getNombreColonne#0;n#Table#0" />
-            <element signature="n#!!block;n#getBloquer#0;n#Table#0" />
-            <element signature="n#!!block;n#getNom#0;n#Table#0" />
-            <element signature="n#!!block;n#setX#0;n#Table#0" />
-            <element signature="n#!!block;n#setY#0;n#Table#0" />
-            <element signature="n#!!block;n#setTMin#0;n#Table#0" />
-            <element signature="n#!!block;n#getTMin#0;n#Table#0" />
-            <element signature="n#!!block;n#tri#0;n#Table#0" />
-            <element signature="n#!!block;n#triReverse#0;n#Table#0" />
-            <element signature="n#!!block;n#TriOrdreEntete#0;n#Table#0" />
-            <element signature="n#!!block;n#swapLigne#0;n#Table#0" />
-            <element signature="n#!!block;n#triEntete#0;n#Table#0" />
-            <element signature="e#4318#6081#0" />
-            <element signature="n#!!block;n#addEventSimple#0" />
-            <element signature="n#!!block;n#removeEventSimple#0" />
-            <element signature="n#!!block;n#afficherPremierPlan#0" />
-            <element signature="n#!!block;n#tableToHTML#0" />
-            <element signature="n#!!block;n#createColumnHTML#0" />
-            <element signature="n#!!block;n#createLineHTML#0" />
-            <element signature="n#!!block;n#createEquiJointure#0" />
-            <element signature="n#!!block;n#createUnion#0" />
-            <element signature="n#!!block;n#createIntersection#0" />
-            <element signature="n#!!block;n#recupereLigne#0" />
-            <element signature="n#!!block;n#createDiff#0" />
+            <element signature="e#2074#2431#0" />
+            <element signature="e#2494#2631#0" />
+            <element signature="e#2651#2697#0" />
+            <element signature="e#2711#2737#0" />
+            <element signature="e#2747#2774#0" />
+            <element signature="e#2784#2800#0" />
+            <element signature="e#2810#2826#0" />
+            <element signature="e#2838#2867#0" />
+            <element signature="e#2878#2913#0" />
+            <element signature="e#3001#3490#0" />
+            <element signature="e#3524#4010#0" />
+            <element signature="e#4028#4234#0" />
+            <element signature="e#4488#4652#0" />
+            <element signature="e#4665#4782#0" />
+            <element signature="e#5203#6966#0" />
+            <element signature="e#7004#7131#0" />
+            <element signature="e#7172#7305#0" />
+            <element signature="e#7341#7694#0" />
+            <element signature="e#7723#13002#0" />
+            <element signature="e#13035#14401#0" />
+            <element signature="e#14430#15184#0" />
+            <element signature="e#15247#16898#0" />
+            <element signature="e#16935#18669#0" />
+            <element signature="e#18712#20311#0" />
+            <element signature="e#20353#20481#0" />
+            <element signature="e#20516#22420#0" />
             <element signature="e#22446#23334#0" />
+            <element signature="e#23357#24087#0" />
+            <element signature="e#24110#24499#0" />
+            <element signature="e#25839#28078#0" />
+            <element signature="e#28116#29018#0" />
+            <element signature="e#29408#33717#0" />
+            <element signature="e#33749#35037#0" />
+            <element signature="e#35073#36113#0" />
+            <element signature="e#36151#36966#0" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/HTML/sar.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="867">
+        <state relative-caret-position="901">
           <caret line="53" column="10" selection-start-line="53" selection-start-column="10" selection-end-line="53" selection-end-column="10" />
         </state>
       </provider>

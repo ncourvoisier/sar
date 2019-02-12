@@ -9,9 +9,9 @@
 </head>
 <body onload="affichageModele()">
 	<h1>Algèbre Relationelle</h1>
-	<div id="Req">
+	<div class="Req">
 	<form name="Requete">
-	<p>Requête à entrer :
+	<p>Requête opérateur :
 			<span>R=
 				<select name="Table1" id="select1">
 					
@@ -24,6 +24,7 @@
 					<option value="4">DIV</option>
 					<option value="5">X</option>
 					<option value="6">DiffColonne</option>
+					<option value="7">JointureNaturelle</option>
 				</select>
 				<select name="Table2" id="select2">
 					
@@ -33,6 +34,29 @@
 		</p>
 	</form>
 	</div>
+	
+	<div class="Req">
+	<form name="Requete">
+	<p>Requête jointure :
+			<span>R=
+				<select name="Table1" id="select1"> </select>
+				[
+				<select name="operateur" id="operateur">
+					<option value="0">Click</option>
+				</select>
+				=
+				<select name="operateur" id="operateur">
+					<option value="0">Click</option>
+				</select>
+				]
+				<select name="Table2" id="select2"> </select>
+				<input type="button" value="OK" onclick="createRelation()">
+			</span>
+		</p>
+	</form>
+	</div>
+	
+	
 	
 	<form id="options">
         <p>Modele :</p>

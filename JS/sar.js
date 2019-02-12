@@ -76,7 +76,7 @@ class Table{
 		}
 		for(var i in this.OrdreEntete){
 			if(this.OrdreEntete[i].substring(1) === indice.toString()){
-				this.OrdreEntete.splice(1,i);
+				this.OrdreEntete.splice(i,1);
 			}
 		}
 		for(var i in this.OrdreEntete){
@@ -89,6 +89,12 @@ class Table{
 		this.Entete = newEntete;
 		this.Contenu = newContenu;
 		this.ColonneId--;
+	}
+	supprimerLigne(indice){
+		for(var i in this.Contenu){
+			this.Contenu[i].splice(indice,1);
+		}
+		console.log(this.Contenu);
 	}
 	ajoutContenu(Entete,Position,Contenu,boolEntete){
 		var compteurEntete=0;
@@ -670,7 +676,7 @@ function createDiff(TABLE1,TABLE2){
 		return false;
 	}
 	if(TABLE1.getNombreColonne()!=TABLE2.getNombreColonne()){
-		console.log("Erreur Diff");
+		console.log("Erreur Diff : Nombre de colonne différente");
 		return false;
 	}
 	var t1=TABLE1.triEntete();
@@ -730,8 +736,13 @@ function createDiff(TABLE1,TABLE2){
 	}
 	Tables.AjoutTable(TableDiff);
 	NombreTable++;
-	tableToHTML(TableDiff);
-	return true; 
+	if (createDiff.caller.name !== "createDivision") {
+		tableToHTML(TableDiff);
+		return true;
+	} else {
+		console.log("Test ok");
+		return TableDiff;
+	}
 }
 function createRelation(){
 	var select1 = document.getElementById("select1");
@@ -754,6 +765,9 @@ function createRelation(){
 	}
 	if(operateur.value=="6"){
 		differenceColonne(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+	}
+	if(operateur.value=="7"){
+		createJointureNaturelle(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
 	}
 }
 function recupValeur(){
@@ -780,7 +794,6 @@ function recupTable(){
 	var select1 = document.getElementById("select1");
 	var select2 = document.getElementById("select2");
 	var selectOp = document.getElementById("operateur");
-
 	select1.innerHTML="";
 	select2.innerHTML="";
 	for(var table in Tables["EnsembleTable"]){
@@ -796,6 +809,9 @@ function createLine(ID){
 	Tables["EnsembleTable"][IDTable].ajoutLigne();
 	var output = document.getElementById(IDTable),trs;
 	var trNew  = document.createElement('tr');
+	if(!Tables["EnsembleTable"][IDTable].getBloquer()){
+		trNew.className = 'btnLigne';
+	}
 	var divNew = document.createElement('div');
 	var imgBtnSuprLigne = document.createElement('img');
 	divNew.className = 'btnSuprLigne';
@@ -803,6 +819,7 @@ function createLine(ID){
 	imgBtnSuprLigne.height = '16';
 	imgBtnSuprLigne.src = '../ressources/images/suprCol.png';
 	var nbLigne = Tables["EnsembleTable"][IDTable].getNombreLigne()-1;
+	console.log("Nombre de ligne "+nbLigne);
 	imgBtnSuprLigne.setAttribute('onclick','supprLigne('+IDTable+','+nbLigne+')');
 	divNew.appendChild(imgBtnSuprLigne);
 	var Colonnes=output.getElementsByClassName('col');
@@ -886,34 +903,46 @@ function supprColum(Table,IDColonne){
 	var nomTable = Tables["EnsembleTable"][Table.id.toString()].Libelle;
 	var n = Tables["EnsembleTable"][Table.id.toString()].getNombreColonne();
 	if(n == 1){
-		if(confirm("Supprimer la table ?")){
-			
-		}
-	}
-	if(confirm("Supprimer la colonne ["+IDColonne+"] de la table ["+nomTable+"] ?")){
-		var firstTh = Table.getElementsByClassName('col');
-		var tr = Table.getElementsByTagName('tr');
-		tr[0].removeChild(firstTh[IDColonne]);
-		for (var i = 1 ; i < tr.length - 1; i++) {
-			var td = tr[i].getElementsByTagName('td');
-			tr[i].removeChild(td[IDColonne]);
-		}
-		Tables["EnsembleTable"][Table.id.toString()].supprimerColonne(IDColonne);
-		for(var i =0 ; i < n ; i++){
-			Table.getElementsByClassName('suprCol')[i].setAttribute('onclick','supprColum('+Table.id.toString()+','+i+')');
+		suppression(Table.id.substring(Table.id.length-1));
+	}else {
+		if (confirm("Supprimer la colonne [" + IDColonne + "] de la table [" + nomTable + "] ?")) {
+			var firstTh = Table.getElementsByClassName('col');
+			var tr = Table.getElementsByTagName('tr');
+			tr[0].removeChild(firstTh[IDColonne]);
+			for (var i = 1; i < tr.length - 1; i++) {
+				var td = tr[i].getElementsByTagName('td');
+				tr[i].removeChild(td[IDColonne]);
+			}
+			Tables["EnsembleTable"][Table.id.toString()].supprimerColonne(IDColonne);
+			n = Tables["EnsembleTable"][Table.id.toString()].getNombreColonne();
+			for (var i = 0; i < n; i++) {
+				Table.getElementsByClassName('suprCol')[i].setAttribute('onclick', 'supprColum(' + Table.id.toString() + ',' + i + ')');
+			}
 		}
 	}
 }
 
 function supprLigne(IDTable,IDLigne){
-	console.log(IDLigne);
-	recuperationContenu(IDTable);
-	var nomTable = Tables["EnsembleTable"]["table"+IDTable].Libelle;
-	var Table = document.getElementById(IDTable);
-	if(confirm("Supprimer la ligne ["+IDLigne+"] de la table ["+nomTable+"] ?")){
+	recuperationContenu(IDTable.id.substring(IDTable.id.length-1));
+	var nomTable = Tables["EnsembleTable"][IDTable.id.toString()].Libelle;
+	var Table = document.getElementById(IDTable.id);
+	var l = Tables["EnsembleTable"][IDTable.id.toString()].getNombreLigne()-1;
+	var r = IDLigne;
+	var newIndice = l-r;
+	if(confirm("Supprimer la ligne ["+newIndice+"] de la table ["+nomTable+"] ?")){
 		var tbody = Table.getElementsByTagName('tbody');
 		var tr = tbody[0].getElementsByTagName('tr');
-		console.log(tr[IDLigne]);
+		tbody[0].removeChild(tr[newIndice]);
+		Tables["EnsembleTable"][IDTable.id.toString()].supprimerLigne(newIndice);
+		tbody = Table.getElementsByTagName('tbody');
+		var btn = tbody[0].getElementsByClassName('btnSuprLigne');
+		l--;
+		var rev_it_nbligne = l;
+		for(var i = 0 ; i < l ; i++){
+			console.log(rev_it_nbligne);
+			btn[i].firstChild.setAttribute('onclick', 'supprLigne(' + Table.id.toString() + ',' + rev_it_nbligne + ')');
+			rev_it_nbligne--;
+		}
 	}
 }
 function createArray() {
@@ -1299,29 +1328,23 @@ function projection() {
 }
 
 
-function createJointureNaturelle() {
-	var colonnePourJointureNaturelle = "NumeroEtudiant*";
-	var table1 = Tables["EnsembleTable"]["table1"];
-	var table2 = Tables["EnsembleTable"]["table2"];
-	var jointureTable1Possible = false;
+function createJointureNaturelle(table1, table2) {
+	var colonnePourJointureNaturelle = "";
 	var positionTable1 = -1;
-	var jointureTable2Possible = false;
 	var positionTable2 = -1;
-	for (var tb1ent in table1.Entete) {
-		if (table1.Entete[tb1ent] === colonnePourJointureNaturelle) {
-			jointureTable1Possible = true;
-			positionTable1 = tb1ent.toString();
+	for(var i in table1.Entete){
+		for(var j in table2.Entete){
+			if(table1.Entete[i] === table2.Entete[j]){
+				boolJointurePossible=true;
+				positionTable1 = i.toString();
+				positionTable2 = j.toString();
+				colonnePourJointureNaturelle = table1.Entete[i];
+			}
 		}
 	}
-	for (var tb2ent in table2.Entete) {
-		if (table2.Entete[tb2ent] === colonnePourJointureNaturelle) {
-			jointureTable2Possible = true;
-			positionTable2 = tb2ent.toString();
-		}
-	}
-	if (!jointureTable1Possible || !jointureTable2Possible) {
-		console.log("Pas possible de faire une jointure");
-		return;
+	if (!boolJointurePossible) {
+		console.log("Erreur jointure naturelle : pas de ligne en commun");
+		return false;
 	}
 	var positionLigneASaveTable1 = [];
 	var positionLigneASaveTable2 = [];
@@ -1373,7 +1396,7 @@ function createJointureNaturelle() {
 
 function createTetaJointure(table1,table2,e_table1,e_table2){
     if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
-        console.log("Erreur equi-jointure");
+        console.log("Erreur teta-jointure");
         return false;
     }
     var tableTetaJointure = new Table();
@@ -1488,7 +1511,8 @@ function createDivision(table1, table2) {
 function countOccurences(tab, nbMax){
 	var result = {};
 	var res = [];
-	for (var i = 0; i < tab.length; i++) {
+	// for (var i = 0; i < tab.length; i++) {
+	for (var i in tab) {
 		if(tab[i][0] in result){
 			result[tab[i][0]] = ++result[tab[i][0]];
 			if (result[tab[i][0]] === nbMax) {
@@ -1502,7 +1526,7 @@ function countOccurences(tab, nbMax){
 			}
 		}
 	}
-	return res;
+	return result;
 }
 
 
@@ -1522,15 +1546,77 @@ function createDivision(table1, table2){
     }
 	var T1 = new Table();
 	T1 = differenceColonne(table1, table2);
+	// console.log(T1);
+	
+	var PT1 = new Table();
+	for(var i = 0, c = T1.getNombreLigne(); i < c; i++){
+		var ligneCourante=recupereLigne(T1,i);
+		var boolEstPresent=false;
+		for(var j = 0, z = PT1.getNombreLigne(); j < z; j++){
+			if(JSON.stringify(ligneCourante)==JSON.stringify(recupereLigne(PT1,j))){
+				boolEstPresent=true;
+			}
+		}
+		if(!boolEstPresent){
+			PT1.ajoutLigne(ligneCourante);
+		}
+	}
+	console.log(PT1);
+	
+	var PT1xS = new Table();
+	PT1xS = produitCartesien(table2, PT1);
+	// console.log(PT1xS);
+	
+	var PT1xS_R = new Table();
+	
+	PT1xS.Entete["E1"] = "B";
+	
+	PT1xS_R = createDiff(PT1xS, table1);
+	console.log(PT1xS_R);
+	
+	// var nvRes = new Table();
+	// for(var i = 0, c = PT1xS_R.getNombreLigne(); i < c; i++){
+		// var ligneCourante=recupereLigne(PT1xS_R,i);
+		// var boolEstPresent=false;
+		// for(var j = 0, z = T2.getNombreLigne(); j < z; j++){
+			// if(JSON.stringify(ligneCourante)==JSON.stringify(recupereLigne(T2,j))){
+				// boolEstPresent=true;
+			// }
+		// }
+		// if(!boolEstPresent){
+			// T2.ajoutLigne(ligneCourante);
+		// }
+	// }
+	
+	
+	
+	var T2 = new Table();
+	for(var i = 0, c = PT1xS_R.getNombreLigne(); i < c; i++){
+		var ligneCourante=recupereLigne(PT1xS_R,i);
+		var boolEstPresent=false;
+		for(var j = 0, z = T2.getNombreLigne(); j < z; j++){
+			if(JSON.stringify(ligneCourante)==JSON.stringify(recupereLigne(T2,j))){
+				boolEstPresent=true;
+			}
+		}
+		if(!boolEstPresent){
+			T2.ajoutLigne(ligneCourante);
+		}
+	}
 	console.log(T1);
+	console.log(T2);
 	
-	var T1xS = new Table();
-	T1xS = produitCartesien(T1, table2);
-	console.log(T1xS);
+	var T = new Table();
 	
-	var T1xS_R = new Table();
-	T1xS_R = differenceColonne(T1xS, table1);
-	console.log(T1xS_R);
+	
+	
+	T = createDiff(T1, T2);
+	
+	console.log(T);
+	Tables.AjoutTable(T);
+    NombreTable++;
+	tableToHTML(T);
+	return true;
 }
 
 

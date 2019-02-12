@@ -76,7 +76,7 @@ class Table{
 		}
 		for(var i in this.OrdreEntete){
 			if(this.OrdreEntete[i].substring(1) === indice.toString()){
-				this.OrdreEntete.splice(1,i);
+				this.OrdreEntete.splice(i,1);
 			}
 		}
 		for(var i in this.OrdreEntete){
@@ -89,6 +89,12 @@ class Table{
 		this.Entete = newEntete;
 		this.Contenu = newContenu;
 		this.ColonneId--;
+	}
+	supprimerLigne(indice){
+		for(var i in this.Contenu){
+			this.Contenu[i].splice(indice,1);
+		}
+		console.log(this.Contenu);
 	}
 	ajoutContenu(Entete,Position,Contenu,boolEntete){
 		var compteurEntete=0;
@@ -808,6 +814,9 @@ function createLine(ID){
 	Tables["EnsembleTable"][IDTable].ajoutLigne();
 	var output = document.getElementById(IDTable),trs;
 	var trNew  = document.createElement('tr');
+	if(!Tables["EnsembleTable"][IDTable].getBloquer()){
+		trNew.className = 'btnLigne';
+	}
 	var divNew = document.createElement('div');
 	var imgBtnSuprLigne = document.createElement('img');
 	divNew.className = 'btnSuprLigne';
@@ -815,6 +824,7 @@ function createLine(ID){
 	imgBtnSuprLigne.height = '16';
 	imgBtnSuprLigne.src = '../ressources/images/suprCol.png';
 	var nbLigne = Tables["EnsembleTable"][IDTable].getNombreLigne()-1;
+	console.log("Nombre de ligne "+nbLigne);
 	imgBtnSuprLigne.setAttribute('onclick','supprLigne('+IDTable+','+nbLigne+')');
 	divNew.appendChild(imgBtnSuprLigne);
 	var Colonnes=output.getElementsByClassName('col');
@@ -898,34 +908,46 @@ function supprColum(Table,IDColonne){
 	var nomTable = Tables["EnsembleTable"][Table.id.toString()].Libelle;
 	var n = Tables["EnsembleTable"][Table.id.toString()].getNombreColonne();
 	if(n == 1){
-		if(confirm("Supprimer la table ?")){
-			
-		}
-	}
-	if(confirm("Supprimer la colonne ["+IDColonne+"] de la table ["+nomTable+"] ?")){
-		var firstTh = Table.getElementsByClassName('col');
-		var tr = Table.getElementsByTagName('tr');
-		tr[0].removeChild(firstTh[IDColonne]);
-		for (var i = 1 ; i < tr.length - 1; i++) {
-			var td = tr[i].getElementsByTagName('td');
-			tr[i].removeChild(td[IDColonne]);
-		}
-		Tables["EnsembleTable"][Table.id.toString()].supprimerColonne(IDColonne);
-		for(var i =0 ; i < n ; i++){
-			Table.getElementsByClassName('suprCol')[i].setAttribute('onclick','supprColum('+Table.id.toString()+','+i+')');
+		suppression(Table.id.substring(Table.id.length-1));
+	}else {
+		if (confirm("Supprimer la colonne [" + IDColonne + "] de la table [" + nomTable + "] ?")) {
+			var firstTh = Table.getElementsByClassName('col');
+			var tr = Table.getElementsByTagName('tr');
+			tr[0].removeChild(firstTh[IDColonne]);
+			for (var i = 1; i < tr.length - 1; i++) {
+				var td = tr[i].getElementsByTagName('td');
+				tr[i].removeChild(td[IDColonne]);
+			}
+			Tables["EnsembleTable"][Table.id.toString()].supprimerColonne(IDColonne);
+			n = Tables["EnsembleTable"][Table.id.toString()].getNombreColonne();
+			for (var i = 0; i < n; i++) {
+				Table.getElementsByClassName('suprCol')[i].setAttribute('onclick', 'supprColum(' + Table.id.toString() + ',' + i + ')');
+			}
 		}
 	}
 }
 
 function supprLigne(IDTable,IDLigne){
-	console.log(IDLigne);
-	recuperationContenu(IDTable);
-	var nomTable = Tables["EnsembleTable"]["table"+IDTable].Libelle;
-	var Table = document.getElementById(IDTable);
-	if(confirm("Supprimer la ligne ["+IDLigne+"] de la table ["+nomTable+"] ?")){
+	recuperationContenu(IDTable.id.substring(IDTable.id.length-1));
+	var nomTable = Tables["EnsembleTable"][IDTable.id.toString()].Libelle;
+	var Table = document.getElementById(IDTable.id);
+	var l = Tables["EnsembleTable"][IDTable.id.toString()].getNombreLigne()-1;
+	var r = IDLigne;
+	var newIndice = l-r;
+	if(confirm("Supprimer la ligne ["+newIndice+"] de la table ["+nomTable+"] ?")){
 		var tbody = Table.getElementsByTagName('tbody');
 		var tr = tbody[0].getElementsByTagName('tr');
-		console.log(tr[IDLigne]);
+		tbody[0].removeChild(tr[newIndice]);
+		Tables["EnsembleTable"][IDTable.id.toString()].supprimerLigne(newIndice);
+		tbody = Table.getElementsByTagName('tbody');
+		var btn = tbody[0].getElementsByClassName('btnSuprLigne');
+		l--;
+		var rev_it_nbligne = l;
+		for(var i = 0 ; i < l ; i++){
+			console.log(rev_it_nbligne);
+			btn[i].firstChild.setAttribute('onclick', 'supprLigne(' + Table.id.toString() + ',' + rev_it_nbligne + ')');
+			rev_it_nbligne--;
+		}
 	}
 }
 function createArray() {

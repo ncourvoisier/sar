@@ -154,13 +154,8 @@ class Table{
 		document.getElementById(NomTable).remove();
 		tableToHTML(this);
 	}
-	triReverse(NomAttribut,NumTable){
-		var EnteteAtt;
-    	for(var cleEntete in this.Entete){
-    		if(this.Entete[cleEntete]==NomAttribut){
-    			EnteteAtt=cleEntete;
-    		}
-    	}
+	triReverse(Entete,NumTable){
+		var EnteteAtt="E"+Entete;
     	for (var i1 = this.Contenu[EnteteAtt].length-1; i1 >0;i1--){
     		for (var i2 = 0; i2<i1;i2++){
     			if(this.Contenu[EnteteAtt][i2]<this.Contenu[EnteteAtt][i2+1]){

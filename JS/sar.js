@@ -1397,6 +1397,7 @@ function createTetaJointure(table1,table2,e_table1,e_table2){
 // R ÷ S = (T1 - T2) avec :
 // -> T1 = PROJECTION(R-S, (R))
 // -> T2 = PROJECTION(R-S ,(T1 X S) - R)
+/*
 function createDivision(table1, table2) {
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
         console.log("Erreur division");
@@ -1450,7 +1451,7 @@ function createDivision(table1, table2) {
     tableToHTML(TableDivision);
     return true;
 }
-
+*/
 
 function countOccurences(tab, nbMax){
 	var result = {};
@@ -1481,19 +1482,29 @@ function countOccurences(tab, nbMax){
 // R ÷ S = (T1 - T2) avec :
 // -> T1 = PROJECTION(R-S, (R))
 // -> T2 = PROJECTION(R-S ,(T1 X S) - R)
-/*
-function createDivision2(table1, table2){
+
+function createDivision(table1, table2){
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
         console.log("Erreur division");
         return false;
     }
-	if(table1.Contenu["E0"].length < table2.Contenu["E0"].length){
-		console.log("Erreur division, la relation dividende possède moins de ligne que la relation diviseur.");
-		return false;
-	}
+	var T1 = new Table();
+	T1 = differenceColonne(table1, table2);
+	console.log(T1);
 	
-	createDiff(table1, table2);
-}*/
+	var T1xS = new Table();
+	T1xS = produitCartesien(T1, table2);
+	console.log(T1xS);
+	
+	var T1xS_R = new Table();
+	T1xS_R = differenceColonne(T1xS, table1);
+	console.log(T1xS_R);
+}
+
+
+
+
+
 
 function differenceColonne(table1, table2){
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
@@ -1517,8 +1528,13 @@ function differenceColonne(table1, table2){
 	}
 	Tables.AjoutTable(TableDifferenceColonne);
     NombreTable++;
-    tableToHTML(TableDifferenceColonne);
-    return true;
+	if (differenceColonne.caller.name !== "createDivision") {
+		tableToHTML(TableDifferenceColonne);
+		return true;
+	} else {
+		console.log("Test ok");
+		return TableDifferenceColonne;
+	}
 }
 
 
@@ -1564,8 +1580,13 @@ function produitCartesien(table1, table2) {
 	}
 	Tables.AjoutTable(TableProduitCartesien);
     NombreTable++;
-    tableToHTML(TableProduitCartesien);
-    return true;
+	if (produitCartesien.caller.name !== "createDivision") {
+		tableToHTML(TableProduitCartesien);
+		return true;
+	} else {
+		console.log("Test ok");
+		return TableProduitCartesien;
+	}
 }
 
 

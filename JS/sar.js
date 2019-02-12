@@ -1345,7 +1345,6 @@ function createJointureNaturelle(table1, table2) {
 			}
 		}
 	}
-	
 	if (!boolJointurePossible) {
 		console.log("Erreur jointure naturelle : pas de ligne en commun");
 		return false;

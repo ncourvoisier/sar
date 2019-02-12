@@ -57,6 +57,39 @@ class Table{
 		}
 		this.ColonneId++;
 	}
+	supprimerColonne(indice){
+		var it_entete = 0
+		var it_contenu = 0;
+		var newEntete = {};
+		var newContenu = {};
+		delete this.Entete["E"+indice];
+		delete this.Contenu["E"+indice]
+		for(var i in this.Entete){
+			var nomEntete = "E" + it_entete;
+			newEntete[nomEntete] = this.Entete[i];
+			it_entete++;
+		}
+		for(var i in this.Contenu){
+			var nomEntContenu = "E"+it_contenu;
+			newContenu[nomEntContenu] = this.Contenu[i];
+			it_contenu++;
+		}
+		for(var i in this.OrdreEntete){
+			if(this.OrdreEntete[i].substring(1) === indice.toString()){
+				this.OrdreEntete.splice(1,i);
+			}
+		}
+		for(var i in this.OrdreEntete){
+			if(this.OrdreEntete[i].substring(1) > indice.toString()){
+				var newIndice = this.OrdreEntete[i].substring(1);
+				newIndice -= 1;
+				this.OrdreEntete[i] = "E"+newIndice;
+			}
+		}
+		this.Entete = newEntete;
+		this.Contenu = newContenu;
+		this.ColonneId--;
+	}
 	ajoutContenu(Entete,Position,Contenu,boolEntete){
 		var compteurEntete=0;
 		if(boolEntete){
@@ -718,15 +751,17 @@ function createRelation(){
 		createUnion(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
 	}
 	if(operateur.value=="3"){
-		produitCartésien(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
-	}
-	if(operateur.value=="4"){
 		createDiff(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
 	}
-	if(operateur.value=="5"){
+	if(operateur.value=="4"){
 		createDivision(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
 	}
-	
+	if(operateur.value=="5"){
+		produitCartesien(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+	}
+	if(operateur.value=="6"){
+		differenceColonne(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+	}
 }
 function recupValeur(){
 	if(document.forms["Requete"].elements["Table1"].value==0 || document.forms["Requete"].elements["Table2"].value==0 || document.forms["Requete"].elements["operateur"].value==0){
@@ -774,9 +809,8 @@ function createLine(ID){
 	imgBtnSuprLigne.width = '16';
 	imgBtnSuprLigne.height = '16';
 	imgBtnSuprLigne.src = '../ressources/images/suprCol.png';
-	imgBtnSuprLigne.addEventListener('click',function(){
-		supprLigne(IDTable,Tables["EnsembleTable"][IDTable].getNombreLigne()-1);
-	})
+	var nbLigne = Tables["EnsembleTable"][IDTable].getNombreLigne()-1;
+	imgBtnSuprLigne.setAttribute('onclick','supprLigne('+IDTable+','+nbLigne+')');
 	divNew.appendChild(imgBtnSuprLigne);
 	var Colonnes=output.getElementsByClassName('col');
 	var nbColonnes=Colonnes.length;
@@ -857,20 +891,31 @@ function createColumn(ID){
 function supprColum(Table,IDColonne){
 	recuperationContenu(Table.id.substring(Table.id.length-1));
 	var nomTable = Tables["EnsembleTable"][Table.id.toString()].Libelle;
+	var n = Tables["EnsembleTable"][Table.id.toString()].getNombreColonne();
+	if(n == 1){
+		if(confirm("Supprimer la table ?")){
+			
+		}
+	}
 	if(confirm("Supprimer la colonne ["+IDColonne+"] de la table ["+nomTable+"] ?")){
 		var firstTh = Table.getElementsByClassName('col');
 		var tr = Table.getElementsByTagName('tr');
 		tr[0].removeChild(firstTh[IDColonne]);
-		for (var i = 1; i < tr.length - 1; i++) {
+		for (var i = 1 ; i < tr.length - 1; i++) {
 			var td = tr[i].getElementsByTagName('td');
 			tr[i].removeChild(td[IDColonne]);
+		}
+		Tables["EnsembleTable"][Table.id.toString()].supprimerColonne(IDColonne);
+		for(var i =0 ; i < n ; i++){
+			Table.getElementsByClassName('suprCol')[i].setAttribute('onclick','supprColum('+Table.id.toString()+','+i+')');
 		}
 	}
 }
 
 function supprLigne(IDTable,IDLigne){
-	recuperationContenu(IDTable.substring(IDTable.length-1));
-	var nomTable = Tables["EnsembleTable"][IDTable.toString()].Libelle;
+	console.log(IDLigne);
+	recuperationContenu(IDTable);
+	var nomTable = Tables["EnsembleTable"]["table"+IDTable].Libelle;
 	var Table = document.getElementById(IDTable);
 	if(confirm("Supprimer la ligne ["+IDLigne+"] de la table ["+nomTable+"] ?")){
 		var tbody = Table.getElementsByTagName('tbody');
@@ -1391,6 +1436,7 @@ function createTetaJointure(table1,table2,e_table1,e_table2){
 // R ÷ S = (T1 - T2) avec :
 // -> T1 = PROJECTION(R-S, (R))
 // -> T2 = PROJECTION(R-S ,(T1 X S) - R)
+/*
 function createDivision(table1, table2) {
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
         console.log("Erreur division");
@@ -1444,7 +1490,7 @@ function createDivision(table1, table2) {
     tableToHTML(TableDivision);
     return true;
 }
-
+*/
 
 function countOccurences(tab, nbMax){
 	var result = {};
@@ -1466,42 +1512,77 @@ function countOccurences(tab, nbMax){
 	return res;
 }
 
+
+
+
+
 // La division n'est pas une opération de base, elle peut être réécrite 
 // en combinant le produit, la restriction et la différence.
 // R ÷ S = (T1 - T2) avec :
 // -> T1 = PROJECTION(R-S, (R))
 // -> T2 = PROJECTION(R-S ,(T1 X S) - R)
-/*
-function createDivision2(table1, table2){
+
+function createDivision(table1, table2){
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
         console.log("Erreur division");
         return false;
     }
-	if(table1.Contenu["E0"].length < table2.Contenu["E0"].length){
-		console.log("Erreur division, la relation dividende possède moins de ligne que la relation diviseur.");
-		return false;
-	}
+	var T1 = new Table();
+	T1 = differenceColonne(table1, table2);
+	console.log(T1);
 	
-	createDiff(table1, table2);
+	var T1xS = new Table();
+	T1xS = produitCartesien(T1, table2);
+	console.log(T1xS);
 	
-	
-	
-	
-}*/
+	var T1xS_R = new Table();
+	T1xS_R = differenceColonne(T1xS, table1);
+	console.log(T1xS_R);
+}
 
 
-function produitCartésien(table1, table2) {
+
+
+
+
+function differenceColonne(table1, table2){
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
         console.log("Erreur division");
         return false;
     }
-	console.log(table1.getNombreLigne());
-	
-	// recupereLigne
-	for (var tb1 = 0, tb1lgt = table1.getNombreLigne(); tb1 < tb1lgt; tb1++) {
-		console.log(recupereLigne(table1, tb1));
+	var TableDifferenceColonne = new Table();
+	var positionEnt = 0;
+	for(var i = 0, c = table1.getNombreLigne(); i < c; i++){
+		var boolEstPresent=false;
+		for(var j = 0, z = table2.getNombreLigne(); j < z; j++){
+			if (table1.Entete["E"+i] === table2.Entete["E"+j]){
+				boolEstPresent=true;
+			}
+		}
+		if(!boolEstPresent){
+			TableDifferenceColonne.Entete["E"+positionEnt] = table1.Entete["E"+i];
+			TableDifferenceColonne.Contenu["E"+positionEnt] = table1.Contenu["E"+i];
+			positionEnt++;
+		}
 	}
-	
+	Tables.AjoutTable(TableDifferenceColonne);
+    NombreTable++;
+	if (differenceColonne.caller.name !== "createDivision") {
+		tableToHTML(TableDifferenceColonne);
+		return true;
+	} else {
+		console.log("Test ok");
+		return TableDifferenceColonne;
+	}
+}
+
+
+
+function produitCartesien(table1, table2) {
+	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
+        console.log("Erreur division");
+        return false;
+    }
 	var tb1Colonne = table1.getNombreColonne();
 	var tb2Colonne = table2.getNombreColonne();
 	var addtb1tb2Colonne = tb1Colonne + tb2Colonne;
@@ -1512,20 +1593,39 @@ function produitCartésien(table1, table2) {
 	
 	TableProduitCartesien = new Table();
 	
-	TableProduitCartesien.Entete = table1.Entete;
-	for (var i = tb1Colonne; i < addtb1tb2Colonne; i++) {
-		TableProduitCartesien.Entete["E"+i] = table2.Entete["E"+(i-tb1Colonne)];
-	}
-	for (var i = 0; i < addtb1tb2Colonne; i++) {
+	for (var i = 0; i < tb1Colonne; i++) {
+		TableProduitCartesien.Entete["E"+i] = table1.Entete["E"+i];
 		TableProduitCartesien.Contenu["E"+i] = [];
 	}
-	
-	
-	
-	
-	console.log(TableProduitCartesien);
-	
-	
+	for (var i = tb1Colonne; i < addtb1tb2Colonne; i++) {
+		TableProduitCartesien.Entete["E"+i] = table2.Entete["E"+(i-tb1Colonne)];
+		TableProduitCartesien.Contenu["E"+i] = [];
+	}
+	for (var i = 0; i < tb1Ligne; i++) {
+		var ltb1 = recupereLigne(table1, i);
+		for (var j = 0; j < tb2Ligne; j++) {
+			TableProduitCartesien.ajoutLigne(ltb1);
+		}
+	}
+	var h = 0;
+	for (var k = 0; k < tb1Ligne; k++) {
+		
+		for (var i = 0; i < tb2Colonne; i++) {
+			for (var j = 0; j < tb2Ligne; j++) {
+				TableProduitCartesien.Contenu["E"+(i+tb1Colonne)][j+h]=table2.Contenu["E"+i][j];
+			}
+		}
+		h += tb2Ligne;
+	}
+	Tables.AjoutTable(TableProduitCartesien);
+    NombreTable++;
+	if (produitCartesien.caller.name !== "createDivision") {
+		tableToHTML(TableProduitCartesien);
+		return true;
+	} else {
+		console.log("Test ok");
+		return TableProduitCartesien;
+	}
 }
 
 

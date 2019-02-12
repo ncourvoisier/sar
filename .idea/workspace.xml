@@ -16,8 +16,37 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/JS/sar.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="646">
-              <caret line="775" column="78" selection-start-line="775" selection-start-column="78" selection-end-line="775" selection-end-column="78" />
+            <state relative-caret-position="196">
+              <caret line="63" column="28" selection-start-line="63" selection-start-column="28" selection-end-line="63" selection-end-column="28" />
+              <folding>
+                <element signature="n#!!block;n#ajoutContenu#0;n#Table#0" />
+                <element signature="n#!!block;n#getNombreLigne#0;n#Table#0" />
+                <element signature="n#!!block;n#getNombreColonne#0;n#Table#0" />
+                <element signature="n#!!block;n#getBloquer#0;n#Table#0" />
+                <element signature="n#!!block;n#getNom#0;n#Table#0" />
+                <element signature="n#!!block;n#setX#0;n#Table#0" />
+                <element signature="n#!!block;n#setY#0;n#Table#0" />
+                <element signature="n#!!block;n#setTMin#0;n#Table#0" />
+                <element signature="n#!!block;n#getTMin#0;n#Table#0" />
+                <element signature="n#!!block;n#tri#0;n#Table#0" />
+                <element signature="n#!!block;n#triReverse#0;n#Table#0" />
+                <element signature="n#!!block;n#TriOrdreEntete#0;n#Table#0" />
+                <element signature="n#!!block;n#swapLigne#0;n#Table#0" />
+                <element signature="n#!!block;n#triEntete#0;n#Table#0" />
+                <element signature="e#4318#6081#0" />
+                <element signature="n#!!block;n#addEventSimple#0" />
+                <element signature="n#!!block;n#removeEventSimple#0" />
+                <element signature="n#!!block;n#afficherPremierPlan#0" />
+                <element signature="n#!!block;n#tableToHTML#0" />
+                <element signature="n#!!block;n#createColumnHTML#0" />
+                <element signature="n#!!block;n#createLineHTML#0" />
+                <element signature="n#!!block;n#createEquiJointure#0" />
+                <element signature="n#!!block;n#createUnion#0" />
+                <element signature="n#!!block;n#createIntersection#0" />
+                <element signature="n#!!block;n#recupereLigne#0" />
+                <element signature="n#!!block;n#createDiff#0" />
+                <element signature="e#22446#23334#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -26,7 +55,7 @@
         <entry file="file://$PROJECT_DIR$/HTML/sar.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="867">
-              <caret line="51" column="10" selection-start-line="51" selection-start-column="10" selection-end-line="51" selection-end-column="10" />
+              <caret line="53" column="10" selection-start-line="53" selection-start-column="10" selection-end-line="53" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -34,7 +63,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CSS/sar.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="332">
+            <state relative-caret-position="2040">
               <caret line="120" column="10" selection-start-line="120" selection-start-column="10" selection-end-line="120" selection-end-column="10" />
             </state>
           </provider>
@@ -144,12 +173,14 @@
       <workItem from="1549547899888" duration="11339000" />
       <workItem from="1549628984740" duration="7117000" />
       <workItem from="1549655176193" duration="1970000" />
-      <workItem from="1549738997032" duration="5848000" />
+      <workItem from="1549738997032" duration="5960000" />
+      <workItem from="1549778829136" duration="574000" />
+      <workItem from="1549905575995" duration="11358000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26394000" />
+    <option name="totallyTimeSpent" value="38438000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -181,24 +212,53 @@
     <entry file="file://$PROJECT_DIR$/ressources/images/btnTri.png">
       <provider selected="true" editor-type-id="images" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/JS/sar.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="63" column="28" selection-start-line="63" selection-start-column="28" selection-end-line="63" selection-end-column="28" />
+          <folding>
+            <element signature="n#!!block;n#ajoutContenu#0;n#Table#0" />
+            <element signature="n#!!block;n#getNombreLigne#0;n#Table#0" />
+            <element signature="n#!!block;n#getNombreColonne#0;n#Table#0" />
+            <element signature="n#!!block;n#getBloquer#0;n#Table#0" />
+            <element signature="n#!!block;n#getNom#0;n#Table#0" />
+            <element signature="n#!!block;n#setX#0;n#Table#0" />
+            <element signature="n#!!block;n#setY#0;n#Table#0" />
+            <element signature="n#!!block;n#setTMin#0;n#Table#0" />
+            <element signature="n#!!block;n#getTMin#0;n#Table#0" />
+            <element signature="n#!!block;n#tri#0;n#Table#0" />
+            <element signature="n#!!block;n#triReverse#0;n#Table#0" />
+            <element signature="n#!!block;n#TriOrdreEntete#0;n#Table#0" />
+            <element signature="n#!!block;n#swapLigne#0;n#Table#0" />
+            <element signature="n#!!block;n#triEntete#0;n#Table#0" />
+            <element signature="e#4318#6081#0" />
+            <element signature="n#!!block;n#addEventSimple#0" />
+            <element signature="n#!!block;n#removeEventSimple#0" />
+            <element signature="n#!!block;n#afficherPremierPlan#0" />
+            <element signature="n#!!block;n#tableToHTML#0" />
+            <element signature="n#!!block;n#createColumnHTML#0" />
+            <element signature="n#!!block;n#createLineHTML#0" />
+            <element signature="n#!!block;n#createEquiJointure#0" />
+            <element signature="n#!!block;n#createUnion#0" />
+            <element signature="n#!!block;n#createIntersection#0" />
+            <element signature="n#!!block;n#recupereLigne#0" />
+            <element signature="n#!!block;n#createDiff#0" />
+            <element signature="e#22446#23334#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/HTML/sar.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="867">
-          <caret line="51" column="10" selection-start-line="51" selection-start-column="10" selection-end-line="51" selection-end-column="10" />
+          <caret line="53" column="10" selection-start-line="53" selection-start-column="10" selection-end-line="53" selection-end-column="10" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CSS/sar.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="332">
+        <state relative-caret-position="2040">
           <caret line="120" column="10" selection-start-line="120" selection-start-column="10" selection-end-line="120" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/JS/sar.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="646">
-          <caret line="775" column="78" selection-start-line="775" selection-start-column="78" selection-end-line="775" selection-end-column="78" />
         </state>
       </provider>
     </entry>

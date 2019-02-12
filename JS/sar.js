@@ -76,7 +76,7 @@ class Table{
 		}
 		for(var i in this.OrdreEntete){
 			if(this.OrdreEntete[i].substring(1) === indice.toString()){
-				this.OrdreEntete.splice(1,i);
+				this.OrdreEntete.splice(i,1);
 			}
 		}
 		for(var i in this.OrdreEntete){
@@ -89,6 +89,12 @@ class Table{
 		this.Entete = newEntete;
 		this.Contenu = newContenu;
 		this.ColonneId--;
+	}
+	supprimerLigne(indice){
+		for(var i in this.Contenu){
+			this.Contenu[i].splice(indice,1);
+		}
+		console.log(this.Contenu);
 	}
 	ajoutContenu(Entete,Position,Contenu,boolEntete){
 		var compteurEntete=0;
@@ -141,13 +147,8 @@ class Table{
     }
 
     //POUR CONVERIR NOMBRE => operateur unaire +"chaine"
-    tri(NomAttribut,NumTable){
-    	var EnteteAtt;
-    	for(var cleEntete in this.Entete){
-    		if(this.Entete[cleEntete]==NomAttribut){
-    			EnteteAtt=cleEntete;
-    		}
-    	}
+    tri(Entete,NumTable){
+    	var EnteteAtt="E"+Entete;
     	for (var i1 = this.Contenu[EnteteAtt].length-1; i1 >0;i1--){
     		for (var i2 = 0; i2<i1;i2++){
     			if(this.Contenu[EnteteAtt][i2]>this.Contenu[EnteteAtt][i2+1]){
@@ -159,13 +160,8 @@ class Table{
 		document.getElementById(NomTable).remove();
 		tableToHTML(this);
 	}
-	triReverse(NomAttribut,NumTable){
-		var EnteteAtt;
-    	for(var cleEntete in this.Entete){
-    		if(this.Entete[cleEntete]==NomAttribut){
-    			EnteteAtt=cleEntete;
-    		}
-    	}
+	triReverse(Entete,NumTable){
+		var EnteteAtt="E"+Entete;
     	for (var i1 = this.Contenu[EnteteAtt].length-1; i1 >0;i1--){
     		for (var i2 = 0; i2<i1;i2++){
     			if(this.Contenu[EnteteAtt][i2]<this.Contenu[EnteteAtt][i2+1]){
@@ -407,8 +403,8 @@ function tableToHTML(TABLE){
 	recupTable();
 	var NomTable="table"+NombreTable;
     Tables["EnsembleTable"][NomTable].tailleMin=divDrag.offsetWidth;
-	thNew.getElementsByClassName('tri')[0].setAttribute('onclick','console.log("Tri croissant")');
-	thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick','console.log("Tri décroissant")');
+	thNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".tri(0,"+NombreTable+")");
+	thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".triReverse(0,"+NombreTable+")");
 
 	//POUR RAJOUTER LES COLONNES ET LIGNES
 	var nbEntete = Object.keys(TABLE.Entete).length;
@@ -419,7 +415,7 @@ function tableToHTML(TABLE){
 		var valeur = TABLE.Entete[position];
 		contenuMAJ += "<th class=\"col\"><input type=\"text\" value=\""+valeur+"\" disabled=\"\">";
 		contenuMAJ += "<div class=\"btnCol\"><img class=\"tri\" src=\"../ressources/images/btnTri.png\" onclick=\"console.log(\"tri croissant\")\">";
-		contenuMAJ += "<img class=\"reverseTri\" src=\"../ressources/images/reverseTri.png\" onclick=\"console.log(\"tri décroissant\")\">";
+		contenuMAJ += "<img class=\"reverseTri\" src=\"../ressources/images/reverseTri.png\" onclick=\"console.log(\"x="+entete+" TABLE="+NombreTable+"\")\">";
 		contenuMAJ += "<img class=\"suprCol\" src=\"../ressources/images/suprCol.png\">";
 		contenuMAJ += "</th>";
 	}
@@ -447,7 +443,7 @@ function createColumnHTML(ID) {
 	var Colonnes=output.getElementsByClassName('col');
 	var nbColonnes=Colonnes.length;
 	var ligne=output.getElementsByTagName('tr');
-	
+	var EnteteAtt="E"+ligne;
 	for(var i=1; i<ligne.length-1;i++){
 		var td = document.createElement('td');
 		var EntreeTexte  = document.createElement('input');
@@ -464,8 +460,8 @@ function createColumnHTML(ID) {
 	EntreeTexte.disabled=Tables["EnsembleTable"][IDTable].getBloquer();
 	EntreeTexte.placeholder="Nom attribut";
 	trNew.appendChild(EntreeTexte);
-	trNew.getElementsByClassName('tri')[0].setAttribute('onclick','console.log("Tri croissant")');
-	trNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick','console.log("Tri décroissant")');
+	trNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+ID+".tri("+EnteteAtt+","+ID+")");
+	trNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+ID+".triReverse("+EnteteAtt+","+ID+")");
 	if (output) {
 	    trs = output.getElementsByTagName('th');
 	    if (trs[nbColonnes-1]) { // Le <tr> de Chrome
@@ -816,6 +812,9 @@ function createLine(ID){
 	Tables["EnsembleTable"][IDTable].ajoutLigne();
 	var output = document.getElementById(IDTable),trs;
 	var trNew  = document.createElement('tr');
+	if(!Tables["EnsembleTable"][IDTable].getBloquer()){
+		trNew.className = 'btnLigne';
+	}
 	var divNew = document.createElement('div');
 	var imgBtnSuprLigne = document.createElement('img');
 	divNew.className = 'btnSuprLigne';
@@ -823,6 +822,7 @@ function createLine(ID){
 	imgBtnSuprLigne.height = '16';
 	imgBtnSuprLigne.src = '../ressources/images/suprCol.png';
 	var nbLigne = Tables["EnsembleTable"][IDTable].getNombreLigne()-1;
+	console.log("Nombre de ligne "+nbLigne);
 	imgBtnSuprLigne.setAttribute('onclick','supprLigne('+IDTable+','+nbLigne+')');
 	divNew.appendChild(imgBtnSuprLigne);
 	var Colonnes=output.getElementsByClassName('col');
@@ -890,8 +890,8 @@ function createColumn(ID){
 	EntreeTexte.placeholder="Nom attribut";
 	trNew.appendChild(EntreeTexte);
 	trNew.appendChild(divBtnTriSupr);
-	trNew.getElementsByClassName('tri')[0].setAttribute('onclick','console.log("Tri croissant")');
-	trNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick','console.log("Tri décroissant")');
+	trNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+ID+".tri("+Tables["EnsembleTable"][IDTable].getNombreColonne()+","+ID+")");
+	trNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+ID+".triReverse("+Tables["EnsembleTable"][IDTable].getNombreColonne()+","+ID+")");
 	trNew.getElementsByClassName('suprCol')[0].setAttribute('onclick','supprColum('+IDTable+','+nbColonnes+')');
 	if (output) {
 	    trs = output.getElementsByTagName('th');
@@ -906,34 +906,46 @@ function supprColum(Table,IDColonne){
 	var nomTable = Tables["EnsembleTable"][Table.id.toString()].Libelle;
 	var n = Tables["EnsembleTable"][Table.id.toString()].getNombreColonne();
 	if(n == 1){
-		if(confirm("Supprimer la table ?")){
-			
-		}
-	}
-	if(confirm("Supprimer la colonne ["+IDColonne+"] de la table ["+nomTable+"] ?")){
-		var firstTh = Table.getElementsByClassName('col');
-		var tr = Table.getElementsByTagName('tr');
-		tr[0].removeChild(firstTh[IDColonne]);
-		for (var i = 1 ; i < tr.length - 1; i++) {
-			var td = tr[i].getElementsByTagName('td');
-			tr[i].removeChild(td[IDColonne]);
-		}
-		Tables["EnsembleTable"][Table.id.toString()].supprimerColonne(IDColonne);
-		for(var i =0 ; i < n ; i++){
-			Table.getElementsByClassName('suprCol')[i].setAttribute('onclick','supprColum('+Table.id.toString()+','+i+')');
+		suppression(Table.id.substring(Table.id.length-1));
+	}else {
+		if (confirm("Supprimer la colonne [" + IDColonne + "] de la table [" + nomTable + "] ?")) {
+			var firstTh = Table.getElementsByClassName('col');
+			var tr = Table.getElementsByTagName('tr');
+			tr[0].removeChild(firstTh[IDColonne]);
+			for (var i = 1; i < tr.length - 1; i++) {
+				var td = tr[i].getElementsByTagName('td');
+				tr[i].removeChild(td[IDColonne]);
+			}
+			Tables["EnsembleTable"][Table.id.toString()].supprimerColonne(IDColonne);
+			n = Tables["EnsembleTable"][Table.id.toString()].getNombreColonne();
+			for (var i = 0; i < n; i++) {
+				Table.getElementsByClassName('suprCol')[i].setAttribute('onclick', 'supprColum(' + Table.id.toString() + ',' + i + ')');
+			}
 		}
 	}
 }
 
 function supprLigne(IDTable,IDLigne){
-	console.log(IDLigne);
-	recuperationContenu(IDTable);
-	var nomTable = Tables["EnsembleTable"]["table"+IDTable].Libelle;
-	var Table = document.getElementById(IDTable);
-	if(confirm("Supprimer la ligne ["+IDLigne+"] de la table ["+nomTable+"] ?")){
+	recuperationContenu(IDTable.id.substring(IDTable.id.length-1));
+	var nomTable = Tables["EnsembleTable"][IDTable.id.toString()].Libelle;
+	var Table = document.getElementById(IDTable.id);
+	var l = Tables["EnsembleTable"][IDTable.id.toString()].getNombreLigne()-1;
+	var r = IDLigne;
+	var newIndice = l-r;
+	if(confirm("Supprimer la ligne ["+newIndice+"] de la table ["+nomTable+"] ?")){
 		var tbody = Table.getElementsByTagName('tbody');
 		var tr = tbody[0].getElementsByTagName('tr');
-		console.log(tr[IDLigne]);
+		tbody[0].removeChild(tr[newIndice]);
+		Tables["EnsembleTable"][IDTable.id.toString()].supprimerLigne(newIndice);
+		tbody = Table.getElementsByTagName('tbody');
+		var btn = tbody[0].getElementsByClassName('btnSuprLigne');
+		l--;
+		var rev_it_nbligne = l;
+		for(var i = 0 ; i < l ; i++){
+			console.log(rev_it_nbligne);
+			btn[i].firstChild.setAttribute('onclick', 'supprLigne(' + Table.id.toString() + ',' + rev_it_nbligne + ')');
+			rev_it_nbligne--;
+		}
 	}
 }
 function createArray() {
@@ -1032,8 +1044,8 @@ function createArray() {
 	dragDrop.initElement(IDEmplacement);
 	recupTable();
     Tables["EnsembleTable"]["table"+NombreTable].setTMin(divDrag.offsetWidth);
-	thNew.getElementsByClassName('tri')[0].setAttribute('onclick','console.log("Tri croissant")');
-	thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick','console.log("Tri décroissant")');
+	thNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".tri(0,"+NombreTable+")");
+	thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".triReverse(0,"+NombreTable+")");
 	trNew.getElementsByClassName('suprCol')[0].setAttribute('onclick','supprColum('+IDTable+',0)');
 }
 
@@ -1057,8 +1069,8 @@ function modification(IDTable){
     for(var n in col){
         col[n].className = 'col btn';
         if(col[n].tagName == 'TH'){
-        	col[n].getElementsByClassName('tri')[0].setAttribute('onclick','console.log("Tri croissant")');
-			col[n].getElementsByClassName('reverseTri')[0].setAttribute('onclick','console.log("Tri décroissant")');
+        	col[n].getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+IDTable+".tri("+n+","+IDTable+")");
+			col[n].getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+IDTable+".triReverse("+n+","+IDTable+")");
 		}
     }
     var emplacement = document.getElementById('EmplacementTable'+IDTable);
@@ -1438,6 +1450,7 @@ function createTetaJointure(table1,table2,e_table1,e_table2){
     return true;
 }
 
+
 // La division n'est pas une opération de base, elle peut être réécrite 
 // en combinant le produit, la restriction et la différence.
 // R ÷ S = (T1 - T2) avec :
@@ -1697,33 +1710,3 @@ function produitCartesien(table1, table2) {
 		return TableProduitCartesien;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

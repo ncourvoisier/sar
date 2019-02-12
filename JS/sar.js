@@ -796,7 +796,6 @@ function recupTable(){
 	var select1 = document.getElementById("select1");
 	var select2 = document.getElementById("select2");
 	var selectOp = document.getElementById("operateur");
-
 	select1.innerHTML="";
 	select2.innerHTML="";
 	for(var table in Tables["EnsembleTable"]){

@@ -1,5 +1,6 @@
 # SAR Site d'algèbre relationelle
 
+Encore en cours de développement.
 
 
 ## Description :

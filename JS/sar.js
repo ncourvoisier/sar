@@ -682,7 +682,7 @@ function createDiff(TABLE1,TABLE2){
 		return false;
 	}
 	if(TABLE1.getNombreColonne()!=TABLE2.getNombreColonne()){
-		console.log("Erreur Diff");
+		console.log("Erreur Diff : Nombre de colonne différente");
 		return false;
 	}
 	var t1=TABLE1.triEntete();
@@ -742,8 +742,13 @@ function createDiff(TABLE1,TABLE2){
 	}
 	Tables.AjoutTable(TableDiff);
 	NombreTable++;
-	tableToHTML(TableDiff);
-	return true; 
+	if (createDiff.caller.name !== "createDivision") {
+		tableToHTML(TableDiff);
+		return true;
+	} else {
+		console.log("Test ok");
+		return TableDiff;
+	}
 }
 function createRelation(){
 	var select1 = document.getElementById("select1");
@@ -766,6 +771,9 @@ function createRelation(){
 	}
 	if(operateur.value=="6"){
 		differenceColonne(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+	}
+	if(operateur.value=="7"){
+		createJointureNaturelle(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
 	}
 }
 function recupValeur(){
@@ -1311,29 +1319,24 @@ function projection() {
 }
 
 
-function createJointureNaturelle() {
-	var colonnePourJointureNaturelle = "NumeroEtudiant*";
-	var table1 = Tables["EnsembleTable"]["table1"];
-	var table2 = Tables["EnsembleTable"]["table2"];
-	var jointureTable1Possible = false;
+function createJointureNaturelle(table1, table2) {
+	var colonnePourJointureNaturelle = "";
 	var positionTable1 = -1;
-	var jointureTable2Possible = false;
 	var positionTable2 = -1;
-	for (var tb1ent in table1.Entete) {
-		if (table1.Entete[tb1ent] === colonnePourJointureNaturelle) {
-			jointureTable1Possible = true;
-			positionTable1 = tb1ent.toString();
+	for(var i in table1.Entete){
+		for(var j in table2.Entete){
+			if(table1.Entete[i] === table2.Entete[j]){
+				boolJointurePossible=true;
+				positionTable1 = i.toString();
+				positionTable2 = j.toString();
+				colonnePourJointureNaturelle = table1.Entete[i];
+			}
 		}
 	}
-	for (var tb2ent in table2.Entete) {
-		if (table2.Entete[tb2ent] === colonnePourJointureNaturelle) {
-			jointureTable2Possible = true;
-			positionTable2 = tb2ent.toString();
-		}
-	}
-	if (!jointureTable1Possible || !jointureTable2Possible) {
-		console.log("Pas possible de faire une jointure");
-		return;
+	
+	if (!boolJointurePossible) {
+		console.log("Erreur jointure naturelle : pas de ligne en commun");
+		return false;
 	}
 	var positionLigneASaveTable1 = [];
 	var positionLigneASaveTable2 = [];
@@ -1385,7 +1388,7 @@ function createJointureNaturelle() {
 
 function createTetaJointure(table1,table2,e_table1,e_table2){
     if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
-        console.log("Erreur equi-jointure");
+        console.log("Erreur teta-jointure");
         return false;
     }
     var tableTetaJointure = new Table();
@@ -1499,7 +1502,8 @@ function createDivision(table1, table2) {
 function countOccurences(tab, nbMax){
 	var result = {};
 	var res = [];
-	for (var i = 0; i < tab.length; i++) {
+	// for (var i = 0; i < tab.length; i++) {
+	for (var i in tab) {
 		if(tab[i][0] in result){
 			result[tab[i][0]] = ++result[tab[i][0]];
 			if (result[tab[i][0]] === nbMax) {
@@ -1513,7 +1517,7 @@ function countOccurences(tab, nbMax){
 			}
 		}
 	}
-	return res;
+	return result;
 }
 
 
@@ -1533,15 +1537,77 @@ function createDivision(table1, table2){
     }
 	var T1 = new Table();
 	T1 = differenceColonne(table1, table2);
+	// console.log(T1);
+	
+	var PT1 = new Table();
+	for(var i = 0, c = T1.getNombreLigne(); i < c; i++){
+		var ligneCourante=recupereLigne(T1,i);
+		var boolEstPresent=false;
+		for(var j = 0, z = PT1.getNombreLigne(); j < z; j++){
+			if(JSON.stringify(ligneCourante)==JSON.stringify(recupereLigne(PT1,j))){
+				boolEstPresent=true;
+			}
+		}
+		if(!boolEstPresent){
+			PT1.ajoutLigne(ligneCourante);
+		}
+	}
+	console.log(PT1);
+	
+	var PT1xS = new Table();
+	PT1xS = produitCartesien(table2, PT1);
+	// console.log(PT1xS);
+	
+	var PT1xS_R = new Table();
+	
+	PT1xS.Entete["E1"] = "B";
+	
+	PT1xS_R = createDiff(PT1xS, table1);
+	console.log(PT1xS_R);
+	
+	// var nvRes = new Table();
+	// for(var i = 0, c = PT1xS_R.getNombreLigne(); i < c; i++){
+		// var ligneCourante=recupereLigne(PT1xS_R,i);
+		// var boolEstPresent=false;
+		// for(var j = 0, z = T2.getNombreLigne(); j < z; j++){
+			// if(JSON.stringify(ligneCourante)==JSON.stringify(recupereLigne(T2,j))){
+				// boolEstPresent=true;
+			// }
+		// }
+		// if(!boolEstPresent){
+			// T2.ajoutLigne(ligneCourante);
+		// }
+	// }
+	
+	
+	
+	var T2 = new Table();
+	for(var i = 0, c = PT1xS_R.getNombreLigne(); i < c; i++){
+		var ligneCourante=recupereLigne(PT1xS_R,i);
+		var boolEstPresent=false;
+		for(var j = 0, z = T2.getNombreLigne(); j < z; j++){
+			if(JSON.stringify(ligneCourante)==JSON.stringify(recupereLigne(T2,j))){
+				boolEstPresent=true;
+			}
+		}
+		if(!boolEstPresent){
+			T2.ajoutLigne(ligneCourante);
+		}
+	}
 	console.log(T1);
+	console.log(T2);
 	
-	var T1xS = new Table();
-	T1xS = produitCartesien(T1, table2);
-	console.log(T1xS);
+	var T = new Table();
 	
-	var T1xS_R = new Table();
-	T1xS_R = differenceColonne(T1xS, table1);
-	console.log(T1xS_R);
+	
+	
+	T = createDiff(T1, T2);
+	
+	console.log(T);
+	Tables.AjoutTable(T);
+    NombreTable++;
+	tableToHTML(T);
+	return true;
 }
 
 

@@ -145,8 +145,6 @@ class Table{
 	getTMin(){
 	    return this.tailleMin;
     }
-
-    //POUR CONVERIR NOMBRE => operateur unaire +"chaine"
     tri(Entete,NumTable){
     	var EnteteAtt="E"+Entete;
     	var isNombre=true;

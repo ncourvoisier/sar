@@ -57,6 +57,39 @@ class Table{
 		}
 		this.ColonneId++;
 	}
+	supprimerColonne(indice){
+		var it_entete = 0
+		var it_contenu = 0;
+		var newEntete = {};
+		var newContenu = {};
+		delete this.Entete["E"+indice];
+		delete this.Contenu["E"+indice]
+		for(var i in this.Entete){
+			var nomEntete = "E" + it_entete;
+			newEntete[nomEntete] = this.Entete[i];
+			it_entete++;
+		}
+		for(var i in this.Contenu){
+			var nomEntContenu = "E"+it_contenu;
+			newContenu[nomEntContenu] = this.Contenu[i];
+			it_contenu++;
+		}
+		for(var i in this.OrdreEntete){
+			if(this.OrdreEntete[i].substring(1) === indice.toString()){
+				this.OrdreEntete.splice(1,i);
+			}
+		}
+		for(var i in this.OrdreEntete){
+			if(this.OrdreEntete[i].substring(1) > indice.toString()){
+				var newIndice = this.OrdreEntete[i].substring(1);
+				newIndice -= 1;
+				this.OrdreEntete[i] = "E"+newIndice;
+			}
+		}
+		this.Entete = newEntete;
+		this.Contenu = newContenu;
+		this.ColonneId--;
+	}
 	ajoutContenu(Entete,Position,Contenu,boolEntete){
 		var compteurEntete=0;
 		if(boolEntete){
@@ -863,13 +896,23 @@ function createColumn(ID){
 function supprColum(Table,IDColonne){
 	recuperationContenu(Table.id.substring(Table.id.length-1));
 	var nomTable = Tables["EnsembleTable"][Table.id.toString()].Libelle;
+	var n = Tables["EnsembleTable"][Table.id.toString()].getNombreColonne();
+	if(n == 1){
+		if(confirm("Supprimer la table ?")){
+			
+		}
+	}
 	if(confirm("Supprimer la colonne ["+IDColonne+"] de la table ["+nomTable+"] ?")){
 		var firstTh = Table.getElementsByClassName('col');
 		var tr = Table.getElementsByTagName('tr');
 		tr[0].removeChild(firstTh[IDColonne]);
-		for (var i = 1; i < tr.length - 1; i++) {
+		for (var i = 1 ; i < tr.length - 1; i++) {
 			var td = tr[i].getElementsByTagName('td');
 			tr[i].removeChild(td[IDColonne]);
+		}
+		Tables["EnsembleTable"][Table.id.toString()].supprimerColonne(IDColonne);
+		for(var i =0 ; i < n ; i++){
+			Table.getElementsByClassName('suprCol')[i].setAttribute('onclick','supprColum('+Table.id.toString()+','+i+')');
 		}
 	}
 }

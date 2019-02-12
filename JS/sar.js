@@ -428,8 +428,6 @@ function tableToHTML(TABLE){
 	document.getElementById("table"+NombreTable).innerHTML = contenuMAJ;
 	dragDrop.initElement(IDEmplacement);
 }
-
-
 function createColumnHTML(ID) {
 	var StringID=ID.toString();
 	var IDTable="table"+StringID;

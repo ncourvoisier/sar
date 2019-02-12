@@ -748,6 +748,11 @@ function createRelation(){
 	var select1 = document.getElementById("select1");
 	var select2 = document.getElementById("select2");
 	var operateur = document.getElementById("operateur");
+	var select1J = document.getElementById("select1J");
+	var select2J = document.getElementById("select2J");
+	var operateurJ = document.getElementById("operateurJ");
+	var att1=document.getElementById("Att1");
+	var att2=document.getElementById("Att2");
 	if(operateur.value=="1"){
 		createIntersection(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
 	}
@@ -768,6 +773,12 @@ function createRelation(){
 	}
 	if(operateur.value=="7"){
 		createJointureNaturelle(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+	}
+	if(operateur.value=="8"){
+		createTetaJointure(Tables.EnsembleTable[select1J.value],Tables.EnsembleTable[select2.value],att1.value,att2.value)
+	}
+	if(operateur.value=="9"){
+		createEquiJointure(Tables.EnsembleTable[select1J.value],Tables.EnsembleTable[select2.value],att1.value,att2.value)
 	}
 }
 function recupValeur(){
@@ -793,12 +804,17 @@ function recupValeur(){
 function recupTable(){
 	var select1 = document.getElementById("select1");
 	var select2 = document.getElementById("select2");
-	var selectOp = document.getElementById("operateur");
+	var select1J = document.getElementById("select1J");
+	var select2J = document.getElementById("select2J");
 	select1.innerHTML="";
 	select2.innerHTML="";
+	select1J.innerHTML="";
+	select2J.innerHTML="";
 	for(var table in Tables["EnsembleTable"]){
 		select1.innerHTML+="<option value="+table+">"+table+"</option>";
 		select2.innerHTML+="<option value="+table+">"+table+"</option>";
+		select1J.innerHTML+="<option value="+table+">"+table+"</option>";
+		select2J.innerHTML+="<option value="+table+">"+table+"</option>";
 	}
 	
 }

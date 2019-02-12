@@ -14,7 +14,6 @@
 	<p>Requête opérateur :
 			<span>R=
 				<select name="Table1" id="select1">
-					
 				</select>
 				<select name="operateur" id="operateur">
 					<option value="0">Click</option>
@@ -27,33 +26,33 @@
 					<option value="7">JointureNaturelle</option>
 				</select>
 				<select name="Table2" id="select2">
-					
 				</select>
 				<input type="button" value="OK" onclick="createRelation()">
 			</span>
+			<spa
 		</p>
 	</form>
 	</div>
 	
-	<div class="Req">
-	<form name="Requete">
+	<div class="ReqJ">
 	<p>Requête jointure :
-			<span>R=
-				<select name="Table1" id="select1"> </select>
+			<span>
+				<select id="operateurJ">
+					<option value="0">Click</option>
+					<option value="8">Teta Jointure</option>
+					<option value="9">Equi Jointure</option>
+				</select>
+				R=
+				<select name="Table1J" id="select1J"> </select>
 				[
-				<select name="operateur" id="operateur">
-					<option value="0">Click</option>
-				</select>
+				<input id="Att1">
 				=
-				<select name="operateur" id="operateur">
-					<option value="0">Click</option>
-				</select>
+				<input id="Att2">
 				]
-				<select name="Table2" id="select2"> </select>
+				<select name="Table2J" id="select2J"> </select>
 				<input type="button" value="OK" onclick="createRelation()">
 			</span>
 		</p>
-	</form>
 	</div>
 	
 	

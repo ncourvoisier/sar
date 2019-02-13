@@ -315,7 +315,6 @@ dragDrop = {
 		dragDrop.draggedObject.className = dragDrop.draggedObject.className.replace(/dragged/,'');
 		dragDrop.draggedObject = null;
 	}
-
 }
 
 function addEventSimple(obj,evt,fn) {
@@ -441,8 +440,6 @@ function tableToHTML(TABLE){
 	thNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".tri(0,"+NombreTable+")");
 	thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".triReverse(0,"+NombreTable+")");
 	trNew.getElementsByClassName('suprCol')[0].setAttribute('onclick','supprColum('+IDTable+',0)');
-	
-	// console.log(TABLE);
 	
 	//POUR RAJOUTER LES COLONNES ET LIGNES
 	var nbEntete = Object.keys(TABLE.Entete).length;
@@ -1578,7 +1575,7 @@ function createTetaJointure(table1,table2,e_table1,e_table2){
 // R ÷ S = (T1 - T2) avec :
 // -> T1 = PROJECTION(R-S, (R))
 // -> T2 = PROJECTION(R-S ,(T1 X S) - R)
-/*
+
 function createDivision(table1, table2) {
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
         console.log("Erreur division");
@@ -1632,7 +1629,7 @@ function createDivision(table1, table2) {
     tableToHTML(TableDivision);
     return true;
 }
-*/
+
 
 function countOccurences(tab, nbMax){
 	var result = {};
@@ -1652,7 +1649,7 @@ function countOccurences(tab, nbMax){
 			}
 		}
 	}
-	return result;
+	return res;
 }
 
 
@@ -1664,7 +1661,7 @@ function countOccurences(tab, nbMax){
 // R ÷ S = (T1 - T2) avec :
 // -> T1 = PROJECTION(R-S, (R))
 // -> T2 = PROJECTION(R-S ,(T1 X S) - R)
-
+/*
 function createDivision(table1, table2){
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
         console.log("Erreur division");
@@ -1687,7 +1684,7 @@ function createDivision(table1, table2){
 			PT1.ajoutLigne(ligneCourante);
 		}
 	}
-	console.log(PT1);
+	// console.log(PT1);
 	
 	var PT1xS = new Table();
 	PT1xS = produitCartesien(table2, PT1);
@@ -1714,6 +1711,19 @@ function createDivision(table1, table2){
 		// }
 	// }
 	
+	for (var i = 0, c = PT1xS_R.getNombreLigne(); i < c; i++){
+		var ent = PT1xS_R.Contenu["E0"];
+		var boolEstPresent=false;
+		for(var j = 0, z = table2.getNombreLigne(); j < z; j++){
+			if(PT1xS_R.Contenu["E0"][i]===table2.Contenu["E0"][j]){
+				boolEstPresent=true;
+			}
+		}
+		if(!boolEstPresent){
+			supprLigne(,i);
+		}
+	}
+	
 	
 	
 	var T2 = new Table();
@@ -1729,21 +1739,21 @@ function createDivision(table1, table2){
 			T2.ajoutLigne(ligneCourante);
 		}
 	}
-	console.log(T1);
-	console.log(T2);
+	// console.log(T1);
+	// console.log(T2);
 	
-	var T = new Table();
+	// var T = new Table();
 	
 	
 	
-	T = createDiff(T1, T2);
+	// T = createDiff(T1, T2);
 	
-	console.log(T);
-	Tables.AjoutTable(T);
-    NombreTable++;
-	tableToHTML(T);
+	// console.log(T);
+	// Tables.AjoutTable(T);
+    // NombreTable++;
+	// tableToHTML(T);
 	return true;
-}
+}*/
 
 
 

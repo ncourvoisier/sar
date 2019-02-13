@@ -150,7 +150,7 @@ class Table{
     	var isNombre=true;
     	for(var i=0; i<this.getNombreLigne();++i){
     		var i=+this.Contenu[EnteteAtt][i];
-    		if(i==NaN){
+    		if(isNaN(i)){
     			isNombre=false;
     		}
     	}
@@ -181,7 +181,7 @@ class Table{
 		var isNombre=true;
     	for(var i=0; i<this.getNombreLigne();++i){
     		var i=+this.Contenu[EnteteAtt][i];
-    		if(i==NaN){
+    		if(isNaN(i)){
     			isNombre=false;
     		}
     	}

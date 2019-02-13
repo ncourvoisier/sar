@@ -549,7 +549,7 @@ function createEquiJointure(table1,table2,e_table1,e_table2){
 	
 	var entete2presente = false;
 	for (var i in table2.Entete) {
-		if (table2.Entete[i] === e_table1) {
+		if (table2.Entete[i] === e_table2) {
 			entete2presente = true;
 		}
 	}
@@ -607,6 +607,9 @@ function createEquiJointure(table1,table2,e_table1,e_table2){
     Tables.AjoutTable(tableEquiJointure);
     NombreTable++;
     tableToHTML(tableEquiJointure);
+	if (tableEquiJointure.getNombreLigne() === 0) {
+		alert("Aucune ligne créée, il n'y a pas de ligne commune entre les deux tables.");
+	}
     return true;
 }
 
@@ -1395,11 +1398,6 @@ function load(modele) {
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");
 	}
-	
-	// createJointureNaturelle();
-	// createEquiJointure(Tables["EnsembleTable"]["table1"], Tables["EnsembleTable"]["table2"],"Responsable","NoHarpege*");
-	// createTetaJointure(Tables["EnsembleTable"]["table1"], Tables["EnsembleTable"]["table2"],"Responsable","NoHarpege*");
-	
 }
 
 	
@@ -1507,7 +1505,7 @@ function createTetaJointure(table1,table2,e_table1,e_table2){
 	
 	var entete2presente = false;
 	for (var i in table2.Entete) {
-		if (table2.Entete[i] === e_table1) {
+		if (table2.Entete[i] === e_table2) {
 			entete2presente = true;
 		}
 	}
@@ -1562,6 +1560,9 @@ function createTetaJointure(table1,table2,e_table1,e_table2){
     Tables.AjoutTable(tableTetaJointure);
     NombreTable++;
     tableToHTML(tableTetaJointure);
+	if(tableTetaJointure.getNombreLigne() === 0) {
+		alert("Aucune ligne créé, elles sont toutes communes aux deux tables");
+	}
     return true;
 }
 

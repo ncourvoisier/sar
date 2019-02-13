@@ -472,6 +472,58 @@ function tableToHTML(TABLE){
 	document.getElementById("table"+NombreTable).innerHTML = contenuMAJ;
 	dragDrop.initElement(IDEmplacement);
 }
+function createColumn(ID){
+	var StringID=ID.toString();
+	var IDTable="table"+StringID;
+	Tables["EnsembleTable"][IDTable].ajoutColonne();
+	var output = document.getElementById(IDTable),trs;
+	var Colonnes=output.getElementsByClassName('col');
+	var nbColonnes=Colonnes.length;
+	var ligne=output.getElementsByTagName('tr');
+	
+	for(var i=1; i<ligne.length-1;i++){
+		var td = document.createElement('td');
+		var EntreeTexte  = document.createElement('input');
+		EntreeTexte.placeholder="Valeur attribut";
+		EntreeTexte.type="text";
+		EntreeTexte.disabled=Tables["EnsembleTable"][IDTable].getBloquer();
+		td.appendChild(EntreeTexte);
+		ligne[i].appendChild(td);
+	}
+	var trNew  = document.createElement('th');
+	(Tables["EnsembleTable"][IDTable].getBloquer())? trNew.className = 'col':trNew.className = 'col btn';
+
+    var divBtnTriSupr = document.createElement('div');
+    divBtnTriSupr.className = 'btnCol';
+    var btnTri = document.createElement('img');
+    btnTri.src = "../ressources/images/btnTri.png";
+    btnTri.setAttribute('class',"tri");
+    var btnrevTri = document.createElement('img');
+    btnrevTri.src = "../ressources/images/reverseTri.png";
+    btnrevTri.setAttribute('class',"reverseTri");
+    var btnSuprCol = document.createElement('img');
+    btnSuprCol.src = "../ressources/images/suprCol.png";
+    btnSuprCol.setAttribute('class',"suprCol");
+    divBtnTriSupr.appendChild(btnTri);
+    divBtnTriSupr.appendChild(btnrevTri);
+    divBtnTriSupr.appendChild(btnSuprCol);
+
+	var EntreeTexte  = document.createElement('input');
+	EntreeTexte.type="text";
+	EntreeTexte.disabled=Tables["EnsembleTable"][IDTable].getBloquer();
+	EntreeTexte.placeholder="Nom attribut";
+	trNew.appendChild(EntreeTexte);
+	trNew.appendChild(divBtnTriSupr);
+	trNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+ID+".tri("+Tables["EnsembleTable"][IDTable].getNombreColonne()+","+ID+")");
+	trNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+ID+".triReverse("+Tables["EnsembleTable"][IDTable].getNombreColonne()+","+ID+")");
+	trNew.getElementsByClassName('suprCol')[0].setAttribute('onclick','supprColum('+IDTable+','+nbColonnes+')');
+	if (output) {
+	    trs = output.getElementsByTagName('th');
+	    if (trs[nbColonnes-1]) { // Le <tr> de Chrome
+	        trs[nbColonnes-1].parentNode.insertBefore(trNew, trs[nbColonnes-1].nextSibling);
+	    }
+	}
+}
 /*
 function createColumnHTML(ID) {
 	var StringID=ID.toString();
@@ -947,58 +999,7 @@ function createLine(ID){
 	    }
 	}
 }
-function createColumn(ID){
-	var StringID=ID.toString();
-	var IDTable="table"+StringID;
-	Tables["EnsembleTable"][IDTable].ajoutColonne();
-	var output = document.getElementById(IDTable),trs;
-	var Colonnes=output.getElementsByClassName('col');
-	var nbColonnes=Colonnes.length;
-	var ligne=output.getElementsByTagName('tr');
-	
-	for(var i=1; i<ligne.length-1;i++){
-		var td = document.createElement('td');
-		var EntreeTexte  = document.createElement('input');
-		EntreeTexte.placeholder="Valeur attribut";
-		EntreeTexte.type="text";
-		EntreeTexte.disabled=Tables["EnsembleTable"][IDTable].getBloquer();
-		td.appendChild(EntreeTexte);
-		ligne[i].appendChild(td);
-	}
-	var trNew  = document.createElement('th');
-	(Tables["EnsembleTable"][IDTable].getBloquer())? trNew.className = 'col':trNew.className = 'col btn';
 
-    var divBtnTriSupr = document.createElement('div');
-    divBtnTriSupr.className = 'btnCol';
-    var btnTri = document.createElement('img');
-    btnTri.src = "../ressources/images/btnTri.png";
-    btnTri.setAttribute('class',"tri");
-    var btnrevTri = document.createElement('img');
-    btnrevTri.src = "../ressources/images/reverseTri.png";
-    btnrevTri.setAttribute('class',"reverseTri");
-    var btnSuprCol = document.createElement('img');
-    btnSuprCol.src = "../ressources/images/suprCol.png";
-    btnSuprCol.setAttribute('class',"suprCol");
-    divBtnTriSupr.appendChild(btnTri);
-    divBtnTriSupr.appendChild(btnrevTri);
-    divBtnTriSupr.appendChild(btnSuprCol);
-
-	var EntreeTexte  = document.createElement('input');
-	EntreeTexte.type="text";
-	EntreeTexte.disabled=Tables["EnsembleTable"][IDTable].getBloquer();
-	EntreeTexte.placeholder="Nom attribut";
-	trNew.appendChild(EntreeTexte);
-	trNew.appendChild(divBtnTriSupr);
-	trNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+ID+".tri("+Tables["EnsembleTable"][IDTable].getNombreColonne()+","+ID+")");
-	trNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+ID+".triReverse("+Tables["EnsembleTable"][IDTable].getNombreColonne()+","+ID+")");
-	trNew.getElementsByClassName('suprCol')[0].setAttribute('onclick','supprColum('+IDTable+','+nbColonnes+')');
-	if (output) {
-	    trs = output.getElementsByTagName('th');
-	    if (trs[nbColonnes-1]) { // Le <tr> de Chrome
-	        trs[nbColonnes-1].parentNode.insertBefore(trNew, trs[nbColonnes-1].nextSibling);
-	    }
-	}
-}
 
 function supprColum(Table,IDColonne){
 	recuperationContenu(Table.id.substring(Table.id.length-1));

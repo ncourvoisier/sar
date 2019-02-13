@@ -349,9 +349,11 @@ function tableToHTML(TABLE){
 	var divNew  = document.createElement('div');
 	var divDrag  = document.createElement('div');
 	var divTitre = document.createElement('div');
+	var divBouton = document.createElement('div');
+	divBouton.className = 'bcBouton';
 	divTitre.setAttribute('contenteditable',"false");
 	divTitre.className= 'nomTable';
-	divTitre.textContent = TABLE.Libelle;
+	divTitre.textContent = Tables["EnsembleTable"]["table"+NombreTable].getNom();
 	divDrag.className = "drag";
 	divNew.className = "EmplacementTable";
 	output.appendChild(divNew);
@@ -362,7 +364,7 @@ function tableToHTML(TABLE){
 	var ajoutLigneNew  = document.createElement('input');
 	ajoutLigneNew.type = "button" ;
 	ajoutLigneNew.value = "+L" ;
-	ajoutLigneNew.setAttribute("onClick","createLine("+NombreTable+")");
+	ajoutLigneNew.setAttribute("onClick","createLine("+NombreTable+")") ;
 	var ajoutColonneNew  = document.createElement('input');
 	ajoutColonneNew.type = "button" ;
 	ajoutColonneNew.value = "+C" ;
@@ -381,11 +383,12 @@ function tableToHTML(TABLE){
 	ajoutButtonModif.href = "#";
 	ajoutButtonModif.setAttribute('class',"boutonLock");
 	ajoutButtonModif.setAttribute('onclick',"modification("+NombreTable+")");
-	divDrag.appendChild(ajoutColonneNew);
-	divDrag.appendChild(ajoutLigneNew);
-	divDrag.appendChild(ajoutButtonReduc);
-	divDrag.appendChild(ajoutButtonSuppr);
-	divDrag.appendChild(ajoutButtonModif);
+	divBouton.appendChild(ajoutColonneNew);
+    divBouton.appendChild(ajoutLigneNew);
+    divBouton.appendChild(ajoutButtonReduc);
+    divBouton.appendChild(ajoutButtonSuppr);
+    divBouton.appendChild(ajoutButtonModif);
+    divDrag.appendChild(divBouton)
 	var divRelation = document.createElement('div');
 	divRelation.setAttribute('class',"relation");
 	var tabNew=document.createElement('table');
@@ -395,23 +398,22 @@ function tableToHTML(TABLE){
 	var theadNew=document.createElement('thead');
 	var trNew=document.createElement('tr');
 	var thNew=document.createElement('th');
-
+	thNew.className="col";
 	var divBtnTriSupr = document.createElement('div');
 	divBtnTriSupr.className = 'btnCol';
 	var btnTri = document.createElement('img');
-	btnTri.src = "../ressources/images/btnTri.png";
-	btnTri.setAttribute('class',"tri");
-	var btnrevTri = document.createElement('img');
-	btnrevTri.src = "../ressources/images/reverseTri.png";
-	btnrevTri.setAttribute('class',"reverseTri");
-	var btnSuprCol = document.createElement('img');
-	btnSuprCol.src = "../ressources/images/suprCol.png";
-	btnSuprCol.setAttribute('class',"suprCol");
-	divBtnTriSupr.appendChild(btnTri);
-	divBtnTriSupr.appendChild(btnrevTri);
-	divBtnTriSupr.appendChild(btnSuprCol);
+    btnTri.src = "../ressources/images/btnTri.png";
+    btnTri.setAttribute('class',"tri");
+    var btnrevTri = document.createElement('img');
+    btnrevTri.src = "../ressources/images/reverseTri.png";
+    btnrevTri.setAttribute('class',"reverseTri");
+    var btnSuprCol = document.createElement('img');
+    btnSuprCol.src = "../ressources/images/suprCol.png";
+    btnSuprCol.setAttribute('class',"suprCol");
+    divBtnTriSupr.appendChild(btnTri);
+    divBtnTriSupr.appendChild(btnrevTri);
+    divBtnTriSupr.appendChild(btnSuprCol);
 
-	thNew.className="col";
 	var EntreeTexte  = document.createElement('input');
 	EntreeTexte.type="text";
 	EntreeTexte.disabled=bloquage;
@@ -433,13 +435,15 @@ function tableToHTML(TABLE){
 	divNew.id=IDEmplacement;
 	DeplacementHauteur=120+NombreTable*100;
 	divNew.style.top = DeplacementHauteur+'px';
-	//dragDrop.initElement(IDEmplacement);
+	dragDrop.initElement(IDEmplacement);
 	recupTable();
-	var NomTable="table"+NombreTable;
-    Tables["EnsembleTable"][NomTable].tailleMin=divDrag.offsetWidth;
+    Tables["EnsembleTable"]["table"+NombreTable].setTMin(divDrag.offsetWidth);
 	thNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".tri(0,"+NombreTable+")");
 	thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".triReverse(0,"+NombreTable+")");
-
+	trNew.getElementsByClassName('suprCol')[0].setAttribute('onclick','supprColum('+IDTable+',0)');
+	
+	// console.log(TABLE);
+	
 	//POUR RAJOUTER LES COLONNES ET LIGNES
 	var nbEntete = Object.keys(TABLE.Entete).length;
 	var nbContenu = Object.keys(TABLE.Contenu.E0).length;
@@ -468,6 +472,7 @@ function tableToHTML(TABLE){
 	document.getElementById("table"+NombreTable).innerHTML = contenuMAJ;
 	dragDrop.initElement(IDEmplacement);
 }
+/*
 function createColumnHTML(ID) {
 	var StringID=ID.toString();
 	var IDTable="table"+StringID;
@@ -528,7 +533,7 @@ function createLineHTML(ID){
 	    }
 	}
 }
-
+*/
 
 function createEquiJointure(table1,table2,e_table1,e_table2){
     if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){

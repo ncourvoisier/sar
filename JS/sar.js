@@ -532,16 +532,44 @@ function createLineHTML(ID){
 
 function createEquiJointure(table1,table2,e_table1,e_table2){
     if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
-        console.log("Erreur equi-jointure");
+        alert("Erreur equi-jointure");
         return false;
     }
+	
+	var entete1presente = false;
+	for (var i in table1.Entete) {
+		if (table1.Entete[i] === e_table1) {
+			entete1presente = true;
+		}
+	}
+	if (!entete1presente) {
+		alert("L'entete saisi n'est pas dans la table : "+table1.Libelle+".");
+		return false;
+	}
+	
+	var entete2presente = false;
+	for (var i in table2.Entete) {
+		if (table2.Entete[i] === e_table1) {
+			entete2presente = true;
+		}
+	}
+	if (!entete2presente) {
+		alert("L'entete saisi n'est pas dans la table : "+table2.Libelle+".");
+		return false;
+	}
+	
     var tableEquiJointure = new Table();
     tableEquiJointure.attribuerNom(table1.Libelle + "["+e_table1+" = "+e_table2+"]"+table2.Libelle);
-    tableEquiJointure.Entete = table1.Entete;
-    var compteur = tableEquiJointure.getNombreColonne();
+	
+	for (var i in table1.Entete) {
+		tableEquiJointure.Entete[i] = table1.Entete[i];
+	}
+	
+	var compteur = tableEquiJointure.getNombreColonne();
+	console.log(compteur);
     for(var i in table2.Entete){
         var NomNouvelleEntree="E"+compteur;
-        tableEquiJointure.Entete[NomNouvelleEntree]=table2.Entete[i];
+		tableEquiJointure.Entete[NomNouvelleEntree]=table2.Entete[i];
         compteur++;
     }
     compteur = 0;
@@ -786,32 +814,38 @@ function createRelation(){
 	var operateurJ = document.getElementById("operateurJ");
 	var att1=document.getElementById("Att1");
 	var att2=document.getElementById("Att2");
-	if(operateur.value=="1"){
-		createIntersection(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+	var base = document.getElementById("Req");
+	var autre = document.getElementById("ReqJ");
+	if(autre.style.display=="none"){
+		if(operateur.value=="1"){
+			createIntersection(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+		}
+		if(operateur.value=="2"){
+			createUnion(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+		}
+		if(operateur.value=="3"){
+			createDiff(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+		}
+		if(operateur.value=="4"){
+			createDivision(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+		}
+		if(operateur.value=="5"){
+			produitCartesien(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+		}
+		if(operateur.value=="6"){
+			differenceColonne(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+		}
+		if(operateur.value=="7"){
+			createJointureNaturelle(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
+		}
 	}
-	if(operateur.value=="2"){
-		createUnion(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
-	}
-	if(operateur.value=="3"){
-		createDiff(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
-	}
-	if(operateur.value=="4"){
-		createDivision(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
-	}
-	if(operateur.value=="5"){
-		produitCartesien(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
-	}
-	if(operateur.value=="6"){
-		differenceColonne(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
-	}
-	if(operateur.value=="7"){
-		createJointureNaturelle(Tables.EnsembleTable[select1.value],Tables.EnsembleTable[select2.value]);
-	}
-	if(operateur.value=="8"){
-		createTetaJointure(Tables.EnsembleTable[select1J.value],Tables.EnsembleTable[select2.value],att1.value,att2.value)
-	}
-	if(operateur.value=="9"){
-		createEquiJointure(Tables.EnsembleTable[select1J.value],Tables.EnsembleTable[select2.value],att1.value,att2.value)
+	else{
+		if(operateurJ.value=="8"){
+			createTetaJointure(Tables.EnsembleTable[select1J.value],Tables.EnsembleTable[select2J.value],att1.value,att2.value)
+		}
+		if(operateurJ.value=="9"){
+			createEquiJointure(Tables.EnsembleTable[select1J.value],Tables.EnsembleTable[select2J.value],att1.value,att2.value)
+		}
 	}
 }
 function recupValeur(){
@@ -1455,13 +1489,38 @@ function createJointureNaturelle(table1, table2) {
 }
 
 function createTetaJointure(table1,table2,e_table1,e_table2){
-    if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
+	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
         console.log("Erreur teta-jointure");
         return false;
     }
+	
+	var entete1presente = false;
+	for (var i in table1.Entete) {
+		if (table1.Entete[i] === e_table1) {
+			entete1presente = true;
+		}
+	}
+	if (!entete1presente) {
+		alert("L'entete saisi n'est pas dans la table : "+table1.Libelle+".");
+		return false;
+	}
+	
+	var entete2presente = false;
+	for (var i in table2.Entete) {
+		if (table2.Entete[i] === e_table1) {
+			entete2presente = true;
+		}
+	}
+	if (!entete2presente) {
+		alert("L'entete saisi n'est pas dans la table : "+table2.Libelle+".");
+		return false;
+	}
+	
     var tableTetaJointure = new Table();
     tableTetaJointure.attribuerNom(table1.Libelle + "["+e_table1+" = "+e_table2+"]"+table2.Libelle);
-    tableTetaJointure.Entete = table1.Entete;
+    for (var i in table1.Entete) {
+		tableTetaJointure.Entete[i] = table1.Entete[i];
+	}
     var compteur = tableTetaJointure.getNombreColonne();
     for(var i in table2.Entete){
         var NomNouvelleEntree="E"+compteur;

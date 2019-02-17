@@ -16,45 +16,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/JS/sar.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="826" column="44" selection-start-line="826" selection-start-column="44" selection-end-line="826" selection-end-column="44" />
-              <folding>
-                <element signature="e#2074#2431#0" />
-                <element signature="e#2494#2631#0" />
-                <element signature="e#2651#2697#0" />
-                <element signature="e#2711#2737#0" />
-                <element signature="e#2747#2774#0" />
-                <element signature="e#2784#2800#0" />
-                <element signature="e#2810#2826#0" />
-                <element signature="e#2838#2867#0" />
-                <element signature="e#2878#2913#0" />
-                <element signature="e#3001#3490#0" />
-                <element signature="e#3524#4010#0" />
-                <element signature="e#4028#4234#0" />
-                <element signature="e#4488#4652#0" />
-                <element signature="e#4665#4782#0" />
-                <element signature="e#5203#6966#0" />
-                <element signature="e#7004#7131#0" />
-                <element signature="e#7172#7305#0" />
-                <element signature="e#7341#7694#0" />
-                <element signature="e#7723#13002#0" />
-                <element signature="e#13035#14401#0" />
-                <element signature="e#14430#15184#0" />
-                <element signature="e#15247#16898#0" />
-                <element signature="e#16935#18669#0" />
-                <element signature="e#18712#20311#0" />
-                <element signature="e#20353#20481#0" />
-                <element signature="e#20516#22420#0" />
-                <element signature="e#22446#23334#0" />
-                <element signature="e#23357#24087#0" />
-                <element signature="e#24110#24499#0" />
-                <element signature="e#25839#28078#0" />
-                <element signature="e#28116#29018#0" />
-                <element signature="e#29408#33717#0" />
-                <element signature="e#33749#35037#0" />
-                <element signature="e#35073#36113#0" />
-                <element signature="e#36151#36966#0" />
-              </folding>
+            <state relative-caret-position="420">
+              <caret line="319" column="36" selection-start-line="319" selection-start-column="36" selection-end-line="319" selection-end-column="36" />
             </state>
           </provider>
         </entry>
@@ -83,6 +46,9 @@
     <findStrings>
       <find>recupereLigne</find>
       <find>console</find>
+      <find>tableToHTML</find>
+      <find>ajoutTable</find>
+      <find>ajoutTable(</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -108,7 +74,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -136,6 +101,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -184,12 +150,13 @@
       <workItem from="1549738997032" duration="5960000" />
       <workItem from="1549778829136" duration="574000" />
       <workItem from="1549905575995" duration="11601000" />
-      <workItem from="1549996955333" duration="5733000" />
+      <workItem from="1549996955333" duration="5933000" />
+      <workItem from="1550408689523" duration="3567000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="44414000" />
+    <option name="totallyTimeSpent" value="48181000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -223,45 +190,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/JS/sar.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="826" column="44" selection-start-line="826" selection-start-column="44" selection-end-line="826" selection-end-column="44" />
-          <folding>
-            <element signature="e#2074#2431#0" />
-            <element signature="e#2494#2631#0" />
-            <element signature="e#2651#2697#0" />
-            <element signature="e#2711#2737#0" />
-            <element signature="e#2747#2774#0" />
-            <element signature="e#2784#2800#0" />
-            <element signature="e#2810#2826#0" />
-            <element signature="e#2838#2867#0" />
-            <element signature="e#2878#2913#0" />
-            <element signature="e#3001#3490#0" />
-            <element signature="e#3524#4010#0" />
-            <element signature="e#4028#4234#0" />
-            <element signature="e#4488#4652#0" />
-            <element signature="e#4665#4782#0" />
-            <element signature="e#5203#6966#0" />
-            <element signature="e#7004#7131#0" />
-            <element signature="e#7172#7305#0" />
-            <element signature="e#7341#7694#0" />
-            <element signature="e#7723#13002#0" />
-            <element signature="e#13035#14401#0" />
-            <element signature="e#14430#15184#0" />
-            <element signature="e#15247#16898#0" />
-            <element signature="e#16935#18669#0" />
-            <element signature="e#18712#20311#0" />
-            <element signature="e#20353#20481#0" />
-            <element signature="e#20516#22420#0" />
-            <element signature="e#22446#23334#0" />
-            <element signature="e#23357#24087#0" />
-            <element signature="e#24110#24499#0" />
-            <element signature="e#25839#28078#0" />
-            <element signature="e#28116#29018#0" />
-            <element signature="e#29408#33717#0" />
-            <element signature="e#33749#35037#0" />
-            <element signature="e#35073#36113#0" />
-            <element signature="e#36151#36966#0" />
-          </folding>
+        <state relative-caret-position="420">
+          <caret line="319" column="36" selection-start-line="319" selection-start-column="36" selection-end-line="319" selection-end-column="36" />
         </state>
       </provider>
     </entry>

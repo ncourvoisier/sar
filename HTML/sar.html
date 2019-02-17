@@ -11,10 +11,9 @@
 	<h1>Algèbre Relationelle</h1>
 	<div id="Req">
 	<form name="Requete">
-	<p>Requête à entrer :
+	<p>Requête opérateur :
 			<span>R=
 				<select name="Table1" id="select1">
-					
 				</select>
 				<select name="operateur" id="operateur">
 					<option value="0">Click</option>
@@ -24,15 +23,39 @@
 					<option value="4">DIV</option>
 					<option value="5">X</option>
 					<option value="6">DiffColonne</option>
+					<option value="7">JointureNaturelle</option>
 				</select>
 				<select name="Table2" id="select2">
-					
 				</select>
 				<input type="button" value="OK" onclick="createRelation()">
 			</span>
+			<input type="button" value="Autres opérateurs" onclick="afficheAutre()">
 		</p>
 	</form>
 	</div>
+	<div id="ReqJ" style="display: none">
+	<p>Requête jointure :
+			<span>
+				<select id="operateurJ">
+					<option value="0">Click</option>
+					<option value="8">Teta Jointure</option>
+					<option value="9">Equi Jointure</option>
+				</select>
+				R=
+				<select name="Table1J" id="select1J"> </select>
+				[
+				<input id="Att1" placeholder="Attribut 1">
+				=
+				<input id="Att2" placeholder="Attribut 1">
+				]
+				<select name="Table2J" id="select2J"> </select>
+				<input type="button" value="OK" onclick="createRelation()">
+			</span>
+			<input type="button" value="Autres opérateurs" onclick="afficheAutre()">
+		</p>
+	</div>
+	
+	
 	
 	<form id="options">
         <p>Modele :</p>

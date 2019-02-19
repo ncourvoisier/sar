@@ -1585,7 +1585,7 @@ function createDivision(table1, table2) {
         return false;
     }
 	if(table1.Contenu["E0"].length < table2.Contenu["E0"].length){
-		console.log("Erreur division, la relation dividende possède moins de ligne que la relation diviseur.");
+		alert("Erreur division, la relation dividende possède moins de ligne que la relation diviseur.");
 		return false;
 	}
 	var EnteteCommun = true;

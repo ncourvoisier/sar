@@ -1579,12 +1579,6 @@ function createTetaJointure(table1,table2,e_table1,e_table2){
 }
 
 
-// La division n'est pas une opération de base, elle peut être réécrite 
-// en combinant le produit, la restriction et la différence.
-// R ÷ S = (T1 - T2) avec :
-// -> T1 = PROJECTION(R-S, (R))
-// -> T2 = PROJECTION(R-S ,(T1 X S) - R)
-
 function createDivision(table1, table2) {
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
         console.log("Erreur division");
@@ -1594,36 +1588,50 @@ function createDivision(table1, table2) {
 		console.log("Erreur division, la relation dividende possède moins de ligne que la relation diviseur.");
 		return false;
 	}
-	var EnteteTrue = true;
+	var EnteteCommun = true;
 	var TableDivision = new Table();
 	var compteur = 0;
 	var positionEnt = -1;
+	var tabPosition = [];
+	var cpt = 0;
 	for(var i in table1.Entete){
+		var EnteteTrue = true;
         for(var j in table2.Entete){
 			if(table1.Entete[i] === table2.Entete[j]){
 				EnteteTrue = false;
+				EnteteCommun = false;
 				positionEnt = i;
 				break;
 			} 
 		}
+		if (EnteteTrue) {
+			TableDivision.Entete["E"+cpt] = table1.Entete[i];
+			cpt++;
+		}
+		if (!EnteteTrue) {
+			tabPosition.push(positionEnt);
+		}
     }
+	
 	if (EnteteTrue) {
 		console.log("Erreur division, les relations n'ont pas d'entete commune.");
 		return false;
 	}
 	
-	TableDivision.Entete["E0"]=table1.Entete["E0"];
-	
+	var diffColo = differenceColonne(table1, TableDivision);
 	
 	var testTab = [];
-	for (j in table2.Contenu["E0"]) {
-		for (var i in table1.Contenu[positionEnt]){
-			if (table2.Contenu["E0"][j] === table1.Contenu[positionEnt][i]) {
+	console.log(diffColo);
+	for (var i = 0, c = diffColo.getNombreLigne(); i < c; ++i) {
+		var l1 = recupereLigne(diffColo, i);
+		for (var j = 0, z = table2.getNombreLigne(); j < z; j++) {
+			var l2 = recupereLigne(table2, j);
+			if(JSON.stringify(l1) == JSON.stringify(l2)) {
 				testTab.push(recupereLigne(table1,i));
 			}
 		}
 	}
-	
+	Tables.suppressionTable("table"+NombreTable);
 	var l2 = table2.getNombreLigne();
 	var resultDivOccu = [];
 	resultDivOccu = countOccurences(testTab, l2);
@@ -1664,6 +1672,97 @@ function countOccurences(tab, nbMax){
 
 
 
+
+
+
+
+
+function differenceColonne(table1, table2){
+	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
+        console.log("Erreur division");
+        return false;
+    }
+	var TableDifferenceColonne = new Table();
+	var positionEnt = 0;
+	for(var i = 0, c = table1.getNombreColonne(); i < c; i++){
+		var boolEstPresent=false;
+		for(var j = 0, z = table2.getNombreColonne(); j < z; j++){
+			if (table1.Entete["E"+i] === table2.Entete["E"+j]){
+				boolEstPresent=true;
+			}
+		}
+		if(!boolEstPresent){
+			TableDifferenceColonne.Entete["E"+positionEnt] = table1.Entete["E"+i];
+			TableDifferenceColonne.Contenu["E"+positionEnt] = table1.Contenu["E"+i];
+			positionEnt++;
+		}
+	}
+	var nbColonne = TableDifferenceColonne.getNombreColonne();
+	for (var i = 1; i < nbColonne; i++) {
+		TableDifferenceColonne.OrdreEntete.push("E"+i);
+	}
+	// console.log(TableDifferenceColonne.OrdreEntete);
+	Tables.AjoutTable(TableDifferenceColonne);
+    NombreTable++;
+	if (differenceColonne.caller.name !== "createDivision") {
+		tableToHTML(TableDifferenceColonne);
+		return true;
+	} else {
+		return TableDifferenceColonne;
+	}
+}
+
+
+
+function produitCartesien(table1, table2) {
+	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
+        console.log("Erreur division");
+        return false;
+    }
+	var tb1Colonne = table1.getNombreColonne();
+	var tb2Colonne = table2.getNombreColonne();
+	var addtb1tb2Colonne = tb1Colonne + tb2Colonne;
+	
+	var tb1Ligne = table1.getNombreLigne();
+	var tb2Ligne = table2.getNombreLigne();
+	var addtb1tb2Ligne = tb1Ligne * tb2Ligne;
+	
+	TableProduitCartesien = new Table();
+	
+	for (var i = 0; i < tb1Colonne; i++) {
+		TableProduitCartesien.Entete["E"+i] = table1.Entete["E"+i];
+		TableProduitCartesien.Contenu["E"+i] = [];
+	}
+	for (var i = tb1Colonne; i < addtb1tb2Colonne; i++) {
+		TableProduitCartesien.Entete["E"+i] = table2.Entete["E"+(i-tb1Colonne)];
+		TableProduitCartesien.Contenu["E"+i] = [];
+	}
+	for (var i = 0; i < tb1Ligne; i++) {
+		var ltb1 = recupereLigne(table1, i);
+		for (var j = 0; j < tb2Ligne; j++) {
+			TableProduitCartesien.ajoutLigne(ltb1);
+		}
+	}
+	var h = 0;
+	for (var k = 0; k < tb1Ligne; k++) {
+		
+		for (var i = 0; i < tb2Colonne; i++) {
+			for (var j = 0; j < tb2Ligne; j++) {
+				TableProduitCartesien.Contenu["E"+(i+tb1Colonne)][j+h]=table2.Contenu["E"+i][j];
+			}
+		}
+		h += tb2Ligne;
+	}
+	Tables.AjoutTable(TableProduitCartesien);
+    NombreTable++;
+	if (produitCartesien.caller.name !== "createDivision") {
+		tableToHTML(TableProduitCartesien);
+		return true;
+	} else {
+		console.log("Test ok");
+		return TableProduitCartesien;
+	}
+}
 
 // La division n'est pas une opération de base, elle peut être réécrite 
 // en combinant le produit, la restriction et la différence.
@@ -1765,89 +1864,3 @@ function createDivision(table1, table2){
 }*/
 
 
-
-
-
-
-function differenceColonne(table1, table2){
-	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
-        console.log("Erreur division");
-        return false;
-    }
-	var TableDifferenceColonne = new Table();
-	var positionEnt = 0;
-	for(var i = 0, c = table1.getNombreLigne(); i < c; i++){
-		var boolEstPresent=false;
-		for(var j = 0, z = table2.getNombreLigne(); j < z; j++){
-			if (table1.Entete["E"+i] === table2.Entete["E"+j]){
-				boolEstPresent=true;
-			}
-		}
-		if(!boolEstPresent){
-			TableDifferenceColonne.Entete["E"+positionEnt] = table1.Entete["E"+i];
-			TableDifferenceColonne.Contenu["E"+positionEnt] = table1.Contenu["E"+i];
-			positionEnt++;
-		}
-	}
-	Tables.AjoutTable(TableDifferenceColonne);
-    NombreTable++;
-	if (differenceColonne.caller.name !== "createDivision") {
-		tableToHTML(TableDifferenceColonne);
-		return true;
-	} else {
-		console.log("Test ok");
-		return TableDifferenceColonne;
-	}
-}
-
-
-
-function produitCartesien(table1, table2) {
-	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
-        console.log("Erreur division");
-        return false;
-    }
-	var tb1Colonne = table1.getNombreColonne();
-	var tb2Colonne = table2.getNombreColonne();
-	var addtb1tb2Colonne = tb1Colonne + tb2Colonne;
-	
-	var tb1Ligne = table1.getNombreLigne();
-	var tb2Ligne = table2.getNombreLigne();
-	var addtb1tb2Ligne = tb1Ligne * tb2Ligne;
-	
-	TableProduitCartesien = new Table();
-	
-	for (var i = 0; i < tb1Colonne; i++) {
-		TableProduitCartesien.Entete["E"+i] = table1.Entete["E"+i];
-		TableProduitCartesien.Contenu["E"+i] = [];
-	}
-	for (var i = tb1Colonne; i < addtb1tb2Colonne; i++) {
-		TableProduitCartesien.Entete["E"+i] = table2.Entete["E"+(i-tb1Colonne)];
-		TableProduitCartesien.Contenu["E"+i] = [];
-	}
-	for (var i = 0; i < tb1Ligne; i++) {
-		var ltb1 = recupereLigne(table1, i);
-		for (var j = 0; j < tb2Ligne; j++) {
-			TableProduitCartesien.ajoutLigne(ltb1);
-		}
-	}
-	var h = 0;
-	for (var k = 0; k < tb1Ligne; k++) {
-		
-		for (var i = 0; i < tb2Colonne; i++) {
-			for (var j = 0; j < tb2Ligne; j++) {
-				TableProduitCartesien.Contenu["E"+(i+tb1Colonne)][j+h]=table2.Contenu["E"+i][j];
-			}
-		}
-		h += tb2Ligne;
-	}
-	Tables.AjoutTable(TableProduitCartesien);
-    NombreTable++;
-	if (produitCartesien.caller.name !== "createDivision") {
-		tableToHTML(TableProduitCartesien);
-		return true;
-	} else {
-		console.log("Test ok");
-		return TableProduitCartesien;
-	}
-}

@@ -1534,7 +1534,7 @@ function createTetaJointure(table1,table2,e_table1,e_table2){
 	}
 	
     var tableTetaJointure = new Table();
-    tableTetaJointure.attribuerNom(table1.Libelle + "["+e_table1+" = "+e_table2+"]"+table2.Libelle);
+    tableTetaJointure.attribuerNom(table1.Libelle + "["+e_table1+" != "+e_table2+"]"+table2.Libelle);
     for (var i in table1.Entete) {
 		tableTetaJointure.Entete[i] = table1.Entete[i];
 	}

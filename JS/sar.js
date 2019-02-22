@@ -1192,7 +1192,7 @@ function sauvegarderModif(IDTable){
     if(titre[0]===undefined){
         titre = emplacement.getElementsByClassName('nomTableErr');
     }
-    if(titre[0].value.match(/^\w*$/)){
+    if(titre[0].value.match(/^[A-Z0-9]*$/)){
         titre[0].className = 'nomTable';
         titre = emplacement.getElementsByClassName('nomTable');
         var stringID = IDTable.toString();
@@ -1227,7 +1227,7 @@ function sauvegarderModif(IDTable){
         titre[0].className = 'nomTableErr';
         var msg = document.createElement('div');
         msg.className='msgErr';
-        msg.innerHTML = "Le titre ne doit contenir que des caractères alpha-numérique, ou underscores"
+        msg.innerHTML = "Le titre ne doit contenir que des caractères alpha-numérique en majuscule, ou underscores"
         emplacement.appendChild(msg);
         setTimeout(function(){
             emplacement.removeChild(msg);
@@ -1372,8 +1372,66 @@ function affichageModele() {
 		listeModele.push(noms);
 	}
     document.getElementById('envReq').addEventListener('click',function(){
-        var intersection = /\w*\sinter\s\w*/;
-       console.log(document.getElementById('requete').value.match(intersection));
+        var intersection = /^([A-Z0-9]{1,20})\s(et)\s([A-Z0-9]{1,20})$/;
+        var union = /^([A-Z0-9]{1,20})\s(ou)\s([A-Z0-9]{1,20})$/;
+        var diff = /^([A-Z0-9]{1,20})\s(-)\s([A-Z0-9]{1,20})$/;
+        var mult = /^([A-Z0-9]{1,20})\s(x)\s([A-Z0-9]{1,20})$/;
+        var div = /^([A-Z0-9]{1,20})\s(\/)\s([A-Z0-9]{1,20})$/;
+        var jointureNat = /^([A-Z0-9]{1,20})\s\[\s([A-Za-z]+)\s]\s([A-Z0-9]{1,20})$/;
+        var equiJointure = /^([A-Z0-9]{1,20})\s\[\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s=\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s]\s([A-Z0-9]{1,20})$/;
+        var tetaJointure = /^([A-Z0-9]{1,20})\s\[\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s!=\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s]\s([A-Z0-9]{1,20})$/;
+        var op =[intersection,union,diff,mult,div,jointureNat,equiJointure,tetaJointure];
+        for(var i in op){
+            var res = document.getElementById('requete').value.match(op[i]);
+            if(res!=null){
+                break;
+            }
+        }
+        console.log(res);
+        console.log(i);
+        switch(parseInt(i)){
+            case 0:{
+                console.log('inter');
+            }
+            break;
+            case 1:{
+                console.log('union');
+            }
+            break;
+            case 2:{
+                console.log('différence');
+            }
+            break;
+            case 3:{
+                console.log('multiplication');
+            }
+            break;
+            case 4:{
+                console.log('division');
+            }
+            break;
+            case 5:{
+                console.log('jointure naturelle');
+            }
+            break;
+            case 6:{
+                console.log('equi-jointure');
+            }
+            break;
+            case 7:{
+                console.log('teta-jointure');
+            }
+            break;
+        }
+
+       if(res===null){
+           var divErr = document.createElement('div');
+           divErr.className = 'reqErr';
+           divErr.innerHTML = 'Erreur dans la requête : Un problème est survenu\nIntersection : et ou AND ou Inter';
+           var inpt = document.getElementById('envReq');
+            document.body.insertBefore(divErr,inpt);
+            setTimeout(function(){document.body.removeChild(divErr);},6000)
+       }
     });
 
 	var modele = document.getElementById("modele");

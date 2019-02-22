@@ -439,7 +439,7 @@ function tableToHTML(TABLE){
 	DeplacementHauteur=120+NombreTable*100;
 	divNew.style.top = DeplacementHauteur+'px';
 	dragDrop.initElement(IDEmplacement);
-	recupTable();
+	// recupTable();
     Tables["EnsembleTable"]["table"+NombreTable].setTMin(divDrag.offsetWidth);
 	thNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".tri(0,"+NombreTable+")");
 	thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".triReverse(0,"+NombreTable+")");
@@ -1274,7 +1274,7 @@ function suppression(IDTable){
 		parent.removeChild(children);
 		var ID="table"+IDTable;
 		Tables.suppressionTable(ID);
-		recupTable();
+		// recupTable();
 	}
 }
 

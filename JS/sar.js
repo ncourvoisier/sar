@@ -46,14 +46,14 @@ class Table{
 			this.Contenu[NomNouvelleEntree]=[];
 		}
 		for(var i=0;i<this.getNombreLigne();i++){
-			
+
 				if(i==0){
 					this.Contenu[NomNouvelleEntree]=[""];
 				}
 				else{
 					this.Contenu[NomNouvelleEntree].push("");
 				}
-			
+
 		}
 		this.ColonneId++;
 	}
@@ -231,7 +231,7 @@ class Table{
 		this.OrdreEntete[i1]=E2;
 		this.OrdreEntete[i2]=E1;
 	}
-	
+
 	swapLigne(i,j){
 		for(var entete in this.Entete){
 			var temp=this.Contenu[entete][i];
@@ -444,7 +444,7 @@ function tableToHTML(TABLE){
 	thNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".tri(0,"+NombreTable+")");
 	thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".triReverse(0,"+NombreTable+")");
 	trNew.getElementsByClassName('suprCol')[0].setAttribute('onclick','supprColum('+IDTable+',0)');
-	
+
 	//POUR RAJOUTER LES COLONNES ET LIGNES
 	var nbEntete = Object.keys(TABLE.Entete).length;
 	var nbContenu = Object.keys(TABLE.Contenu.E0).length;
@@ -481,7 +481,7 @@ function createColumn(ID){
 	var Colonnes=output.getElementsByClassName('col');
 	var nbColonnes=Colonnes.length;
 	var ligne=output.getElementsByTagName('tr');
-	
+
 	for(var i=1; i<ligne.length-1;i++){
 		var td = document.createElement('td');
 		var EntreeTexte  = document.createElement('input');
@@ -576,7 +576,7 @@ function createLineHTML(ID){
 		EntreeTexte.disabled=Tables["EnsembleTable"][IDTable].getBloquer();
 		EntreeTexte.placeholder="Valeur attribut";
 		td.appendChild(EntreeTexte);
-		trNew.appendChild(td);	
+		trNew.appendChild(td);
     }
 	if (output) {
 	    trs = output.getElementsByTagName('tr');
@@ -593,7 +593,7 @@ function createEquiJointure(table1,table2,e_table1,e_table2){
         alert("Erreur equi-jointure");
         return false;
     }
-	
+
 	var entete1presente = false;
 	for (var i in table1.Entete) {
 		if (table1.Entete[i] === e_table1) {
@@ -604,7 +604,7 @@ function createEquiJointure(table1,table2,e_table1,e_table2){
 		alert("L'entete saisi n'est pas dans la table : "+table1.Libelle+".");
 		return false;
 	}
-	
+
 	var entete2presente = false;
 	for (var i in table2.Entete) {
 		if (table2.Entete[i] === e_table2) {
@@ -615,14 +615,14 @@ function createEquiJointure(table1,table2,e_table1,e_table2){
 		alert("L'entete saisi n'est pas dans la table : "+table2.Libelle+".");
 		return false;
 	}
-	
+
     var tableEquiJointure = new Table();
     tableEquiJointure.attribuerNom(table1.Libelle + "["+e_table1+" = "+e_table2+"]"+table2.Libelle);
-	
+
 	for (var i in table1.Entete) {
 		tableEquiJointure.Entete[i] = table1.Entete[i];
 	}
-	
+
 	var compteur = tableEquiJointure.getNombreColonne();
 	console.log(compteur);
     for(var i in table2.Entete){
@@ -730,7 +730,7 @@ function createUnion(TABLE1,TABLE2){
 	Tables.AjoutTable(TableUnion);
 	NombreTable++;
 	tableToHTML(TableUnion);
-	return true; 
+	return true;
 
 }
 function createIntersection(TABLE1,TABLE2){
@@ -784,7 +784,7 @@ function createIntersection(TABLE1,TABLE2){
 	Tables.AjoutTable(TableIntersection);
 	NombreTable++;
 	tableToHTML(TableIntersection);
-	return true; 
+	return true;
 }
 function recupereLigne(TABLE,NumeroLigne){
 	var res=[];
@@ -955,7 +955,7 @@ function recupTable(){
 		select1J.innerHTML+="<option value="+table+">"+table+"</option>";
 		select2J.innerHTML+="<option value="+table+">"+table+"</option>";
 	}
-	
+
 }
 
 function createLine(ID){
@@ -991,7 +991,7 @@ function createLine(ID){
 		if(i == 0){
 			td.appendChild(divNew);
 		}
-		trNew.appendChild(td);	
+		trNew.appendChild(td);
     }
 	if (output) {
 	    trs = output.getElementsByTagName('tr');
@@ -1062,7 +1062,6 @@ function createArray() {
 	divTitre.type = 'text';
 	divTitre.className= 'nomTable';
 	divTitre.value = Tables["EnsembleTable"]["table"+NombreTable].getNom();
-	divTitre.pattern = "[A-Za-z0-9]";
 	divTitre.minLength = '1';
 	divTitre.maxLength = '20';
 	divDrag.className = "drag";
@@ -1188,34 +1187,55 @@ function modification(IDTable){
 }
 
 function sauvegarderModif(IDTable){
-	var stringID = IDTable.toString();
-	var ID = "table"+IDTable;
-	Tables["EnsembleTable"][ID].bloquer();
-	var bloque =  Tables["EnsembleTable"][ID].getBloquer();
-	var table = document.getElementById(ID);
-	var th = table.getElementsByTagName('input');
-	for(var i in th){
-		if(th[i].type==="text") {
-			th[i].disabled = bloque;
-		}
-	}
-	var tbody = table.getElementsByTagName('tbody');
-	var tr = tbody[0].getElementsByTagName('tr');
-	for(var i in tr){
-		tr[i].className = '';
-	}
-	var col = document.getElementsByClassName('col');
-	for(var n in col){
-	    col[n].className = 'col';
+    var emplacement = document.getElementById('EmplacementTable'+IDTable);
+    var titre = emplacement.getElementsByClassName('nomTable');
+    if(titre[0]===undefined){
+        titre = emplacement.getElementsByClassName('nomTableErr');
     }
-	var emplacement = document.getElementById('EmplacementTable'+IDTable);
-	var titre = emplacement.getElementsByClassName('nomTable');
-	titre[0].disabled = bloque;
-	recuperationContenu(IDTable);
-	var relation = document.getElementById("EmplacementTable"+stringID);
-	var bouton = relation.getElementsByClassName('boutonUnlock')[0];
-	bouton.setAttribute('class','boutonLock')
-	bouton.setAttribute('onclick',"modification("+IDTable+")");
+    if(titre[0].value.match(/^\w*$/)){
+        titre[0].className = 'nomTable';
+        titre = emplacement.getElementsByClassName('nomTable');
+        var stringID = IDTable.toString();
+        var ID = "table" + IDTable;
+        Tables["EnsembleTable"][ID].bloquer();
+        var bloque = Tables["EnsembleTable"][ID].getBloquer();
+        titre[0].disabled = bloque;
+        var table = document.getElementById(ID);
+        var th = table.getElementsByTagName('input');
+        for (var i in th) {
+            if (th[i].type === "text") {
+                th[i].disabled = bloque;
+            }
+        }
+        var tbody = table.getElementsByTagName('tbody');
+        var tr = tbody[0].getElementsByTagName('tr');
+        for (var i in tr) {
+            tr[i].className = '';
+        }
+        var col = document.getElementsByClassName('col');
+        for (var n in col) {
+            col[n].className = 'col';
+        }
+
+        recuperationContenu(IDTable);
+        var relation = document.getElementById("EmplacementTable" + stringID);
+        var bouton = relation.getElementsByClassName('boutonUnlock')[0];
+        bouton.setAttribute('class', 'boutonLock')
+        bouton.setAttribute('onclick', "modification(" + IDTable + ")");
+    }
+    else{
+        titre[0].className = 'nomTableErr';
+        var msg = document.createElement('div');
+        msg.className='msgErr';
+        msg.innerHTML = "Le titre ne doit contenir que des caractères alpha-numérique, ou underscores"
+        emplacement.appendChild(msg);
+        setTimeout(function(){
+            emplacement.removeChild(msg);
+            titre = emplacement.getElementsByClassName('nomTableErr');
+            if(titre[0]===undefined)titre = emplacement.getElementsByClassName('nomTable');
+            titre[0].className = 'nomTable';
+        },5000);
+    }
 }
 function recuperationContenu(IDTable){
 	var ID = "table"+IDTable;
@@ -1238,7 +1258,6 @@ function recuperationContenu(IDTable){
 	}
 	table = document.getElementById('EmplacementTable'+IDTable);
     var titre = table.getElementsByClassName('nomTable');
-    console.log(titre[0].value);
     if(titre[0].value === ""){
         Tables["EnsembleTable"][ID].attribuerNom(ID);
         titre[0].value = ID;
@@ -1297,7 +1316,7 @@ function supprimerUnModele(modele) {
 		window.location.reload();
 	}
 }
-	
+
 function save() {
 	if (localStorage) {
 		var nomTable = "";
@@ -1341,8 +1360,8 @@ function save() {
 		alert("Sorry, your browser does not support Web Storage...");
 	}
 	affichageModele();
-}	
-	
+}
+
 
 function affichageModele() {
 	var listeModele = [];
@@ -1352,7 +1371,11 @@ function affichageModele() {
 		}
 		listeModele.push(noms);
 	}
-	
+    document.getElementById('envReq').addEventListener('click',function(){
+        var intersection = /\w*\sinter\s\w*/;
+       console.log(document.getElementById('requete').value.match(intersection));
+    });
+
 	var modele = document.getElementById("modele");
 	var tmp = "";
 	for (var i = 0, lgtListeModele = listeModele.length; i < lgtListeModele; i++) {
@@ -1369,7 +1392,7 @@ function clearLocalstorage() {
 		window.location.reload();
 	}
 }
-	
+
 function load(modele) {
 	if (localStorage) {
 		var nomTableACharger = modele.value;
@@ -1378,7 +1401,7 @@ function load(modele) {
 			alert("Rien a charger");
 			return;
 		}
-		
+
 		var NombreTableASupprimer = Tables.id;
 		for (var suppr=1; suppr<=NombreTableASupprimer; suppr++) {
 			var IDTable = "table"+suppr;
@@ -1412,7 +1435,7 @@ function load(modele) {
 	}
 }
 
-	
+
 
 
 function projection() {
@@ -1454,7 +1477,7 @@ function createJointureNaturelle(table1,table2) {
 	var TableJointureNaturelle = new Table();
 	var NomTable = table1.Libelle+"["+colonnePourJointureNaturelle+"]"+table2.Libelle;
 	var t1lght = Object.keys(table1.Entete).length;
-	for (var i = 0; i < t1lght; i++) { 
+	for (var i = 0; i < t1lght; i++) {
 		TableJointureNaturelle.Entete["E"+i]=table1.Entete["E"+i];
 	}
 	for (var i = t1lght, j = 0, c = Object.keys(table2.Entete).length-1; i < t1lght + c; i++, j++) {
@@ -1510,7 +1533,7 @@ function createTetaJointure(table1,table2,e_table1,e_table2){
         console.log("Erreur teta-jointure");
         return false;
     }
-	
+
 	var entete1presente = false;
 	for (var i in table1.Entete) {
 		if (table1.Entete[i] === e_table1) {
@@ -1521,7 +1544,7 @@ function createTetaJointure(table1,table2,e_table1,e_table2){
 		alert("L'entete saisi n'est pas dans la table : "+table1.Libelle+".");
 		return false;
 	}
-	
+
 	var entete2presente = false;
 	for (var i in table2.Entete) {
 		if (table2.Entete[i] === e_table2) {
@@ -1532,7 +1555,7 @@ function createTetaJointure(table1,table2,e_table1,e_table2){
 		alert("L'entete saisi n'est pas dans la table : "+table2.Libelle+".");
 		return false;
 	}
-	
+
     var tableTetaJointure = new Table();
     tableTetaJointure.attribuerNom(table1.Libelle + "["+e_table1+" != "+e_table2+"]"+table2.Libelle);
     for (var i in table1.Entete) {
@@ -1609,7 +1632,7 @@ function createDivision(table1, table2) {
 				EnteteCommun = false;
 				positionEnt = i;
 				break;
-			} 
+			}
 		}
 		if (EnteteTrue) {
 			TableDivision.Entete["E"+cpt] = table1.Entete[i];
@@ -1619,14 +1642,14 @@ function createDivision(table1, table2) {
 			tabPosition.push(positionEnt);
 		}
     }
-	
+
 	if (EnteteTrue) {
 		console.log("Erreur division, les relations n'ont pas d'entete commune.");
 		return false;
 	}
-	
+
 	var diffColo = differenceColonne(table1, TableDivision);
-	
+
 	var testTab = [];
 	console.log(diffColo);
 	for (var i = 0, c = diffColo.getNombreLigne(); i < c; ++i) {
@@ -1642,7 +1665,7 @@ function createDivision(table1, table2) {
 	var l2 = table2.getNombreLigne();
 	var resultDivOccu = [];
 	resultDivOccu = countOccurences(testTab, l2);
-	
+
 	var cpt = 0;
 	for (var i in resultDivOccu) {
 		TableDivision.Contenu["E0"][cpt] = resultDivOccu[i];
@@ -1729,13 +1752,13 @@ function produitCartesien(table1, table2) {
 	var tb1Colonne = table1.getNombreColonne();
 	var tb2Colonne = table2.getNombreColonne();
 	var addtb1tb2Colonne = tb1Colonne + tb2Colonne;
-	
+
 	var tb1Ligne = table1.getNombreLigne();
 	var tb2Ligne = table2.getNombreLigne();
 	var addtb1tb2Ligne = tb1Ligne * tb2Ligne;
-	
+
 	TableProduitCartesien = new Table();
-	
+
 	for (var i = 0; i < tb1Colonne; i++) {
 		TableProduitCartesien.Entete["E"+i] = table1.Entete["E"+i];
 		TableProduitCartesien.Contenu["E"+i] = [];
@@ -1752,7 +1775,7 @@ function produitCartesien(table1, table2) {
 	}
 	var h = 0;
 	for (var k = 0; k < tb1Ligne; k++) {
-		
+
 		for (var i = 0; i < tb2Colonne; i++) {
 			for (var j = 0; j < tb2Ligne; j++) {
 				TableProduitCartesien.Contenu["E"+(i+tb1Colonne)][j+h]=table2.Contenu["E"+i][j];
@@ -1771,7 +1794,7 @@ function produitCartesien(table1, table2) {
 	}
 }
 
-// La division n'est pas une opération de base, elle peut être réécrite 
+// La division n'est pas une opération de base, elle peut être réécrite
 // en combinant le produit, la restriction et la différence.
 // R ÷ S = (T1 - T2) avec :
 // -> T1 = PROJECTION(R-S, (R))

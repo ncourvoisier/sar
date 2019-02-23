@@ -1146,7 +1146,7 @@ function createArray() {
 	DeplacementHauteur=120+NombreTable*100;
 	divNew.style.top = DeplacementHauteur+'px';
 	dragDrop.initElement(IDEmplacement);
-	recupTable();
+	// recupTable();
     Tables["EnsembleTable"]["table"+NombreTable].setTMin(divDrag.offsetWidth);
 	thNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".tri(0,"+NombreTable+")");
 	thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".triReverse(0,"+NombreTable+")");
@@ -1354,6 +1354,11 @@ function save() {
 				msgErreur = "Le nom du modèle ne peut pas être composé d'espaces ou saut de ligne.";
 				dejaSave = true;
 			}
+			var regexCaracteSpeciaux = /[^ \w]/;
+			if (nomTable.match(regexCaracteSpeciaux)) {
+				msgErreur = "Le nom du modèle ne peut pas être composé de caractères spéciaux.";
+				dejaSave = true;
+			}
 		}while(dejaSave === true);
 		localStorage.setItem(nomTable, JSON.stringify(Tables));
 	} else {
@@ -1383,7 +1388,8 @@ function affichageModele() {
         var op =[intersection,union,diff,mult,div,jointureNat,equiJointure,tetaJointure];
         for(var i in op){
             var res = document.getElementById('requete').value.match(op[i]);
-            if(res!=null){
+            console.log(res);
+			if(res!=null){
                 break;
             }
         }
@@ -1431,7 +1437,7 @@ function affichageModele() {
            var inpt = document.getElementById('envReq');
             document.body.insertBefore(divErr,inpt);
             setTimeout(function(){document.body.removeChild(divErr);},6000)
-       }
+        }
     });
 
 	var modele = document.getElementById("modele");

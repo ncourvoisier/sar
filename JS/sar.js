@@ -1494,6 +1494,9 @@ function load(modele) {
 			NombreTable++;
 			tableToHTML(Tables["EnsembleTable"][nbtable]);
 		}
+		
+		createJointureNaturelle(Tables["EnsembleTable"].table1,Tables["EnsembleTable"].table2)
+		
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");
 	}
@@ -1541,12 +1544,14 @@ function createJointureNaturelle(table1,table2) {
 	var TableJointureNaturelle = new Table();
 	var NomTable = table1.Libelle+"["+colonnePourJointureNaturelle+"]"+table2.Libelle;
 	var t1lght = Object.keys(table1.Entete).length;
+	var positionEnteteCommuneTable2 = -1;
 	for (var i = 0; i < t1lght; i++) {
 		TableJointureNaturelle.Entete["E"+i]=table1.Entete["E"+i];
 	}
 	for (var i = t1lght, j = 0, c = Object.keys(table2.Entete).length-1; i < t1lght + c; i++, j++) {
 		if (table2.Entete["E"+j] === colonnePourJointureNaturelle) {
 			i--;
+			positionEnteteCommuneTable2 = j;
 			continue;
 		}
 		TableJointureNaturelle.Entete["E"+i]=table2.Entete["E"+j];
@@ -1558,7 +1563,7 @@ function createJointureNaturelle(table1,table2) {
 			if (table1.Contenu[positionTable1][i] === table2.Contenu[positionTable2][j]) {
 				var l1 = recupereLigne(table1,i);
 				var l2 = recupereLigne(table2,j);
-				l2.splice(0,1); // 1 A MODIFIER -> DYNAMIQUE
+				l2.splice(positionEnteteCommuneTable2,1); // Retire l'element en commun entre les deux relations
 				tabR1.push(l1);
 				tabR2.push(l2);
 			}

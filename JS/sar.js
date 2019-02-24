@@ -1495,7 +1495,7 @@ function load(modele) {
 			tableToHTML(Tables["EnsembleTable"][nbtable]);
 		}
 		
-		createJointureNaturelle(Tables["EnsembleTable"].table1,Tables["EnsembleTable"].table2)
+		// createJointureNaturelle(Tables["EnsembleTable"].table1,Tables["EnsembleTable"].table2)
 		
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");

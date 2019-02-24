@@ -1154,7 +1154,7 @@ function createArray() {
 	DeplacementHauteur=120+NombreTable*100;
 	divNew.style.top = DeplacementHauteur+'px';
 	dragDrop.initElement(IDEmplacement);
-	recupTable();
+	// recupTable();
     Tables["EnsembleTable"]["table"+NombreTable].setTMin(divDrag.offsetWidth);
 	thNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".tri(0,"+NombreTable+")");
 	thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".triReverse(0,"+NombreTable+")");
@@ -1362,6 +1362,11 @@ function save() {
 				msgErreur = "Le nom du modèle ne peut pas être composé d'espaces ou saut de ligne.";
 				dejaSave = true;
 			}
+			var regexCaracteSpeciaux = /[^ \w]/;
+			if (nomTable.match(regexCaracteSpeciaux)) {
+				msgErreur = "Le nom du modèle ne peut pas être composé de caractères spéciaux.";
+				dejaSave = true;
+			}
 		}while(dejaSave === true);
 		localStorage.setItem(nomTable, JSON.stringify(Tables));
 	} else {
@@ -1401,7 +1406,8 @@ function affichageModele() {
         var op =[intersection,union,diff,mult,div,jointureNat,equiJointure,tetaJointure];
         for(var i in op){
             var res = document.getElementById('requete').value.match(op[i]);
-            if(res!=null){
+            console.log(res);
+			if(res!=null){
                 break;
             }
         }
@@ -1420,7 +1426,6 @@ function affichageModele() {
 					afficheMsgErrReq();
 					return;
 				}
-
 				if (Tables.getTableByLibelle(nomTable_1).getBloquer() == false) {
 					alert('Veuillez enregistrer le contenu de la relation ' + nomTable_1 + ' en appuyant sur le cadenas');
 					return;
@@ -1570,6 +1575,9 @@ function load(modele) {
 			NombreTable++;
 			tableToHTML(Tables["EnsembleTable"][nbtable]);
 		}
+		
+		// createDivision(Tables["EnsembleTable"].table1,Tables["EnsembleTable"].table2);
+		
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");
 	}
@@ -1617,12 +1625,14 @@ function createJointureNaturelle(table1,table2) {
 	var TableJointureNaturelle = new Table();
 	var NomTable = table1.Libelle+"["+colonnePourJointureNaturelle+"]"+table2.Libelle;
 	var t1lght = Object.keys(table1.Entete).length;
+	var positionEnteteCommuneTable2 = -1;
 	for (var i = 0; i < t1lght; i++) {
 		TableJointureNaturelle.Entete["E"+i]=table1.Entete["E"+i];
 	}
 	for (var i = t1lght, j = 0, c = Object.keys(table2.Entete).length-1; i < t1lght + c; i++, j++) {
 		if (table2.Entete["E"+j] === colonnePourJointureNaturelle) {
 			i--;
+			positionEnteteCommuneTable2 = j;
 			continue;
 		}
 		TableJointureNaturelle.Entete["E"+i]=table2.Entete["E"+j];
@@ -1634,7 +1644,7 @@ function createJointureNaturelle(table1,table2) {
 			if (table1.Contenu[positionTable1][i] === table2.Contenu[positionTable2][j]) {
 				var l1 = recupereLigne(table1,i);
 				var l2 = recupereLigne(table2,j);
-				l2.splice(0,1); // 1 A MODIFIER -> DYNAMIQUE
+				l2.splice(positionEnteteCommuneTable2,1); // Retire l'element en commun entre les deux relations
 				tabR1.push(l1);
 				tabR2.push(l2);
 			}
@@ -1754,35 +1764,46 @@ function createDivision(table1, table2) {
         console.log("Erreur division");
         return false;
     }
-	if(table1.Contenu["E0"].length < table2.Contenu["E0"].length){
-		alert("Erreur division, la relation dividende possède moins de ligne que la relation diviseur.");
+	if(table1.Contenu["E0"].length <= table2.Contenu["E0"].length){
+		alert("Erreur division, la relation dividende possède moins ou autant de ligne que la relation diviseur.");
 		return false;
 	}
-	var EnteteCommun = true;
 	var TableDivision = new Table();
 	var compteur = 0;
 	var positionEnt = -1;
 	var tabPosition = [];
-	var cpt = 0;
 	for(var i in table1.Entete){
 		var EnteteTrue = true;
         for(var j in table2.Entete){
 			if(table1.Entete[i] === table2.Entete[j]){
 				EnteteTrue = false;
-				EnteteCommun = false;
 				positionEnt = i;
 				break;
 			}
 		}
-		if (EnteteTrue) {
-			TableDivision.Entete["E"+cpt] = table1.Entete[i];
-			cpt++;
-		}
 		if (!EnteteTrue) {
 			tabPosition.push(positionEnt);
+			break;
 		}
     }
 
+	var cpt = 0;
+	for (var i in table1.Entete) {
+		var EnteteCommun = true;
+		for (var j in table2.Entete) {
+			if(table1.Entete[i] === table2.Entete[j]){
+				EnteteCommun = false;
+				break;
+			}
+		}
+		if (EnteteCommun) {
+			TableDivision.Entete["E"+cpt] = table1.Entete[i];
+			cpt++;
+		}
+	}
+	// console.log(TableDivision);
+	
+	
 	if (EnteteTrue) {
 		console.log("Erreur division, les relations n'ont pas d'entete commune.");
 		return false;
@@ -1790,8 +1811,10 @@ function createDivision(table1, table2) {
 
 	var diffColo = differenceColonne(table1, TableDivision);
 
+	
+	
 	var testTab = [];
-	console.log(diffColo);
+	// console.log(diffColo);
 	for (var i = 0, c = diffColo.getNombreLigne(); i < c; ++i) {
 		var l1 = recupereLigne(diffColo, i);
 		for (var j = 0, z = table2.getNombreLigne(); j < z; j++) {
@@ -1804,13 +1827,15 @@ function createDivision(table1, table2) {
 	Tables.suppressionTable("table"+NombreTable);
 	var l2 = table2.getNombreLigne();
 	var resultDivOccu = [];
-	resultDivOccu = countOccurences(testTab, l2);
+	resultDivOccu = countOccurences(testTab, l2, 0);
 
 	var cpt = 0;
 	for (var i in resultDivOccu) {
 		TableDivision.Contenu["E0"][cpt] = resultDivOccu[i];
 		cpt++;
 	}
+	var NomTable = table1.Libelle+" DIV "+table2.Libelle;
+	TableDivision.attribuerNom(NomTable);
 	Tables.AjoutTable(TableDivision);
     NombreTable++;
     tableToHTML(TableDivision);
@@ -1818,21 +1843,21 @@ function createDivision(table1, table2) {
 }
 
 
-function countOccurences(tab, nbMax){
+function countOccurences(tab, nbMax, posEnt){
 	var result = {};
 	var res = [];
 	// for (var i = 0; i < tab.length; i++) {
 	for (var i in tab) {
-		if(tab[i][0] in result){
-			result[tab[i][0]] = ++result[tab[i][0]];
-			if (result[tab[i][0]] === nbMax) {
-				res.push(tab[i][0]);
+		if(tab[i][posEnt] in result){
+			result[tab[i][posEnt]] = ++result[tab[i][posEnt]];
+			if (result[tab[i][posEnt]] === nbMax) {
+				res.push(tab[i][posEnt]);
 			}
 		}
 		else{
-			result[tab[i][0]] = 1;
-			if (result[tab[i][0]] === nbMax) {
-				res.push(tab[i][0]);
+			result[tab[i][posEnt]] = 1;
+			if (result[tab[i][posEnt]] === nbMax) {
+				res.push(tab[i][posEnt]);
 			}
 		}
 	}
@@ -1881,8 +1906,6 @@ function differenceColonne(table1, table2){
 		return TableDifferenceColonne;
 	}
 }
-
-
 
 function produitCartesien(table1, table2) {
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){

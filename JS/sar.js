@@ -1495,7 +1495,7 @@ function load(modele) {
 			tableToHTML(Tables["EnsembleTable"][nbtable]);
 		}
 		
-		// createJointureNaturelle(Tables["EnsembleTable"].table1,Tables["EnsembleTable"].table2)
+		// createDivision(Tables["EnsembleTable"].table1,Tables["EnsembleTable"].table2)
 		
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");
@@ -1740,6 +1740,8 @@ function createDivision(table1, table2) {
 		TableDivision.Contenu["E0"][cpt] = resultDivOccu[i];
 		cpt++;
 	}
+	var NomTable = table1.Libelle+" DIV "+table2.Libelle;
+	TableDivision.attribuerNom(NomTable);
 	Tables.AjoutTable(TableDivision);
     NombreTable++;
     tableToHTML(TableDivision);

@@ -702,7 +702,8 @@ function createUnion(TABLE1,TABLE2){
 	TABLE1.TriOrdreEntete();
 	TABLE2.TriOrdreEntete();
 	var TableUnion=new Table();
-	TableUnion.attribuerNom("Union: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
+	// TableUnion.attribuerNom("Union: "+TABLE1.Libelle+" OU "+TABLE2.Libelle);
+	TableUnion.attribuerNom(TABLE1.Libelle+" OU "+TABLE2.Libelle);
 	var compteur =0;
 	for(cleEntete in TABLE1.OrdreEntete){
 		var NomNouvelleEntree="E"+compteur;
@@ -764,7 +765,8 @@ function createIntersection(TABLE1,TABLE2){
 	TABLE1.TriOrdreEntete();
 	TABLE2.TriOrdreEntete();
 	var TableIntersection=new Table();
-	TableIntersection.attribuerNom("Intersection: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
+	// TableIntersection.attribuerNom("Intersection: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
+	TableIntersection.attribuerNom(TABLE1.Libelle+" ET "+TABLE2.Libelle);
 	var compteur =0;
 	for(var i in TABLE1.Entete){
 		var NomNouvelleEntree="E"+compteur;
@@ -824,7 +826,8 @@ function createDiff(TABLE1,TABLE2){
 	TABLE1.TriOrdreEntete();
 	TABLE2.TriOrdreEntete();
 	var TableDiff=new Table();
-	TableDiff.attribuerNom("Diff: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
+	// TableDiff.attribuerNom("Diff: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
+	TableDiff.attribuerNom(TABLE1.Libelle+" - "+TABLE2.Libelle);
 	var compteur =0;
 	for(var i in TABLE1.Entete){
 		var NomNouvelleEntree="E"+compteur;
@@ -981,7 +984,7 @@ function createLine(ID){
 	imgBtnSuprLigne.height = '16';
 	imgBtnSuprLigne.src = '../ressources/images/suprCol.png';
 	var nbLigne = Tables["EnsembleTable"][IDTable].getNombreLigne()-1;
-	console.log("Nombre de ligne "+nbLigne);
+	// console.log("Nombre de ligne "+nbLigne);
 	imgBtnSuprLigne.setAttribute('onclick','supprLigne('+IDTable+','+nbLigne+')');
 	divNew.appendChild(imgBtnSuprLigne);
 	var Colonnes=output.getElementsByClassName('col');
@@ -1324,8 +1327,17 @@ function supprimerUnModele(modele) {
 	}
 }
 
-function save() {
+function save(name) {
 	if (localStorage) {
+		if (name !== undefined) {
+			console.log(save.caller.name+" "+name.value);
+			if(confirm("Vous êtes sure de vouloir écraser le modèle "+name.value+" ?")) {
+				localStorage.removeItem(name.value);
+				window.location.reload();
+			}
+			localStorage.setItem(name.value, JSON.stringify(Tables));
+			return;
+		}
 		var nomTable = "";
 		var msgErreur = "";
 		var dejaSave = false;
@@ -1524,6 +1536,7 @@ function affichageModele() {
 	var tmp = "";
 	for (var i = 0, lgtListeModele = listeModele.length; i < lgtListeModele; i++) {
 		tmp += "<input type=\"button\" id="+listeModele[i]+" value="+listeModele[i]+" onclick=\"load("+listeModele[i].toString()+")\">";
+		tmp += "<input type=\"button\" id=\"btnEcraser"+listeModele[i]+"\" value=\"ecraser\" onclick=\"save("+listeModele[i].toString()+")\">";
 		tmp += "<input type=\"button\" id=\"btn"+listeModele[i]+"\" value=\"X\" onclick=\"supprimerUnModele("+listeModele[i].toString()+")\"><br>";
 	}
 	modele.innerHTML = tmp;
@@ -1863,14 +1876,6 @@ function countOccurences(tab, nbMax, posEnt){
 	return res;
 }
 
-
-
-
-
-
-
-
-
 function differenceColonne(table1, table2){
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
         console.log("Erreur division");
@@ -1945,6 +1950,8 @@ function produitCartesien(table1, table2) {
 		}
 		h += tb2Ligne;
 	}
+	var NomTable = table1.Libelle+" x "+table2.Libelle;
+	TableProduitCartesien.attribuerNom(NomTable);
 	Tables.AjoutTable(TableProduitCartesien);
     NombreTable++;
 	if (produitCartesien.caller.name !== "createDivision") {

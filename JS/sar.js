@@ -478,6 +478,7 @@ function tableToHTML(TABLE){
 	document.getElementById("table"+NombreTable).innerHTML = contenuMAJ;
 	dragDrop.initElement(IDEmplacement);
 }
+
 function createColumn(ID){
 	var StringID=ID.toString();
 	var IDTable="table"+StringID;
@@ -530,6 +531,7 @@ function createColumn(ID){
 	    }
 	}
 }
+
 /*
 function createColumnHTML(ID) {
 	var StringID=ID.toString();
@@ -739,6 +741,7 @@ function createUnion(TABLE1,TABLE2){
 	return true;
 
 }
+
 function createIntersection(TABLE1,TABLE2){
 	if(TABLE1.constructor.name!="Table" || TABLE2.constructor.name!="Table"){
 		console.log("Erreur Intersection");
@@ -793,6 +796,7 @@ function createIntersection(TABLE1,TABLE2){
 	tableToHTML(TableIntersection);
 	return true;
 }
+
 function recupereLigne(TABLE,NumeroLigne){
 	var res=[];
 	for(var i in TABLE.OrdreEntete){
@@ -800,6 +804,7 @@ function recupereLigne(TABLE,NumeroLigne){
 	}
 	return res;
 }
+
 function createDiff(TABLE1,TABLE2){
 	if(TABLE1.constructor.name!="Table" || TABLE2.constructor.name!="Table"){
 		console.log("Erreur Diff");
@@ -874,6 +879,7 @@ function createDiff(TABLE1,TABLE2){
 		return TableDiff;
 	}
 }
+
 function createRelation(){
 	var select1 = document.getElementById("select1");
 	var select2 = document.getElementById("select2");
@@ -917,6 +923,7 @@ function createRelation(){
 		}
 	}
 }
+
 function recupValeur(){
 	if(document.forms["Requete"].elements["Table1"].value==0 || document.forms["Requete"].elements["Table2"].value==0 || document.forms["Requete"].elements["operateur"].value==0){
 		console.log("Erreur syntaxe");
@@ -936,6 +943,7 @@ function recupValeur(){
 	document.forms["Requete"].elements["operateur"].value=0;
 	document.forms["Requete"].elements["Table2"].value=0;
 }
+
 function afficheAutre(){
 	var base = document.getElementById("Req");
 	var autre = document.getElementById("ReqJ");
@@ -948,6 +956,7 @@ function afficheAutre(){
 		autre.style.display="none";
 	}
 }
+
 function recupTable(){
 	var select1 = document.getElementById("select1");
 	var select2 = document.getElementById("select2");
@@ -1009,7 +1018,6 @@ function createLine(ID){
 	}
 }
 
-
 function supprColum(Table,IDColonne){
 	recuperationContenu(Table.id.substring(Table.id.length-1));
 	var nomTable = Tables["EnsembleTable"][Table.id.toString()].Libelle;
@@ -1057,6 +1065,7 @@ function supprLigne(IDTable,IDLigne){
 		}
 	}
 }
+
 function createArray() {
 	Tables.AjoutTable(new Table());
 	NombreTable++;
@@ -1245,6 +1254,7 @@ function sauvegarderModif(IDTable){
         },5000);
     }
 }
+
 function recuperationContenu(IDTable){
 	var ID = "table"+IDTable;
 	var table = document.getElementById(ID);
@@ -1274,6 +1284,7 @@ function recuperationContenu(IDTable){
         Tables["EnsembleTable"][ID].attribuerNom(titre[0].value);
     }
 }
+
 function suppression(IDTable){
 	if(suppression.caller.name === "load" || confirm("Supprimer la table "+IDTable+" ?")) {
 		var stringID = IDTable.toString();
@@ -1540,7 +1551,6 @@ function affichageModele() {
 	modele.innerHTML = tmp;
 }
 
-
 function clearLocalstorage() {
 	if(confirm("Supprimer tous vos modèles ?")) {
 		localStorage.clear();
@@ -1593,9 +1603,6 @@ function load(modele) {
 	}
 }
 
-
-
-
 function projection() {
 	var colonneSelectionner = ["E0","E2"];
 	var NomTable = "table2";
@@ -1611,7 +1618,6 @@ function projection() {
 	NombreTable++;
 	tableToHTML(TableProjection);
 }
-
 
 function createJointureNaturelle(table1,table2) {
 	var colonnePourJointureNaturelle = "";
@@ -1686,7 +1692,6 @@ function createJointureNaturelle(table1,table2) {
 	tableToHTML(TableJointureNaturelle);
 	return true;
 }
-
 
 function createTetaJointure(table1,table2,e_table1,e_table2){
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
@@ -1767,7 +1772,6 @@ function createTetaJointure(table1,table2,e_table1,e_table2){
 	}
     return true;
 }
-
 
 function createDivision(table1, table2) {
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
@@ -1851,7 +1855,6 @@ function createDivision(table1, table2) {
     tableToHTML(TableDivision);
     return true;
 }
-
 
 function countOccurences(tab, nbMax, posEnt){
 	var result = {};

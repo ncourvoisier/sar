@@ -16,8 +16,38 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/JS/sar.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="808">
-              <caret line="1421" column="42" selection-start-line="1421" selection-start-column="42" selection-end-line="1421" selection-end-column="42" />
+            <state relative-caret-position="672">
+              <caret line="1476" column="40" selection-start-line="1476" selection-start-column="40" selection-end-line="1476" selection-end-column="40" />
+              <folding>
+                <element signature="e#8494#14203#0" />
+                <element signature="e#14229#16616#0" />
+                <element signature="e#16617#18890#0" />
+                <element signature="e#18952#21297#0" />
+                <element signature="e#21334#23067#0" />
+                <element signature="e#23110#24708#0" />
+                <element signature="e#24750#24878#0" />
+                <element signature="e#24913#26934#0" />
+                <element signature="e#26960#28689#0" />
+                <element signature="e#28712#29442#0" />
+                <element signature="e#29466#29716#0" />
+                <element signature="e#29738#30361#0" />
+                <element signature="e#30386#31804#0" />
+                <element signature="e#31843#32817#0" />
+                <element signature="e#32855#33801#0" />
+                <element signature="e#33825#38263#0" />
+                <element signature="e#38295#39631#0" />
+                <element signature="e#39667#41756#0" />
+                <element signature="e#41794#42591#0" />
+                <element signature="e#42621#42993#0" />
+                <element signature="e#43022#43509#0" />
+                <element signature="e#43543#43986#0" />
+                <element signature="e#44015#44170#0" />
+                <element signature="e#44207#44417#0" />
+                <element signature="e#44435#45650#0" />
+                <element signature="e#51056#53357#0" />
+                <element signature="e#53420#55744#0" />
+                <element signature="e#55787#57531#0" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -26,7 +56,7 @@
         <entry file="file://$PROJECT_DIR$/HTML/sar.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="663">
-              <caret line="42" column="63" lean-forward="true" selection-start-line="42" selection-start-column="63" selection-end-line="42" selection-end-column="63" />
+              <caret line="42" column="63" selection-start-line="42" selection-start-column="63" selection-end-line="42" selection-end-column="63" />
             </state>
           </provider>
         </entry>
@@ -34,7 +64,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CSS/sar.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="522">
+            <state relative-caret-position="3230">
               <caret line="190" column="22" selection-start-line="190" selection-start-column="22" selection-end-line="190" selection-end-column="22" />
             </state>
           </provider>
@@ -50,6 +80,7 @@
       <find>ajoutTable</find>
       <find>ajoutTable(</find>
       <find>afficha</find>
+      <find>createTet</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -76,7 +107,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -104,6 +134,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -155,12 +186,13 @@
       <workItem from="1549996955333" duration="5933000" />
       <workItem from="1550408689523" duration="4863000" />
       <workItem from="1550786456626" duration="7280000" />
-      <workItem from="1550859979379" duration="6531000" />
+      <workItem from="1550859979379" duration="7232000" />
+      <workItem from="1551022759555" duration="7307000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="63288000" />
+    <option name="totallyTimeSpent" value="71296000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -194,7 +226,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CSS/sar.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="522">
+        <state relative-caret-position="3230">
           <caret line="190" column="22" selection-start-line="190" selection-start-column="22" selection-end-line="190" selection-end-column="22" />
         </state>
       </provider>
@@ -202,14 +234,44 @@
     <entry file="file://$PROJECT_DIR$/HTML/sar.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="663">
-          <caret line="42" column="63" lean-forward="true" selection-start-line="42" selection-start-column="63" selection-end-line="42" selection-end-column="63" />
+          <caret line="42" column="63" selection-start-line="42" selection-start-column="63" selection-end-line="42" selection-end-column="63" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/JS/sar.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="808">
-          <caret line="1421" column="42" selection-start-line="1421" selection-start-column="42" selection-end-line="1421" selection-end-column="42" />
+        <state relative-caret-position="672">
+          <caret line="1476" column="40" selection-start-line="1476" selection-start-column="40" selection-end-line="1476" selection-end-column="40" />
+          <folding>
+            <element signature="e#8494#14203#0" />
+            <element signature="e#14229#16616#0" />
+            <element signature="e#16617#18890#0" />
+            <element signature="e#18952#21297#0" />
+            <element signature="e#21334#23067#0" />
+            <element signature="e#23110#24708#0" />
+            <element signature="e#24750#24878#0" />
+            <element signature="e#24913#26934#0" />
+            <element signature="e#26960#28689#0" />
+            <element signature="e#28712#29442#0" />
+            <element signature="e#29466#29716#0" />
+            <element signature="e#29738#30361#0" />
+            <element signature="e#30386#31804#0" />
+            <element signature="e#31843#32817#0" />
+            <element signature="e#32855#33801#0" />
+            <element signature="e#33825#38263#0" />
+            <element signature="e#38295#39631#0" />
+            <element signature="e#39667#41756#0" />
+            <element signature="e#41794#42591#0" />
+            <element signature="e#42621#42993#0" />
+            <element signature="e#43022#43509#0" />
+            <element signature="e#43543#43986#0" />
+            <element signature="e#44015#44170#0" />
+            <element signature="e#44207#44417#0" />
+            <element signature="e#44435#45650#0" />
+            <element signature="e#51056#53357#0" />
+            <element signature="e#53420#55744#0" />
+            <element signature="e#55787#57531#0" />
+          </folding>
         </state>
       </provider>
     </entry>

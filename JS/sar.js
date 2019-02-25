@@ -259,6 +259,14 @@ var Tables={
 	},
 	suppressionTable: function(ID){
 		delete Tables["EnsembleTable"][ID];
+	},
+	getTableByLibelle(libelle){
+		for(var i in Tables["EnsembleTable"]){
+			if(Tables["EnsembleTable"][i].Libelle === libelle){
+				return Tables["EnsembleTable"][i];
+			}
+		}
+		return null;
 	}
 };
 //------------------------------------------------------
@@ -1366,6 +1374,16 @@ function save() {
 	affichageModele();
 }
 
+function afficheMsgErrReq() {
+	var divErr = document.createElement('div');
+	divErr.className = 'reqErr';
+	divErr.innerHTML = 'Erreur dans la requête : Un problème est survenu\nIntersection : et ou AND ou Inter';
+	var inpt = document.getElementById('envReq');
+	document.body.insertBefore(divErr, inpt);
+	setTimeout(function () {
+		document.body.removeChild(divErr);
+	}, 6000);
+}
 
 function affichageModele() {
 	var listeModele = [];
@@ -1381,9 +1399,9 @@ function affichageModele() {
         var diff = /^([A-Z0-9]{1,20})\s(-)\s([A-Z0-9]{1,20})$/;
         var mult = /^([A-Z0-9]{1,20})\s(x)\s([A-Z0-9]{1,20})$/;
         var div = /^([A-Z0-9]{1,20})\s(\/)\s([A-Z0-9]{1,20})$/;
-        var jointureNat = /^([A-Z0-9]{1,20})\s\[\s([A-Za-z]+)\s]\s([A-Z0-9]{1,20})$/;
-        var equiJointure = /^([A-Z0-9]{1,20})\s\[\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s=\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s]\s([A-Z0-9]{1,20})$/;
-        var tetaJointure = /^([A-Z0-9]{1,20})\s\[\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s!=\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s]\s([A-Z0-9]{1,20})$/;
+        var jointureNat = /^([A-Z0-9]{1,20})\s\[\s([A-Za-z]+)\s\]\s([A-Z0-9]{1,20})$/;
+        var equiJointure = /^([A-Z0-9]{1,20})\s\[\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s=\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s\]\s([A-Z0-9]{1,20})$/;
+        var tetaJointure = /^([A-Z0-9]{1,20})\s\[\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s!=\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s\]\s([A-Z0-9]{1,20})$/;
         var op =[intersection,union,diff,mult,div,jointureNat,equiJointure,tetaJointure];
         for(var i in op){
             var res = document.getElementById('requete').value.match(op[i]);
@@ -1392,51 +1410,114 @@ function affichageModele() {
                 break;
             }
         }
-        console.log(res);
-        console.log(i);
-        switch(parseInt(i)){
-            case 0:{
-                console.log('inter');
-            }
-            break;
-            case 1:{
-                console.log('union');
-            }
-            break;
-            case 2:{
-                console.log('différence');
-            }
-            break;
-            case 3:{
-                console.log('multiplication');
-            }
-            break;
-            case 4:{
-                console.log('division');
-            }
-            break;
-            case 5:{
-                console.log('jointure naturelle');
-            }
-            break;
-            case 6:{
-                console.log('equi-jointure');
-            }
-            break;
-            case 7:{
-                console.log('teta-jointure');
-            }
-            break;
-        }
+		if(res===null){
+			afficheMsgErrReq();
+		}
+		else {
+			if(parseInt(i) >= 0 && parseInt(i) < 5) {
+				var nomTable_1 = res[1];
+				var nomTable_2 = res[3];
+				if (Tables.getTableByLibelle(nomTable_1) == null) {
+					afficheMsgErrReq();
+					return;
+				}
+				if (Tables.getTableByLibelle(nomTable_2) == null) {
+					afficheMsgErrReq();
+					return;
+				}
+				if (Tables.getTableByLibelle(nomTable_1).getBloquer() == false) {
+					alert('Veuillez enregistrer le contenu de la relation ' + nomTable_1 + ' en appuyant sur le cadenas');
+					return;
+				}
+				if (Tables.getTableByLibelle(nomTable_2).getBloquer() == false) {
+					alert('Veuillez enregistrer le contenu de la relation ' + nomTable_2 + ' en appuyant sur le cadenas');
+					return;
+				}
+			}
+			switch (parseInt(i)) {
+				case 0: {
+					createIntersection(Tables.getTableByLibelle(nomTable_1),Tables.getTableByLibelle(nomTable_2));
+				}
+					break;
+				case 1: {
+					createUnion(Tables.getTableByLibelle(nomTable_1),Tables.getTableByLibelle(nomTable_2));
+				}
+					break;
+				case 2: {
+					createDiff(Tables.getTableByLibelle(nomTable_1),Tables.getTableByLibelle(nomTable_2));
+				}
+					break;
+				case 3: {
+					produitCartesien(Tables.getTableByLibelle(nomTable_1),Tables.getTableByLibelle(nomTable_2));
+				}
+					break;
+				case 4: {
+					createDivision(Tables.getTableByLibelle(nomTable_1),Tables.getTableByLibelle(nomTable_2));
+				}
+					break;
+				case 5: {
+					createJointureNaturelle(Tables.getTableByLibelle(nomTable_1),Tables.getTableByLibelle(nomTable_2));
+				}
+					break;
+				case 6: {
+					if(res[1] != res[2] || res[4] != res[6]){
+						console.log('ici');
+						afficheMsgErrReq();
+					}
+					nomTable_1 = res[1];
+					nomTable_2 = res[6];
+					if (Tables.getTableByLibelle(nomTable_1) == null) {
+						afficheMsgErrReq();
+						return;
+					}
+					if (Tables.getTableByLibelle(nomTable_2) == null) {
+						afficheMsgErrReq();
+						return;
+					}
 
-       if(res===null){
-           var divErr = document.createElement('div');
-           divErr.className = 'reqErr';
-           divErr.innerHTML = 'Erreur dans la requête : Un problème est survenu\nIntersection : et ou AND ou Inter';
-           var inpt = document.getElementById('envReq');
-            document.body.insertBefore(divErr,inpt);
-            setTimeout(function(){document.body.removeChild(divErr);},6000)
-        }
+					if (Tables.getTableByLibelle(nomTable_1).getBloquer() == false) {
+						alert('Veuillez enregistrer le contenu de la relation ' + nomTable_1 + ' en appuyant sur le cadenas');
+						return;
+					}
+					if (Tables.getTableByLibelle(nomTable_2).getBloquer() == false) {
+						alert('Veuillez enregistrer le contenu de la relation ' + nomTable_2 + ' en appuyant sur le cadenas');
+						return;
+					}
+					createEquiJointure(Tables.getTableByLibelle(nomTable_1),Tables.getTableByLibelle(nomTable_2),res[3],res[5]);
+				}
+					break;
+				case 7: {
+					console.log('teta-jointure');
+					if(res[1] != res[2] || res[6] != res[4]){
+						afficheMsgErrReq();
+					}
+					nomTable_1 = res[1];
+					nomTable_2 = res[6];
+					if (Tables.getTableByLibelle(nomTable_1) == null) {
+						afficheMsgErrReq();
+						return;
+					}
+					if (Tables.getTableByLibelle(nomTable_2) == null) {
+						afficheMsgErrReq();
+						return;
+					}
+					if (Tables.getTableByLibelle(nomTable_1).getBloquer() == false) {
+						alert('Veuillez enregistrer le contenu de la relation ' + nomTable_1 + ' en appuyant sur le cadenas');
+						return;
+					}
+					if (Tables.getTableByLibelle(nomTable_2).getBloquer() == false) {
+						alert('Veuillez enregistrer le contenu de la relation ' + nomTable_2 + ' en appuyant sur le cadenas');
+						return;
+					}
+					createTetaJointure(Tables.getTableByLibelle(nomTable_1),Tables.getTableByLibelle(nomTable_2),res[3],res[5]);
+				}
+					break;
+				case 8: {
+					console.log('projection');
+				}
+					break;
+			}
+		}
     });
 
 	var modele = document.getElementById("modele");

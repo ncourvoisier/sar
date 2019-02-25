@@ -46,14 +46,12 @@ class Table{
 			this.Contenu[NomNouvelleEntree]=[];
 		}
 		for(var i=0;i<this.getNombreLigne();i++){
-
-				if(i==0){
-					this.Contenu[NomNouvelleEntree]=[""];
-				}
-				else{
-					this.Contenu[NomNouvelleEntree].push("");
-				}
-
+			if(i==0){
+				this.Contenu[NomNouvelleEntree]=[""];
+			}
+			else{
+				this.Contenu[NomNouvelleEntree].push("");
+			}
 		}
 		this.ColonneId++;
 	}
@@ -1962,104 +1960,5 @@ function produitCartesien(table1, table2) {
 		return TableProduitCartesien;
 	}
 }
-
-// La division n'est pas une opération de base, elle peut être réécrite
-// en combinant le produit, la restriction et la différence.
-// R ÷ S = (T1 - T2) avec :
-// -> T1 = PROJECTION(R-S, (R))
-// -> T2 = PROJECTION(R-S ,(T1 X S) - R)
-/*
-function createDivision(table1, table2){
-	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
-        console.log("Erreur division");
-        return false;
-    }
-	var T1 = new Table();
-	T1 = differenceColonne(table1, table2);
-	// console.log(T1);
-	
-	var PT1 = new Table();
-	for(var i = 0, c = T1.getNombreLigne(); i < c; i++){
-		var ligneCourante=recupereLigne(T1,i);
-		var boolEstPresent=false;
-		for(var j = 0, z = PT1.getNombreLigne(); j < z; j++){
-			if(JSON.stringify(ligneCourante)==JSON.stringify(recupereLigne(PT1,j))){
-				boolEstPresent=true;
-			}
-		}
-		if(!boolEstPresent){
-			PT1.ajoutLigne(ligneCourante);
-		}
-	}
-	// console.log(PT1);
-	
-	var PT1xS = new Table();
-	PT1xS = produitCartesien(table2, PT1);
-	// console.log(PT1xS);
-	
-	var PT1xS_R = new Table();
-	
-	PT1xS.Entete["E1"] = "B";
-	
-	PT1xS_R = createDiff(PT1xS, table1);
-	console.log(PT1xS_R);
-	
-	// var nvRes = new Table();
-	// for(var i = 0, c = PT1xS_R.getNombreLigne(); i < c; i++){
-		// var ligneCourante=recupereLigne(PT1xS_R,i);
-		// var boolEstPresent=false;
-		// for(var j = 0, z = T2.getNombreLigne(); j < z; j++){
-			// if(JSON.stringify(ligneCourante)==JSON.stringify(recupereLigne(T2,j))){
-				// boolEstPresent=true;
-			// }
-		// }
-		// if(!boolEstPresent){
-			// T2.ajoutLigne(ligneCourante);
-		// }
-	// }
-	
-	for (var i = 0, c = PT1xS_R.getNombreLigne(); i < c; i++){
-		var ent = PT1xS_R.Contenu["E0"];
-		var boolEstPresent=false;
-		for(var j = 0, z = table2.getNombreLigne(); j < z; j++){
-			if(PT1xS_R.Contenu["E0"][i]===table2.Contenu["E0"][j]){
-				boolEstPresent=true;
-			}
-		}
-		if(!boolEstPresent){
-			supprLigne(,i);
-		}
-	}
-	
-	
-	
-	var T2 = new Table();
-	for(var i = 0, c = PT1xS_R.getNombreLigne(); i < c; i++){
-		var ligneCourante=recupereLigne(PT1xS_R,i);
-		var boolEstPresent=false;
-		for(var j = 0, z = T2.getNombreLigne(); j < z; j++){
-			if(JSON.stringify(ligneCourante)==JSON.stringify(recupereLigne(T2,j))){
-				boolEstPresent=true;
-			}
-		}
-		if(!boolEstPresent){
-			T2.ajoutLigne(ligneCourante);
-		}
-	}
-	// console.log(T1);
-	// console.log(T2);
-	
-	// var T = new Table();
-	
-	
-	
-	// T = createDiff(T1, T2);
-	
-	// console.log(T);
-	// Tables.AjoutTable(T);
-    // NombreTable++;
-	// tableToHTML(T);
-	return true;
-}*/
 
 

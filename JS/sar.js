@@ -231,7 +231,6 @@ class Table{
 		this.OrdreEntete[i1]=E2;
 		this.OrdreEntete[i2]=E1;
 	}
-
 	swapLigne(i,j){
 		for(var entete in this.Entete){
 			var temp=this.Contenu[entete][i];

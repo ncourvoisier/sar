@@ -1595,9 +1595,6 @@ function load(modele) {
 			NombreTable++;
 			tableToHTML(Tables["EnsembleTable"][nbtable]);
 		}
-		
-		// createDivision(Tables["EnsembleTable"].table1,Tables["EnsembleTable"].table2);
-		
 	} else {
 		alert("Sorry, your browser does not support Web Storage...");
 	}
@@ -1774,14 +1771,17 @@ function createTetaJointure(table1,table2,e_table1,e_table2){
 }
 
 function createDivision(table1, table2) {
+	
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
         console.log("Erreur division");
         return false;
     }
+	
 	if(table1.Contenu["E0"].length <= table2.Contenu["E0"].length){
 		alert("Erreur division, la relation dividende possède moins ou autant de ligne que la relation diviseur.");
 		return false;
 	}
+	
 	var TableDivision = new Table();
 	var compteur = 0;
 	var positionEnt = -1;
@@ -1815,8 +1815,6 @@ function createDivision(table1, table2) {
 			cpt++;
 		}
 	}
-	// console.log(TableDivision);
-	
 	
 	if (EnteteTrue) {
 		console.log("Erreur division, les relations n'ont pas d'entete commune.");
@@ -1824,11 +1822,7 @@ function createDivision(table1, table2) {
 	}
 
 	var diffColo = differenceColonne(table1, TableDivision);
-
-	
-	
 	var testTab = [];
-	// console.log(diffColo);
 	for (var i = 0, c = diffColo.getNombreLigne(); i < c; ++i) {
 		var l1 = recupereLigne(diffColo, i);
 		for (var j = 0, z = table2.getNombreLigne(); j < z; j++) {
@@ -1838,6 +1832,7 @@ function createDivision(table1, table2) {
 			}
 		}
 	}
+	
 	Tables.suppressionTable("table"+NombreTable);
 	var l2 = table2.getNombreLigne();
 	var resultDivOccu = [];
@@ -1848,6 +1843,7 @@ function createDivision(table1, table2) {
 		TableDivision.Contenu["E0"][cpt] = resultDivOccu[i];
 		cpt++;
 	}
+	
 	var NomTable = table1.Libelle+" DIV "+table2.Libelle;
 	TableDivision.attribuerNom(NomTable);
 	Tables.AjoutTable(TableDivision);

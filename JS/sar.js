@@ -445,10 +445,9 @@ function tableToHTML(TABLE){
 	divNew.style.top = DeplacementHauteur+'px';
 	dragDrop.initElement(IDEmplacement);
 	// recupTable();
-    Tables["EnsembleTable"]["table"+NombreTable].setTMin(divDrag.offsetWidth);
-	thNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".tri(0,"+NombreTable+")");
-	thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".triReverse(0,"+NombreTable+")");
-	trNew.getElementsByClassName('suprCol')[0].setAttribute('onclick','supprColum('+IDTable+',0)');
+	//thNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".tri(0,"+NombreTable+")");
+	//thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".triReverse(0,"+NombreTable+")");
+	//trNew.getElementsByClassName('suprCol')[0].setAttribute('onclick','supprColum('+IDTable+',0)');
 
 	//POUR RAJOUTER LES COLONNES ET LIGNES
 	var nbEntete = Object.keys(TABLE.Entete).length;
@@ -458,19 +457,30 @@ function tableToHTML(TABLE){
 		var position = "E"+entete;
 		var valeur = TABLE.Entete[position];
 		contenuMAJ += "<th class=\"col\"><input type=\"text\" value=\""+valeur+"\" disabled=\"\">";
-		contenuMAJ += "<div class=\"btnCol\"><img class=\"tri\" src=\"../ressources/images/btnTri.png\" onclick=\"console.log(\"tri croissant\")\">";
-		contenuMAJ += "<img class=\"reverseTri\" src=\"../ressources/images/reverseTri.png\" onclick=\"console.log(\"x="+entete+" TABLE="+NombreTable+"\")\">";
-		contenuMAJ += "<img class=\"suprCol\" src=\"../ressources/images/suprCol.png\">";
+		contenuMAJ += "<div class=\"btnCol\"><img class=\"tri\" src=\"../ressources/images/btnTri.png\" onclick=\"Tables.EnsembleTable.table"+NombreTable+".tri("+entete+","+NombreTable+")\">";
+		contenuMAJ += "<img class=\"reverseTri\" src=\"../ressources/images/reverseTri.png\" onclick=\"Tables.EnsembleTable.table"+NombreTable+".triReverse("+entete+","+NombreTable+")\">";
+		contenuMAJ += "<img class=\"suprCol\" src=\"../ressources/images/suprCol.png\" onclick=\"supprColum("+IDTable+","+entete+")\">";
 		contenuMAJ += "</th>";
 	}
 	contenuMAJ += "</tr></thead><tbody>";
 
+	var divNew = document.createElement('div');
+	var imgBtnSuprLigne = document.createElement('img');
+	divNew.className = 'btnSuprLigne';
+	imgBtnSuprLigne.width = '16';
+	imgBtnSuprLigne.height = '16';
+	imgBtnSuprLigne.src = '../ressources/images/suprCol.png';
+	// console.log("Nombre de ligne "+nbLigne);
+	imgBtnSuprLigne.setAttribute('onclick','supprLigne('+IDTable+','+nbLigne+')');
+	divNew.appendChild(imgBtnSuprLigne);
+	var nbLigne = nbContenu;
 	for (var contenu = 0; contenu < nbContenu; contenu++) {
 		contenuMAJ += "<tr>";
+		nbLigne--;
 		for (var entete = 0; entete < nbEntete; entete++) {
 			var position = "E"+entete;
 			var valeur = TABLE.Contenu[position];
-			contenuMAJ += "<td><input type=\"text\" value=\""+valeur[contenu]+"\" disabled=\"\"></td>";
+			contenuMAJ += "<td><input type=\"text\" value=\""+valeur[contenu]+"\" disabled=\"\"><div class=\"btnSuprLigne\"><img width=\"16\" height=\"16\" src=\"../ressources/images/suprCol.png\" onclick=\"supprLigne("+IDTable+","+nbLigne+")\"></div></td>";
 		}
 		contenuMAJ += "</tr>";
 	}

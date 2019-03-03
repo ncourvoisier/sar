@@ -203,7 +203,7 @@ class Table{
 		}
 		var NomTable="EmplacementTable"+NumTable;
 		document.getElementById(NomTable).remove();
-		tableToHTML(this);
+		tableToHTML(this,NumTable);
 	}
 	TriOrdreEntete(){
 		var tab=this.triEntete();
@@ -348,7 +348,12 @@ function afficherPremierPlan(obj) {
 	}
 }
 
-function tableToHTML(TABLE){
+function tableToHTML(TABLE,number){
+	console.log(NombreTable);
+	var numTable = NombreTable;
+	if(number != undefined){
+		numTable = number;
+	}
 	var output = document.getElementById('EmplacementTables');
 	var divNew  = document.createElement('div');
 	var divDrag  = document.createElement('div');
@@ -372,25 +377,25 @@ function tableToHTML(TABLE){
 	var ajoutLigneNew  = document.createElement('input');
 	ajoutLigneNew.type = "button" ;
 	ajoutLigneNew.value = "+L" ;
-	ajoutLigneNew.setAttribute("onClick","createLine("+NombreTable+")") ;
+	ajoutLigneNew.setAttribute("onClick","createLine("+numTable+")") ;
 	var ajoutColonneNew  = document.createElement('input');
 	ajoutColonneNew.type = "button" ;
 	ajoutColonneNew.value = "+C" ;
-	ajoutColonneNew.setAttribute("onClick","createColumn("+NombreTable+")") ;
+	ajoutColonneNew.setAttribute("onClick","createColumn("+numTable+")") ;
 	var ajoutButtonSuppr  = document.createElement('input');
 	ajoutButtonSuppr.type = "button" ;
 	ajoutButtonSuppr.setAttribute("class","btnSuppr") ;
 	ajoutButtonSuppr.value = "X" ;
-	ajoutButtonSuppr.setAttribute("onClick","suppression("+NombreTable+")") ;
+	ajoutButtonSuppr.setAttribute("onClick","suppression("+numTable+")") ;
 	var ajoutButtonReduc  = document.createElement('input');
 	ajoutButtonReduc.type = "button" ;
 	ajoutButtonReduc.setAttribute("class","btnReduc") ;
 	ajoutButtonReduc.value = "-" ;
-	ajoutButtonReduc.setAttribute("onClick","reduction("+NombreTable+")") ;
+	ajoutButtonReduc.setAttribute("onClick","reduction("+numTable+")") ;
 	var ajoutButtonModif = document.createElement('a');
 	ajoutButtonModif.href = "#";
 	ajoutButtonModif.setAttribute('class',"boutonLock");
-	ajoutButtonModif.setAttribute('onclick',"modification("+NombreTable+")");
+	ajoutButtonModif.setAttribute('onclick',"modification("+numTable+")");
 	divBouton.appendChild(ajoutColonneNew);
     divBouton.appendChild(ajoutLigneNew);
     divBouton.appendChild(ajoutButtonReduc);
@@ -400,7 +405,7 @@ function tableToHTML(TABLE){
 	var divRelation = document.createElement('div');
 	divRelation.setAttribute('class',"relation");
 	var tabNew=document.createElement('table');
-	var StringID=NombreTable.toString();
+	var StringID=numTable.toString();
 	var IDTable="table"+StringID;
 	tabNew.id=IDTable;
 	var theadNew=document.createElement('thead');
@@ -441,7 +446,7 @@ function tableToHTML(TABLE){
 	divNew.appendChild(divRelation);
 	var IDEmplacement="EmplacementTable"+StringID;
 	divNew.id=IDEmplacement;
-	DeplacementHauteur=120+NombreTable*100;
+	DeplacementHauteur=120+numTable*100;
 	divNew.style.top = DeplacementHauteur+'px';
 	dragDrop.initElement(IDEmplacement);
 	// recupTable();
@@ -457,8 +462,8 @@ function tableToHTML(TABLE){
 		var position = "E"+entete;
 		var valeur = TABLE.Entete[position];
 		contenuMAJ += "<th class=\"col\"><input type=\"text\" value=\""+valeur+"\" disabled=\"\">";
-		contenuMAJ += "<div class=\"btnCol\"><img class=\"tri\" src=\"../ressources/images/btnTri.png\" onclick=\"Tables.EnsembleTable.table"+NombreTable+".tri("+entete+","+NombreTable+")\">";
-		contenuMAJ += "<img class=\"reverseTri\" src=\"../ressources/images/reverseTri.png\" onclick=\"Tables.EnsembleTable.table"+NombreTable+".triReverse("+entete+","+NombreTable+")\">";
+		contenuMAJ += "<div class=\"btnCol\"><img class=\"tri\" src=\"../ressources/images/btnTri.png\" onclick=\"Tables.EnsembleTable.table"+numTable+".tri("+entete+","+numTable+")\">";
+		contenuMAJ += "<img class=\"reverseTri\" src=\"../ressources/images/reverseTri.png\" onclick=\"Tables.EnsembleTable.table"+numTable+".triReverse("+entete+","+numTable+")\">";
 		contenuMAJ += "<img class=\"suprCol\" src=\"../ressources/images/suprCol.png\" onclick=\"supprColum("+IDTable+","+entete+")\">";
 		contenuMAJ += "</th>";
 	}
@@ -485,7 +490,7 @@ function tableToHTML(TABLE){
 		contenuMAJ += "</tr>";
 	}
 	contenuMAJ += "<tr></tr></tbody>";
-	document.getElementById("table"+NombreTable).innerHTML = contenuMAJ;
+	document.getElementById("table"+numTable).innerHTML = contenuMAJ;
 	dragDrop.initElement(IDEmplacement);
 }
 

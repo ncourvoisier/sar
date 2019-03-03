@@ -1462,7 +1462,6 @@ function affichageModele() {
 					break;
 				case 6: {
 					if(res[1] != res[2] || res[4] != res[6]){
-						console.log('ici');
 						afficheMsgErrReq();
 					}
 					nomTable_1 = res[1];

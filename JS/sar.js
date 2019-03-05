@@ -695,29 +695,28 @@ function createEquiJointure(table1,table2,e_table1,e_table2){
 
 function createUnion(TABLE1,TABLE2){
 	if(TABLE1.constructor.name!="Table" || TABLE2.constructor.name!="Table"){
-		console.log("Erreur Union");
+		alert("Erreur dans la fonction union sur les constructeurs des tables.");
 		return false;
 	}
 	if(TABLE1.getNombreColonne()!=TABLE2.getNombreColonne()){
-		console.log("Erreur Union");
+		alert("Erreur union : les relations ne possèdent pas le même nombre d'attributs.");
 		return false;
 	}
 	var t1=TABLE1.triEntete();
 	var t2=TABLE2.triEntete();
 	if(t1.length!=t2.length){
-		console.log("Erreur Union");
+		alert("Erreur union : les relations ne possèdent pas le même nombre d'attributs.");
 		return false;
 	}
 	for(var colonne in t1){
 		if(t1[colonne]!=t2[colonne]){
-			console.log("Erreur Union: Le nom des attributs des 2 tables doivent être identique");
+			alert("Erreur union : Le nom des attributs des 2 tables doivent être identique");
 			return false;
 		}
 	}
 	TABLE1.TriOrdreEntete();
 	TABLE2.TriOrdreEntete();
 	var TableUnion=new Table();
-	// TableUnion.attribuerNom("Union: "+TABLE1.Libelle+" OU "+TABLE2.Libelle);
 	TableUnion.attribuerNom(TABLE1.Libelle+" OU "+TABLE2.Libelle);
 	var compteur =0;
 	for(cleEntete in TABLE1.OrdreEntete){
@@ -754,7 +753,6 @@ function createUnion(TABLE1,TABLE2){
 	NombreTable++;
 	tableToHTML(TableUnion);
 	return true;
-
 }
 
 function createIntersection(TABLE1,TABLE2){

@@ -639,7 +639,7 @@ function createEquiJointure(table1,table2,e_table1,e_table2){
 	}
 
     var tableEquiJointure = new Table();
-    tableEquiJointure.attribuerNom(table1.Libelle + "["+e_table1+" = "+e_table2+"]"+table2.Libelle);
+    tableEquiJointure.attribuerNom(table1.Libelle + " [ "+e_table1+" = "+e_table2+" ] "+table2.Libelle);
 
 	for (var i in table1.Entete) {
 		tableEquiJointure.Entete[i] = table1.Entete[i];
@@ -647,18 +647,32 @@ function createEquiJointure(table1,table2,e_table1,e_table2){
 
 	var compteur = tableEquiJointure.getNombreColonne();
 	console.log(compteur);
-    for(var i in table2.Entete){
-        var NomNouvelleEntree="E"+compteur;
+	
+	for(var i in table2.Entete){
+		var NomNouvelleEntree="E"+compteur;
 		tableEquiJointure.Entete[NomNouvelleEntree]=table2.Entete[i];
-        compteur++;
-    }
+		compteur++;
+	}
+	
+	var tailleEnteteTable1 = Object.keys(table1.Entete).length;
+	var tailleEnteteTableEquiJ = Object.keys(tableEquiJointure.Entete).length;
+	for (var i = tailleEnteteTable1; i < tailleEnteteTableEquiJ; i++) {
+		var att1 = JSON.stringify(tableEquiJointure.Entete["E"+i]);
+		for (j in table1.Entete) {
+			var att2 = JSON.stringify(table1.Entete[j]);
+			if (att1 === att2) {
+				tableEquiJointure.Entete["E"+i] = "z"+tableEquiJointure.Entete["E"+i];
+			}
+		}
+	}
+	
     compteur = 0;
     for(var i in tableEquiJointure.Entete){
         var NomNouvelleEntree="E"+compteur;
         tableEquiJointure.Contenu[NomNouvelleEntree]=[];
         compteur++;
     }
-    var numEntTab1;
+	var numEntTab1;
     for(var i in table1.Entete){
         if(table1.Entete[i] == e_table1){
             numEntTab1 = i;
@@ -1943,9 +1957,20 @@ function produitCartesien(table1, table2) {
 		TableProduitCartesien.Entete["E"+i] = table1.Entete["E"+i];
 		TableProduitCartesien.Contenu["E"+i] = [];
 	}
-	for (var i = tb1Colonne; i < addtb1tb2Colonne; i++) {
-		TableProduitCartesien.Entete["E"+i] = table2.Entete["E"+(i-tb1Colonne)];
-		TableProduitCartesien.Contenu["E"+i] = [];
+	for (var i = 0; i < tb1Colonne; i++) {
+		var att1 = JSON.stringify(table1.Entete["E"+i]);
+		for (var i = tb1Colonne; i < addtb1tb2Colonne; i++) {
+			var att2 = JSON.stringify(table2.Entete["E"+(i-tb1Colonne)]);
+			if (att1 === att2) {
+				var nvAtt = "z"+table2.Entete["E"+(i-tb1Colonne)];
+				console.log(nvAtt);
+				TableProduitCartesien.Entete["E"+i] = nvAtt;
+				TableProduitCartesien.Contenu["E"+i] = [];
+				continue;
+			}
+			TableProduitCartesien.Entete["E"+i] = table2.Entete["E"+(i-tb1Colonne)];
+			TableProduitCartesien.Contenu["E"+i] = [];
+		}
 	}
 	for (var i = 0; i < tb1Ligne; i++) {
 		var ltb1 = recupereLigne(table1, i);

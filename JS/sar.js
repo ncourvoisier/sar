@@ -11,7 +11,6 @@ class Table{
 		this.Contenu={E0:[]};
 		this.ColonneId=1;
 		this.bloque = true;
-		this.tailleMin = undefined;
 		this.OrdreEntete=["E0"];
 	}
 	attribuerNom(Nom) {
@@ -137,12 +136,6 @@ class Table{
 	setY(y) {
 		this.Y=y;
 	}
-	setTMin(t){
-	    this.tailleMin = t;
-	}
-	getTMin(){
-	    return this.tailleMin;
-    }
     tri(Entete,NumTable){
     	var EnteteAtt="E"+Entete;
     	var isNombre=true;
@@ -243,6 +236,14 @@ class Table{
 		}
 		return tab.sort();
 	}
+	getEnteteByNom(nomAttr){
+	    for(var i in this.Entete){
+	        if(this.Entete[i] == nomAttr){
+	            return i;
+            }
+        }
+	    return null;
+    }
 }
 
 //----------------------------Ensemble Tables----------------------------
@@ -1436,7 +1437,7 @@ function affichageModele() {
         var jointureNat = /^([A-Z0-9]{1,20})\s\[\s([A-Za-z]+)\s\]\s([A-Z0-9]{1,20})$/;
         var equiJointure = /^([A-Z0-9]{1,20})\s\[\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s=\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s\]\s([A-Z0-9]{1,20})$/;
         var tetaJointure = /^([A-Z0-9]{1,20})\s\[\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s!=\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s\]\s([A-Z0-9]{1,20})$/;
-        var projection = /^\[([A-Za-z]+)(?:,[A-Za-z]+)*\]\s([A-Z0-9]{1,20})$/;
+        var projection = /^\[(.*)\]\s([A-Z0-9]{1,20})$/;
         var op =[intersection,union,diff,mult,div,jointureNat,equiJointure,tetaJointure,projection];
         for(var i in op){
             var res = document.getElementById('requete').value.match(op[i]);
@@ -1547,9 +1548,12 @@ function affichageModele() {
 				}
 					break;
 				case 8: {
-					for(var n = 1;n < res.length-1;n++){
-						console.log(res[n]);
-					}
+					var attributs = res[1].split(',');
+					console.log("Nom d'attributs à afficher ");
+					for(var n in attributs){
+					    attributs[n] = attributs[n].trim();
+                    }
+                    createProjection(Tables.getTableByLibelle(res[2]),attributs);
 					console.log('projection');
 				}
 					break;
@@ -1603,7 +1607,6 @@ function load(modele) {
 			NewTable.Contenu=RestoredTables.EnsembleTable[RestoredT].Contenu;
 			NewTable.ColonneId=RestoredTables.EnsembleTable[RestoredT].ColonneId;
 			NewTable.bloque=RestoredTables.EnsembleTable[RestoredT].bloque;
-			NewTable.tailleMin=RestoredTables.EnsembleTable[RestoredT].tailleMin;
 			NewTable.OrdreEntete=RestoredTables.EnsembleTable[RestoredT].OrdreEntete;
 			Tables.AjoutTable(NewTable);
 		}
@@ -1616,15 +1619,30 @@ function load(modele) {
 	}
 }
 
-function projection() {
-	var colonneSelectionner = ["E0","E2"];
-	var NomTable = "table2";
+function createProjection(table,tab_Entete) {
+    var colonneSelectionner = [];
+    for(var i in tab_Entete){
+        var entete = table.getEnteteByNom(tab_Entete[i]);
+        if(entete){
+            colonneSelectionner.push(entete);
+        }
+        else{
+            var divErr = document.createElement('div');
+            divErr.className = 'reqErr';
+            divErr.innerHTML = 'Erreur dans la requête : vérifiez le nom des attributs ! ';
+            var inpt = document.getElementById('envReq');
+            document.body.insertBefore(divErr, inpt);
+            setTimeout(function () {
+                document.body.removeChild(divErr);
+            }, 6000);
+            return;
+        }
+    }
 	var TableProjection = new Table();
-	var nomNvTable = "Projection "+NomTable;
+	var nomNvTable = "PROJECTION "+table.Libelle;
 	for (var i = 0, c = colonneSelectionner.length; i < c; i++) {
-		nomNvTable += " "+Tables["EnsembleTable"][NomTable].Entete[colonneSelectionner[i]];
-		TableProjection.Entete["E"+i]=Tables["EnsembleTable"][NomTable].Entete[colonneSelectionner[i]];
-		TableProjection.Contenu["E"+i]=Tables["EnsembleTable"][NomTable].Contenu[colonneSelectionner[i]];
+		TableProjection.Entete["E"+i]=table.Entete[colonneSelectionner[i]];
+		TableProjection.Contenu["E"+i]=table.Contenu[colonneSelectionner[i]];
 	}
 	TableProjection.attribuerNom(nomNvTable);
 	Tables.AjoutTable(TableProjection);

@@ -2013,3 +2013,42 @@ function produitCartesien(table1, table2) {
 }
 
 
+function selection(TABLE,NomAttribut,operateur,condition){
+	var position=0;
+	for(var entete in TABLE.Entete){
+		if(TABLE.Entete[entete]==NomAttribut){
+			break;
+		}
+		position++
+	}
+	console.log("position attribut"+position);
+	var TableSelection = new Table();
+	for (var i = 0; i < TABLE.getNombreColonne(); i++) {
+		TableSelection.Entete["E"+i] = TABLE.Entete["E"+i];
+		TableSelection.Contenu["E"+i] = [];
+	}
+	var nomNvTable = "Selection "+TABLE.Libelle;
+	Tables.AjoutTable(TableSelection);
+	for(var i=0;i<TABLE.getNombreLigne();i++){
+		if(appliqueFonction(recupereLigne(TABLE,i)[position],operateur,condition)){
+			TableSelection.ajoutLigne(recupereLigne(TABLE,i));
+		}
+	}
+	NombreTable++;
+	tableToHTML(TableSelection);
+}
+
+function appliqueFonction(a,operateur,b){
+	console.log("ici");
+	switch (operateur) {
+		case "<": return a<b;
+		case ">": return a>b;
+		case "<=": return a<=b;
+		case ">=": return a>=b;
+		case "==": return a==b;
+		case "!=": return a!=b;
+	}
+	return true;
+}
+
+

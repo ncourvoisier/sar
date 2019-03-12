@@ -14,7 +14,15 @@ class Table{
 		this.OrdreEntete=["E0"];
 	}
 	attribuerNom(Nom) {
-		this.Libelle=Nom;
+		console.log("ici");
+		var NomTemp=Nom;
+		var compteur=0;
+		do{
+			this.Libelle=NomTemp;
+			compteur++;
+			NomTemp=NomTemp+compteur;
+		}
+		while(!verifUniciteNomTable(NomTemp));
 	}
 	reduire(){
 		this.reduit=!this.reduit;
@@ -641,7 +649,7 @@ function createEquiJointure(table1,table2,e_table1,e_table2){
 
     var tableEquiJointure = new Table();
     tableEquiJointure.attribuerNom(table1.Libelle + " [ "+e_table1+" = "+e_table2+" ] "+table2.Libelle);
-
+	
 	for (var i in table1.Entete) {
 		tableEquiJointure.Entete[i] = table1.Entete[i];
 	}
@@ -731,6 +739,7 @@ function createUnion(TABLE1,TABLE2){
 	TABLE2.TriOrdreEntete();
 	var TableUnion=new Table();
 	TableUnion.attribuerNom(TABLE1.Libelle+" OU "+TABLE2.Libelle);
+	
 	var compteur =0;
 	for(cleEntete in TABLE1.OrdreEntete){
 		var NomNouvelleEntree="E"+compteur;
@@ -793,7 +802,9 @@ function createIntersection(TABLE1,TABLE2){
 	TABLE2.TriOrdreEntete();
 	var TableIntersection=new Table();
 	// TableIntersection.attribuerNom("Intersection: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
+	
 	TableIntersection.attribuerNom(TABLE1.Libelle+" ET "+TABLE2.Libelle);
+	
 	var compteur =0;
 	for(var i in TABLE1.Entete){
 		var NomNouvelleEntree="E"+compteur;
@@ -855,8 +866,9 @@ function createDiff(TABLE1,TABLE2){
 	TABLE1.TriOrdreEntete();
 	TABLE2.TriOrdreEntete();
 	var TableDiff=new Table();
-	// TableDiff.attribuerNom("Diff: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
+	
 	TableDiff.attribuerNom(TABLE1.Libelle+" - "+TABLE2.Libelle);
+	
 	var compteur =0;
 	for(var i in TABLE1.Entete){
 		var NomNouvelleEntree="E"+compteur;
@@ -1301,6 +1313,7 @@ function recuperationContenu(IDTable){
     if(titre[0].value === ""){
         Tables["EnsembleTable"][ID].attribuerNom(ID);
         titre[0].value = ID;
+    	
     }
     else {
         Tables["EnsembleTable"][ID].attribuerNom(titre[0].value);
@@ -1653,6 +1666,7 @@ function createProjection(table,tab_Entete) {
 		TableProjection.Contenu["E"+i]=table.Contenu[colonneSelectionner[i]];
 	}
 	TableProjection.attribuerNom(nomNvTable);
+	
 	Tables.AjoutTable(TableProjection);
 	NombreTable++;
 	tableToHTML(TableProjection);
@@ -1726,6 +1740,7 @@ function createJointureNaturelle(table1,table2) {
 		}
 	}
 	TableJointureNaturelle.attribuerNom(NomTable);
+	
 	Tables.AjoutTable(TableJointureNaturelle);
 	NombreTable++;
 	tableToHTML(TableJointureNaturelle);
@@ -1762,6 +1777,7 @@ function createTetaJointure(table1,table2,e_table1,e_table2){
 
     var tableTetaJointure = new Table();
     tableTetaJointure.attribuerNom(table1.Libelle + "["+e_table1+" != "+e_table2+"]"+table2.Libelle);
+	
     for (var i in table1.Entete) {
 		tableTetaJointure.Entete[i] = table1.Entete[i];
 	}
@@ -1906,6 +1922,7 @@ function createDivision(table1, table2) {
 	
 	var NomTable = table1.Libelle+" / "+table2.Libelle;
 	TableDivision.attribuerNom(NomTable);
+	
 	Tables.AjoutTable(TableDivision);
     NombreTable++;
     tableToHTML(TableDivision);
@@ -2046,6 +2063,7 @@ function selection(TABLE,NomAttribut,operateur,condition){
 	var nomTable = "S ["+NomAttribut+" "+operateur+" "+condition+"] "+TABLE.Libelle;
 	Tables.AjoutTable(TableSelection);
 	TableSelection.attribuerNom(nomTable);
+
 	for(var i=0;i<TABLE.getNombreLigne();i++){
 		if(appliqueFonction(recupereLigne(TABLE,i)[position],operateur,condition)){
 			TableSelection.ajoutLigne(recupereLigne(TABLE,i));
@@ -2054,8 +2072,18 @@ function selection(TABLE,NomAttribut,operateur,condition){
 	NombreTable++;
 	tableToHTML(TableSelection);
 }
+function verifUniciteNomTable(NomTable){
+	for(var table in Tables.EnsembleTable){
+		if(Tables.EnsembleTable[table].libelle==NomTable){
+			return false;
+		}
+	}
+	return true;
+}
 
 function appliqueFonction(a,operateur,b){
+	a=+a;
+	b=+b;
 	switch (operateur) {
 		case "<": return a<b;
 		case ">": return a>b;

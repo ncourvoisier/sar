@@ -1445,6 +1445,7 @@ function affichageModele() {
         var equiJointure = /^([A-Z0-9]{1,20})\s\[\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s=\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s\]\s([A-Z0-9]{1,20})$/;
         var tetaJointure = /^([A-Z0-9]{1,20})\s\[\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s!=\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s\]\s([A-Z0-9]{1,20})$/;
         var projection = /^\[(.*)\]\s([A-Z0-9]{1,20})$/;
+        var selection = /^S$/;
         var op =[intersection,union,diff,mult,div,jointureNat,equiJointure,tetaJointure,projection];
         for(var i in op){
             var res = document.getElementById('requete').value.match(op[i]);
@@ -2056,7 +2057,6 @@ function selection(TABLE,NomAttribut,operateur,condition){
 }
 
 function appliqueFonction(a,operateur,b){
-	console.log("ici");
 	switch (operateur) {
 		case "<": return a<b;
 		case ">": return a>b;

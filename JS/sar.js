@@ -262,7 +262,7 @@ var Tables={
 		Tables.id++;
 		var NomTable="table"+Tables.id;
 		Tables["EnsembleTable"][NomTable]=TABLE;
-		(TABLE.Libelle ==="")?TABLE.attribuerNom(NomTable):TABLE.attribuerNom(TABLE.Libelle);
+		(TABLE.Libelle ==="")?TABLE.attribuerNom("TABLE"+Tables.id):TABLE.attribuerNom(TABLE.Libelle);
 	},
 	suppressionTable: function(ID){
 		delete Tables["EnsembleTable"][ID];
@@ -1459,7 +1459,6 @@ function affichageModele() {
         var tetaJointure = /^([A-Z0-9]{1,20})\s\[\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s!=\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s\]\s([A-Z0-9]{1,20})$/;
         var projection = /^\[(.*)\]\s([A-Z0-9]{1,20})$/;
         var selection = /^S\[\s([A-Za-z]+)\s?([<>]||[<>!=]=)\s?([0-9]*)\s\]\s([A-Z0-9]{1,20})$/;
-		//([<>]||[<>!=]=)\s?([0-9]*)
         var op =[intersection,union,diff,mult,div,jointureNat,equiJointure,tetaJointure,projection,selection];
         for(var i in op){
             var res = document.getElementById('requete').value.match(op[i]);
@@ -1571,21 +1570,17 @@ function affichageModele() {
 					break;
 				case 8: {
 					var attributs = res[1].split(',');
-					console.log("Nom d'attributs à afficher ");
 					for(var n in attributs){
 					    attributs[n] = attributs[n].trim();
                     }
                     createProjection(Tables.getTableByLibelle(res[2]),attributs);
-					console.log('projection');
 				}
 					break;
 				case 9: {
 					for(var i in res){
 						console.log(res[i]);
 					}
-					console.log("Nom d'attributs à afficher ");
 					createSelection(Tables.getTableByLibelle(res[4]),res[1],res[2],res[3]);
-					console.log('selection');
 				}
 					break;
 				default : {

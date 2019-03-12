@@ -2021,14 +2021,14 @@ function selection(TABLE,NomAttribut,operateur,condition){
 		}
 		position++
 	}
-	console.log("position attribut"+position);
 	var TableSelection = new Table();
 	for (var i = 0; i < TABLE.getNombreColonne(); i++) {
 		TableSelection.Entete["E"+i] = TABLE.Entete["E"+i];
 		TableSelection.Contenu["E"+i] = [];
 	}
-	var nomNvTable = "Selection "+TABLE.Libelle;
+	var nomTable = "S ["+NomAttribut+" "+operateur+" "+condition+"] "+TABLE.Libelle;
 	Tables.AjoutTable(TableSelection);
+	TableSelection.attribuerNom(nomTable);
 	for(var i=0;i<TABLE.getNombreLigne();i++){
 		if(appliqueFonction(recupereLigne(TABLE,i)[position],operateur,condition)){
 			TableSelection.ajoutLigne(recupereLigne(TABLE,i));
@@ -2039,7 +2039,6 @@ function selection(TABLE,NomAttribut,operateur,condition){
 }
 
 function appliqueFonction(a,operateur,b){
-	console.log("ici");
 	switch (operateur) {
 		case "<": return a<b;
 		case ">": return a>b;

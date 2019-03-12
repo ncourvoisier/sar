@@ -318,7 +318,7 @@ dragDrop = {
 		removeEventSimple(document,'keypress',dragDrop.dragKeys);
 		removeEventSimple(document,'keypress',dragDrop.switchKeyEvents);
 		removeEventSimple(document,'keydown',dragDrop.dragKeys);
-		dragDrop.draggedObject.className = dragDrop.draggedObject.className.replace(/dragged/,'');
+		dragDrop.draggedObject.className = dragDrop.draggedObject.className.replace(/ dragged/,'');
 		dragDrop.draggedObject = null;
 	}
 }
@@ -470,15 +470,15 @@ function tableToHTML(TABLE,number){
 	}
 	contenuMAJ += "</tr></thead><tbody>";
 
-	var divNew = document.createElement('div');
+	var divBtnSuprLigne = document.createElement('div');
 	var imgBtnSuprLigne = document.createElement('img');
-	divNew.className = 'btnSuprLigne';
+	divBtnSuprLigne.className = 'btnSuprLigne';
 	imgBtnSuprLigne.width = '16';
 	imgBtnSuprLigne.height = '16';
 	imgBtnSuprLigne.src = '../ressources/images/suprCol.png';
 	// console.log("Nombre de ligne "+nbLigne);
 	imgBtnSuprLigne.setAttribute('onclick','supprLigne('+IDTable+','+nbLigne+')');
-	divNew.appendChild(imgBtnSuprLigne);
+	divBtnSuprLigne.appendChild(imgBtnSuprLigne);
 	var nbLigne = nbContenu;
 	for (var contenu = 0; contenu < nbContenu; contenu++) {
 		contenuMAJ += "<tr>";
@@ -1187,7 +1187,6 @@ function createArray() {
 	divNew.style.top = DeplacementHauteur+'px';
 	dragDrop.initElement(IDEmplacement);
 	// recupTable();
-    Tables["EnsembleTable"]["table"+NombreTable].setTMin(divDrag.offsetWidth);
 	thNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".tri(0,"+NombreTable+")");
 	thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".triReverse(0,"+NombreTable+")");
 	trNew.getElementsByClassName('suprCol')[0].setAttribute('onclick','supprColum('+IDTable+',0)');

@@ -14,15 +14,7 @@ class Table{
 		this.OrdreEntete=["E0"];
 	}
 	attribuerNom(Nom) {
-		console.log("ici");
-		var NomTemp=Nom;
-		var compteur=0;
-		do{
-			this.Libelle=NomTemp;
-			compteur++;
-			NomTemp=NomTemp+compteur;
-		}
-		while(!verifUniciteNomTable(NomTemp));
+		this.Libelle=Nom;
 	}
 	reduire(){
 		this.reduit=!this.reduit;
@@ -274,6 +266,14 @@ var Tables={
 			}
 		}
 		return null;
+	},
+	verifUnicite(libelle,idtable){
+		for(var i in Tables["EnsembleTable"]){
+			if(Tables["EnsembleTable"][i].Libelle === libelle && i !== idtable){
+				return true;
+			}
+		}
+		return false;
 	}
 };
 //------------------------------------------------------
@@ -1238,18 +1238,32 @@ function modification(IDTable){
 }
 
 function sauvegarderModif(IDTable){
-    var emplacement = document.getElementById('EmplacementTable'+IDTable);
-    var titre = emplacement.getElementsByClassName('nomTable');
-    if(titre[0]===undefined){
-        titre = emplacement.getElementsByClassName('nomTableErr');
-    }
-    if(titre[0].value.match(/^[A-Z0-9]*$/)){
-        titre[0].className = 'nomTable';
-        titre = emplacement.getElementsByClassName('nomTable');
-        var stringID = IDTable.toString();
-        var ID = "table" + IDTable;
-        Tables["EnsembleTable"][ID].bloquer();
-        var bloque = Tables["EnsembleTable"][ID].getBloquer();
+	var emplacement = document.getElementById('EmplacementTable'+IDTable);
+	var titre = emplacement.getElementsByClassName('nomTable');
+	if(titre[0]===undefined){
+		titre = emplacement.getElementsByClassName('nomTableErr');
+	}
+	if(titre[0].value.match(/^\w*$/)){
+		titre[0].className = 'nomTable';
+		titre = emplacement.getElementsByClassName('nomTable');
+		if(Tables.verifUnicite(titre[0].value,"table"+IDTable)){
+			titre[0].className = 'nomTableErr';
+			var msg = document.createElement('div');
+			msg.className='msgErr';
+			msg.innerHTML = "Le titre DOIT être UNIQUE"
+			emplacement.appendChild(msg);
+			setTimeout(function(){
+				emplacement.removeChild(msg);
+				titre = emplacement.getElementsByClassName('nomTableErr');
+				if(titre[0]===undefined)titre = emplacement.getElementsByClassName('nomTable');
+				titre[0].className = 'nomTable';
+			},5000);
+			return;
+		}
+		var stringID = IDTable.toString();
+		var ID = "table" + IDTable;
+		Tables["EnsembleTable"][ID].bloquer();
+		var bloque = Tables["EnsembleTable"][ID].getBloquer();
         titre[0].disabled = bloque;
         var table = document.getElementById(ID);
         var th = table.getElementsByTagName('input');
@@ -1267,7 +1281,6 @@ function sauvegarderModif(IDTable){
         for (var n in col) {
             col[n].className = 'col';
         }
-
         recuperationContenu(IDTable);
         var relation = document.getElementById("EmplacementTable" + stringID);
         var bouton = relation.getElementsByClassName('boutonUnlock')[0];
@@ -1278,7 +1291,7 @@ function sauvegarderModif(IDTable){
         titre[0].className = 'nomTableErr';
         var msg = document.createElement('div');
         msg.className='msgErr';
-        msg.innerHTML = "Le titre ne doit contenir que des caractères alpha-numérique en majuscule, ou underscores"
+        msg.innerHTML = "Le titre doit contenir que des caractères alpha-numérique en majuscule, ou underscores"
         emplacement.appendChild(msg);
         setTimeout(function(){
             emplacement.removeChild(msg);
@@ -1311,12 +1324,12 @@ function recuperationContenu(IDTable){
 	table = document.getElementById('EmplacementTable'+IDTable);
     var titre = table.getElementsByClassName('nomTable');
     if(titre[0].value === ""){
-        Tables["EnsembleTable"][ID].attribuerNom(ID);
+        Tables["EnsembleTable"][ID].attribuerNom("TABLE"+IDTable);
         titre[0].value = ID;
     	
     }
     else {
-        Tables["EnsembleTable"][ID].attribuerNom(titre[0].value);
+    	Tables["EnsembleTable"][ID].attribuerNom(titre[0].value);
     }
 }
 

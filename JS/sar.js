@@ -641,14 +641,22 @@ function createEquiJointure(table1,table2,e_table1,e_table2){
     var tableEquiJointure = new Table();
     tableEquiJointure.attribuerNom(table1.Libelle + " [ "+e_table1+" = "+e_table2+" ] "+table2.Libelle);
 
+	var nomTB1 = table1.Libelle;
+	var nomTB2 = table2.Libelle;
+	
+	if (nomTB1 === nomTB2) {
+		var nomTB1 = nomTB1.substr(0,1)+"1";
+		var nomTB2 = nomTB2.substr(0,1)+"2";
+	}
+	
 	for (var i in table1.Entete) {
-		tableEquiJointure.Entete[i] = table1.Entete[i];
+		tableEquiJointure.Entete[i] = nomTB1+"."+table1.Entete[i];
 	}
 
 	var compteur = tableEquiJointure.getNombreColonne();
 	for(var i in table2.Entete){
 		var NomNouvelleEntree="E"+compteur;
-		tableEquiJointure.Entete[NomNouvelleEntree]=table2.Entete[i];
+		tableEquiJointure.Entete[NomNouvelleEntree] = nomTB2+"."+table2.Entete[i];
 		compteur++;
 	}
 	
@@ -1448,7 +1456,7 @@ function affichageModele() {
         var op =[intersection,union,diff,mult,div,jointureNat,equiJointure,tetaJointure,projection];
         for(var i in op){
             var res = document.getElementById('requete').value.match(op[i]);
-            console.log(res);
+            // console.log(res);
 			if(res!=null){
                 break;
             }
@@ -1457,7 +1465,7 @@ function affichageModele() {
 			afficheMsgErrReq();
 		}
 		else {
-			if(parseInt(i) >= 0 && parseInt(i) < 5) {
+			if(parseInt(i) >= 0 && parseInt(i) <= 5) {
 				var nomTable_1 = res[1];
 				var nomTable_2 = res[3];
 				if (Tables.getTableByLibelle(nomTable_1) == null) {
@@ -1642,6 +1650,14 @@ function projection() {
 }
 
 function createJointureNaturelle(table1,table2) {
+	
+	//ajouter l'attribut , dans le cas ou plusieurs attribut son identique
+	
+	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
+        alert("Erreur jointure naturelle.");
+        return false;
+    }
+	
 	var colonnePourJointureNaturelle = "";
 	var positionTable1 = -1;
 	var positionTable2 = -1;
@@ -1656,6 +1672,7 @@ function createJointureNaturelle(table1,table2) {
 			}
 		}
 	}
+	console.log(colonnePourJointureNaturelle);
 	if (!boolJointurePossible) {
 		alert("Erreur jointure naturelle : pas de ligne en commun");
 		return false;
@@ -1664,8 +1681,17 @@ function createJointureNaturelle(table1,table2) {
 	var NomTable = table1.Libelle+"["+colonnePourJointureNaturelle+"]"+table2.Libelle;
 	var t1lght = Object.keys(table1.Entete).length;
 	var positionEnteteCommuneTable2 = -1;
+	
+	var nomTB1 = table1.Libelle;
+	var nomTB2 = table2.Libelle;
+	
+	if (nomTB1 === nomTB2) {
+		var nomTB1 = nomTB1.substr(0,1)+"1";
+		var nomTB2 = nomTB2.substr(0,1)+"2";
+	}
+	
 	for (var i = 0; i < t1lght; i++) {
-		TableJointureNaturelle.Entete["E"+i]=table1.Entete["E"+i];
+		TableJointureNaturelle.Entete["E"+i] = nomTB1+"."+table1.Entete["E"+i];
 	}
 	for (var i = t1lght, j = 0, c = Object.keys(table2.Entete).length-1; i < t1lght + c; i++, j++) {
 		if (table2.Entete["E"+j] === colonnePourJointureNaturelle) {
@@ -1673,7 +1699,7 @@ function createJointureNaturelle(table1,table2) {
 			positionEnteteCommuneTable2 = j;
 			continue;
 		}
-		TableJointureNaturelle.Entete["E"+i]=table2.Entete["E"+j];
+		TableJointureNaturelle.Entete["E"+i] = nomTB2+"."+table2.Entete["E"+j];
 	}
 	var tabR1 = [];
 	var tabR2 = [];
@@ -1745,13 +1771,22 @@ function createTetaJointure(table1,table2,e_table1,e_table2){
 
     var tableTetaJointure = new Table();
     tableTetaJointure.attribuerNom(table1.Libelle + "["+e_table1+" != "+e_table2+"]"+table2.Libelle);
-    for (var i in table1.Entete) {
-		tableTetaJointure.Entete[i] = table1.Entete[i];
+    
+	var nomTB1 = table1.Libelle;
+	var nomTB2 = table2.Libelle;
+	
+	if (nomTB1 === nomTB2) {
+		var nomTB1 = nomTB1.substr(0,1)+"1";
+		var nomTB2 = nomTB2.substr(0,1)+"2";
+	}
+	
+	for (var i in table1.Entete) {
+		tableTetaJointure.Entete[i] = nomTB1+"."+table1.Entete[i];
 	}
     var compteur = tableTetaJointure.getNombreColonne();
     for(var i in table2.Entete){
         var NomNouvelleEntree="E"+compteur;
-        tableTetaJointure.Entete[NomNouvelleEntree]=table2.Entete[i];
+        tableTetaJointure.Entete[NomNouvelleEntree] = nomTB2+"."+table2.Entete[i];
         compteur++;
     }
 	var tailleEnteteTable1 = Object.keys(table1.Entete).length;
@@ -1964,23 +1999,27 @@ function produitCartesien(table1, table2) {
 	var tb2Ligne = table2.getNombreLigne();
 	var addtb1tb2Ligne = tb1Ligne * tb2Ligne;
 
+	var nomTB1 = table1.Libelle;
+	var nomTB2 = table2.Libelle;
+	
+	if (nomTB1 === nomTB2) {
+		var nomTB1 = nomTB1.substr(0,1)+"1";
+		var nomTB2 = nomTB2.substr(0,1)+"2";
+	}
+	
+	
 	TableProduitCartesien = new Table();
 
 	for (var i = 0; i < tb1Colonne; i++) {
-		TableProduitCartesien.Entete["E"+i] = table1.Entete["E"+i];
+		TableProduitCartesien.Entete["E"+i] = nomTB1+"."+table1.Entete["E"+i];
 		TableProduitCartesien.Contenu["E"+i] = [];
 	}
+	console.log(TableProduitCartesien);
 	for (var i = 0; i < tb1Colonne; i++) {
 		var att1 = JSON.stringify(table1.Entete["E"+i]);
 		for (var i = tb1Colonne; i < addtb1tb2Colonne; i++) {
 			var att2 = JSON.stringify(table2.Entete["E"+(i-tb1Colonne)]);
-			if (att1 === att2) {
-				var nvAtt = "z"+table2.Entete["E"+(i-tb1Colonne)];
-				TableProduitCartesien.Entete["E"+i] = nvAtt;
-				TableProduitCartesien.Contenu["E"+i] = [];
-				continue;
-			}
-			TableProduitCartesien.Entete["E"+i] = table2.Entete["E"+(i-tb1Colonne)];
+			TableProduitCartesien.Entete["E"+i] = nomTB2+"."+table2.Entete["E"+(i-tb1Colonne)];
 			TableProduitCartesien.Contenu["E"+i] = [];
 		}
 	}
@@ -1992,7 +2031,6 @@ function produitCartesien(table1, table2) {
 	}
 	var h = 0;
 	for (var k = 0; k < tb1Ligne; k++) {
-
 		for (var i = 0; i < tb2Colonne; i++) {
 			for (var j = 0; j < tb2Ligne; j++) {
 				TableProduitCartesien.Contenu["E"+(i+tb1Colonne)][j+h]=table2.Contenu["E"+i][j];

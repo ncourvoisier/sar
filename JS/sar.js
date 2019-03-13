@@ -11,7 +11,6 @@ class Table{
 		this.Contenu={E0:[]};
 		this.ColonneId=1;
 		this.bloque = true;
-		this.tailleMin = undefined;
 		this.OrdreEntete=["E0"];
 	}
 	attribuerNom(Nom) {
@@ -137,12 +136,6 @@ class Table{
 	setY(y) {
 		this.Y=y;
 	}
-	setTMin(t){
-	    this.tailleMin = t;
-	}
-	getTMin(){
-	    return this.tailleMin;
-    }
     tri(Entete,NumTable){
     	var EnteteAtt="E"+Entete;
     	var isNombre=true;
@@ -243,6 +236,14 @@ class Table{
 		}
 		return tab.sort();
 	}
+	getEnteteByNom(nomAttr){
+	    for(var i in this.Entete){
+	        if(this.Entete[i] == nomAttr){
+	            return i;
+            }
+        }
+	    return null;
+    }
 }
 
 //----------------------------Ensemble Tables----------------------------
@@ -253,7 +254,7 @@ var Tables={
 		Tables.id++;
 		var NomTable="table"+Tables.id;
 		Tables["EnsembleTable"][NomTable]=TABLE;
-		(TABLE.Libelle ==="")?TABLE.attribuerNom(NomTable):TABLE.attribuerNom(TABLE.Libelle);
+		(TABLE.Libelle ==="")?TABLE.attribuerNom("TABLE"+Tables.id):TABLE.attribuerNom(TABLE.Libelle);
 	},
 	suppressionTable: function(ID){
 		delete Tables["EnsembleTable"][ID];
@@ -265,6 +266,14 @@ var Tables={
 			}
 		}
 		return null;
+	},
+	verifUnicite(libelle,idtable){
+		for(var i in Tables["EnsembleTable"]){
+			if(Tables["EnsembleTable"][i].Libelle === libelle && i !== idtable){
+				return true;
+			}
+		}
+		return false;
 	}
 };
 //------------------------------------------------------
@@ -317,7 +326,7 @@ dragDrop = {
 		removeEventSimple(document,'keypress',dragDrop.dragKeys);
 		removeEventSimple(document,'keypress',dragDrop.switchKeyEvents);
 		removeEventSimple(document,'keydown',dragDrop.dragKeys);
-		dragDrop.draggedObject.className = dragDrop.draggedObject.className.replace(/dragged/,'');
+		dragDrop.draggedObject.className = dragDrop.draggedObject.className.replace(/ dragged/,'');
 		dragDrop.draggedObject = null;
 	}
 }
@@ -469,15 +478,15 @@ function tableToHTML(TABLE,number){
 	}
 	contenuMAJ += "</tr></thead><tbody>";
 
-	var divNew = document.createElement('div');
+	var divBtnSuprLigne = document.createElement('div');
 	var imgBtnSuprLigne = document.createElement('img');
-	divNew.className = 'btnSuprLigne';
+	divBtnSuprLigne.className = 'btnSuprLigne';
 	imgBtnSuprLigne.width = '16';
 	imgBtnSuprLigne.height = '16';
 	imgBtnSuprLigne.src = '../ressources/images/suprCol.png';
 	// console.log("Nombre de ligne "+nbLigne);
 	imgBtnSuprLigne.setAttribute('onclick','supprLigne('+IDTable+','+nbLigne+')');
-	divNew.appendChild(imgBtnSuprLigne);
+	divBtnSuprLigne.appendChild(imgBtnSuprLigne);
 	var nbLigne = nbContenu;
 	for (var contenu = 0; contenu < nbContenu; contenu++) {
 		contenuMAJ += "<tr>";
@@ -641,6 +650,7 @@ function createEquiJointure(table1,table2,e_table1,e_table2){
     var tableEquiJointure = new Table();
     tableEquiJointure.attribuerNom(table1.Libelle + " [ "+e_table1+" = "+e_table2+" ] "+table2.Libelle);
 
+
 	var nomTB1 = table1.Libelle;
 	var nomTB2 = table2.Libelle;
 	
@@ -738,6 +748,7 @@ function createUnion(TABLE1,TABLE2){
 	TABLE2.TriOrdreEntete();
 	var TableUnion=new Table();
 	TableUnion.attribuerNom(TABLE1.Libelle+" OU "+TABLE2.Libelle);
+	
 	var compteur =0;
 	for(cleEntete in TABLE1.OrdreEntete){
 		var NomNouvelleEntree="E"+compteur;
@@ -800,7 +811,9 @@ function createIntersection(TABLE1,TABLE2){
 	TABLE2.TriOrdreEntete();
 	var TableIntersection=new Table();
 	// TableIntersection.attribuerNom("Intersection: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
+	
 	TableIntersection.attribuerNom(TABLE1.Libelle+" ET "+TABLE2.Libelle);
+	
 	var compteur =0;
 	for(var i in TABLE1.Entete){
 		var NomNouvelleEntree="E"+compteur;
@@ -862,8 +875,9 @@ function createDiff(TABLE1,TABLE2){
 	TABLE1.TriOrdreEntete();
 	TABLE2.TriOrdreEntete();
 	var TableDiff=new Table();
-	// TableDiff.attribuerNom("Diff: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
+	
 	TableDiff.attribuerNom(TABLE1.Libelle+" - "+TABLE2.Libelle);
+	
 	var compteur =0;
 	for(var i in TABLE1.Entete){
 		var NomNouvelleEntree="E"+compteur;
@@ -1194,7 +1208,6 @@ function createArray() {
 	divNew.style.top = DeplacementHauteur+'px';
 	dragDrop.initElement(IDEmplacement);
 	// recupTable();
-    Tables["EnsembleTable"]["table"+NombreTable].setTMin(divDrag.offsetWidth);
 	thNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".tri(0,"+NombreTable+")");
 	thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".triReverse(0,"+NombreTable+")");
 	trNew.getElementsByClassName('suprCol')[0].setAttribute('onclick','supprColum('+IDTable+',0)');
@@ -1234,18 +1247,32 @@ function modification(IDTable){
 }
 
 function sauvegarderModif(IDTable){
-    var emplacement = document.getElementById('EmplacementTable'+IDTable);
-    var titre = emplacement.getElementsByClassName('nomTable');
-    if(titre[0]===undefined){
-        titre = emplacement.getElementsByClassName('nomTableErr');
-    }
-    if(titre[0].value.match(/^[A-Z0-9]*$/)){
-        titre[0].className = 'nomTable';
-        titre = emplacement.getElementsByClassName('nomTable');
-        var stringID = IDTable.toString();
-        var ID = "table" + IDTable;
-        Tables["EnsembleTable"][ID].bloquer();
-        var bloque = Tables["EnsembleTable"][ID].getBloquer();
+	var emplacement = document.getElementById('EmplacementTable'+IDTable);
+	var titre = emplacement.getElementsByClassName('nomTable');
+	if(titre[0]===undefined){
+		titre = emplacement.getElementsByClassName('nomTableErr');
+	}
+	if(titre[0].value.match(/^\w*$/)){
+		titre[0].className = 'nomTable';
+		titre = emplacement.getElementsByClassName('nomTable');
+		if(Tables.verifUnicite(titre[0].value,"table"+IDTable)){
+			titre[0].className = 'nomTableErr';
+			var msg = document.createElement('div');
+			msg.className='msgErr';
+			msg.innerHTML = "Le titre DOIT être UNIQUE"
+			emplacement.appendChild(msg);
+			setTimeout(function(){
+				emplacement.removeChild(msg);
+				titre = emplacement.getElementsByClassName('nomTableErr');
+				if(titre[0]===undefined)titre = emplacement.getElementsByClassName('nomTable');
+				titre[0].className = 'nomTable';
+			},5000);
+			return;
+		}
+		var stringID = IDTable.toString();
+		var ID = "table" + IDTable;
+		Tables["EnsembleTable"][ID].bloquer();
+		var bloque = Tables["EnsembleTable"][ID].getBloquer();
         titre[0].disabled = bloque;
         var table = document.getElementById(ID);
         var th = table.getElementsByTagName('input');
@@ -1263,7 +1290,6 @@ function sauvegarderModif(IDTable){
         for (var n in col) {
             col[n].className = 'col';
         }
-
         recuperationContenu(IDTable);
         var relation = document.getElementById("EmplacementTable" + stringID);
         var bouton = relation.getElementsByClassName('boutonUnlock')[0];
@@ -1274,7 +1300,7 @@ function sauvegarderModif(IDTable){
         titre[0].className = 'nomTableErr';
         var msg = document.createElement('div');
         msg.className='msgErr';
-        msg.innerHTML = "Le titre ne doit contenir que des caractères alpha-numérique en majuscule, ou underscores"
+        msg.innerHTML = "Le titre doit contenir que des caractères alpha-numérique en majuscule, ou underscores"
         emplacement.appendChild(msg);
         setTimeout(function(){
             emplacement.removeChild(msg);
@@ -1307,11 +1333,12 @@ function recuperationContenu(IDTable){
 	table = document.getElementById('EmplacementTable'+IDTable);
     var titre = table.getElementsByClassName('nomTable');
     if(titre[0].value === ""){
-        Tables["EnsembleTable"][ID].attribuerNom(ID);
+        Tables["EnsembleTable"][ID].attribuerNom("TABLE"+IDTable);
         titre[0].value = ID;
+    	
     }
     else {
-        Tables["EnsembleTable"][ID].attribuerNom(titre[0].value);
+    	Tables["EnsembleTable"][ID].attribuerNom(titre[0].value);
     }
 }
 
@@ -1452,8 +1479,9 @@ function affichageModele() {
         var jointureNat = /^([A-Z0-9]{1,20})\s\[\s([A-Za-z]+)\s\]\s([A-Z0-9]{1,20})$/;
         var equiJointure = /^([A-Z0-9]{1,20})\s\[\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s=\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s\]\s([A-Z0-9]{1,20})$/;
         var tetaJointure = /^([A-Z0-9]{1,20})\s\[\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s!=\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s\]\s([A-Z0-9]{1,20})$/;
-        var projection = /^\[([A-Za-z]+)(?:,[A-Za-z]+)*\]\s([A-Z0-9]{1,20})$/;
-        var op =[intersection,union,diff,mult,div,jointureNat,equiJointure,tetaJointure,projection];
+        var projection = /^\[(.*)\]\s([A-Z0-9]{1,20})$/;
+        var selection = /^S\[\s([A-Za-z]+)\s?([<>]||[<>!=]=)\s?([0-9]*)\s\]\s([A-Z0-9]{1,20})$/;
+        var op =[intersection,union,diff,mult,div,jointureNat,equiJointure,tetaJointure,projection,selection];
         for(var i in op){
             var res = document.getElementById('requete').value.match(op[i]);
             // console.log(res);
@@ -1563,12 +1591,24 @@ function affichageModele() {
 				}
 					break;
 				case 8: {
-					for(var n = 1;n < res.length-1;n++){
-						console.log(res[n]);
-					}
-					console.log('projection');
+					var attributs = res[1].split(',');
+					for(var n in attributs){
+					    attributs[n] = attributs[n].trim();
+                    }
+                    createProjection(Tables.getTableByLibelle(res[2]),attributs);
 				}
 					break;
+				case 9: {
+					for(var i in res){
+						console.log(res[i]);
+					}
+					createSelection(Tables.getTableByLibelle(res[4]),res[1],res[2],res[3]);
+				}
+					break;
+				default : {
+					afficheMsgErrReq();
+				}
+				break;
 			}
 		}
     });
@@ -1619,7 +1659,6 @@ function load(modele) {
 			NewTable.Contenu=RestoredTables.EnsembleTable[RestoredT].Contenu;
 			NewTable.ColonneId=RestoredTables.EnsembleTable[RestoredT].ColonneId;
 			NewTable.bloque=RestoredTables.EnsembleTable[RestoredT].bloque;
-			NewTable.tailleMin=RestoredTables.EnsembleTable[RestoredT].tailleMin;
 			NewTable.OrdreEntete=RestoredTables.EnsembleTable[RestoredT].OrdreEntete;
 			Tables.AjoutTable(NewTable);
 		}
@@ -1633,17 +1672,33 @@ function load(modele) {
 	}
 }
 
-function projection() {
-	var colonneSelectionner = ["E0","E2"];
-	var NomTable = "table2";
+function createProjection(table,tab_Entete) {
+    var colonneSelectionner = [];
+    for(var i in tab_Entete){
+        var entete = table.getEnteteByNom(tab_Entete[i]);
+        if(entete){
+            colonneSelectionner.push(entete);
+        }
+        else{
+            var divErr = document.createElement('div');
+            divErr.className = 'reqErr';
+            divErr.innerHTML = 'Erreur dans la requête : vérifiez le nom des attributs ! ';
+            var inpt = document.getElementById('envReq');
+            document.body.insertBefore(divErr, inpt);
+            setTimeout(function () {
+                document.body.removeChild(divErr);
+            }, 6000);
+            return;
+        }
+    }
 	var TableProjection = new Table();
-	var nomNvTable = "Projection "+NomTable;
+	var nomNvTable = "PROJECTION "+table.Libelle;
 	for (var i = 0, c = colonneSelectionner.length; i < c; i++) {
-		nomNvTable += " "+Tables["EnsembleTable"][NomTable].Entete[colonneSelectionner[i]];
-		TableProjection.Entete["E"+i]=Tables["EnsembleTable"][NomTable].Entete[colonneSelectionner[i]];
-		TableProjection.Contenu["E"+i]=Tables["EnsembleTable"][NomTable].Contenu[colonneSelectionner[i]];
+		TableProjection.Entete["E"+i]=table.Entete[colonneSelectionner[i]];
+		TableProjection.Contenu["E"+i]=table.Contenu[colonneSelectionner[i]];
 	}
 	TableProjection.attribuerNom(nomNvTable);
+	
 	Tables.AjoutTable(TableProjection);
 	NombreTable++;
 	tableToHTML(TableProjection);
@@ -1735,6 +1790,7 @@ function createJointureNaturelle(table1,table2) {
 		}
 	}
 	TableJointureNaturelle.attribuerNom(NomTable);
+	
 	Tables.AjoutTable(TableJointureNaturelle);
 	NombreTable++;
 	tableToHTML(TableJointureNaturelle);
@@ -1771,6 +1827,7 @@ function createTetaJointure(table1,table2,e_table1,e_table2){
 
     var tableTetaJointure = new Table();
     tableTetaJointure.attribuerNom(table1.Libelle + "["+e_table1+" != "+e_table2+"]"+table2.Libelle);
+
     
 	var nomTB1 = table1.Libelle;
 	var nomTB2 = table2.Libelle;
@@ -1924,6 +1981,7 @@ function createDivision(table1, table2) {
 	
 	var NomTable = table1.Libelle+" / "+table2.Libelle;
 	TableDivision.attribuerNom(NomTable);
+	
 	Tables.AjoutTable(TableDivision);
     NombreTable++;
     tableToHTML(TableDivision);
@@ -2048,6 +2106,55 @@ function produitCartesien(table1, table2) {
 	} else {
 		return TableProduitCartesien;
 	}
+}
+
+
+function createSelection(TABLE,NomAttribut,operateur,condition){
+	var position=0;
+	for(var entete in TABLE.Entete){
+		if(TABLE.Entete[entete]==NomAttribut){
+			break;
+		}
+		position++
+	}
+	var TableSelection = new Table();
+	for (var i = 0; i < TABLE.getNombreColonne(); i++) {
+		TableSelection.Entete["E"+i] = TABLE.Entete["E"+i];
+		TableSelection.Contenu["E"+i] = [];
+	}
+	var nomTable = "S ["+NomAttribut+" "+operateur+" "+condition+"] "+TABLE.Libelle;
+	Tables.AjoutTable(TableSelection);
+	TableSelection.attribuerNom(nomTable);
+
+	for(var i=0;i<TABLE.getNombreLigne();i++){
+		if(appliqueFonction(recupereLigne(TABLE,i)[position],operateur,condition)){
+			TableSelection.ajoutLigne(recupereLigne(TABLE,i));
+		}
+	}
+	NombreTable++;
+	tableToHTML(TableSelection);
+}
+function verifUniciteNomTable(NomTable){
+	for(var table in Tables.EnsembleTable){
+		if(Tables.EnsembleTable[table].libelle==NomTable){
+			return false;
+		}
+	}
+	return true;
+}
+
+function appliqueFonction(a,operateur,b){
+	a=+a;
+	b=+b;
+	switch (operateur) {
+		case "<": return a<b;
+		case ">": return a>b;
+		case "<=": return a<=b;
+		case ">=": return a>=b;
+		case "==": return a==b;
+		case "!=": return a!=b;
+	}
+	return true;
 }
 
 

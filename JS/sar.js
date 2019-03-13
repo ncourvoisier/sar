@@ -755,7 +755,7 @@ function createUnion(TABLE1,TABLE2){
 	TABLE1.TriOrdreEntete();
 	TABLE2.TriOrdreEntete();
 	var TableUnion=new Table();
-	TableUnion.attribuerNom(TABLE1.Libelle+" OU "+TABLE2.Libelle);
+	TableUnion.attribuerNom(TABLE1.Libelle+" Union "+TABLE2.Libelle);
 	
 	var compteur =0;
 	for(cleEntete in TABLE1.OrdreEntete){
@@ -818,9 +818,7 @@ function createIntersection(TABLE1,TABLE2){
 	TABLE1.TriOrdreEntete();
 	TABLE2.TriOrdreEntete();
 	var TableIntersection=new Table();
-	// TableIntersection.attribuerNom("Intersection: "+TABLE1.Libelle+" ET "+TABLE2.Libelle);
-	
-	TableIntersection.attribuerNom(TABLE1.Libelle+" ET "+TABLE2.Libelle);
+	TableIntersection.attribuerNom(TABLE1.Libelle+" Inter "+TABLE2.Libelle);
 	
 	var compteur =0;
 	for(var i in TABLE1.Entete){
@@ -1946,16 +1944,15 @@ function createDivision(table1, table2) {
 		var EnteteCommun = true;
 		for (var j in table2.Entete) {
 			if(table1.Entete[i] === table2.Entete[j]){
+				if (position === 0 && i === "E0") {
+					position = 1;
+				}
 				EnteteCommun = false;
 				break;
 			}
 		}
 		if (EnteteCommun) {
 			TableDivision.Entete["E"+cpt] = table1.Entete[i];
-			if (position === 0) {
-				position = cpt;
-				
-			}
 			cpt++;
 		}
 	}
@@ -1981,6 +1978,7 @@ function createDivision(table1, table2) {
 	Tables.suppressionTable("table"+NombreTable);
 	var l2 = table2.getNombreLigne();
 	var resultDivOccu = [];
+	console.log(position);
 	resultDivOccu = countOccurences(testTab, l2, position);
 
 	var cpt = 0;

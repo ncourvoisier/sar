@@ -12,6 +12,7 @@ class Table{
 		this.ColonneId=1;
 		this.bloque = true;
 		this.OrdreEntete=["E0"];
+		this.tailleMin;
 	}
 	attribuerNom(Nom) {
 		this.Libelle=Nom;
@@ -135,6 +136,12 @@ class Table{
 	}
 	setY(y) {
 		this.Y=y;
+	}
+	getTMin(){
+		return this.tailleMin;
+	}
+	setTMin(taille) {
+		this.tailleMin=taille;
 	}
     tri(Entete,NumTable){
     	var EnteteAtt="E"+Entete;
@@ -458,6 +465,7 @@ function tableToHTML(TABLE,number){
 	DeplacementHauteur=120+numTable*100;
 	divNew.style.top = DeplacementHauteur+'px';
 	dragDrop.initElement(IDEmplacement);
+	TABLE.setTMin(divNew.style.offsetWidth);
 	// recupTable();
 	//thNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".tri(0,"+NombreTable+")");
 	//thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".triReverse(0,"+NombreTable+")");
@@ -1207,6 +1215,7 @@ function createArray() {
 	DeplacementHauteur=120+NombreTable*100;
 	divNew.style.top = DeplacementHauteur+'px';
 	dragDrop.initElement(IDEmplacement);
+	Tables.EnsembleTable[IDTable].setTMin(divNew.style.offsetWidth);
 	// recupTable();
 	thNew.getElementsByClassName('tri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".tri(0,"+NombreTable+")");
 	thNew.getElementsByClassName('reverseTri')[0].setAttribute('onclick',"Tables.EnsembleTable.table"+NombreTable+".triReverse(0,"+NombreTable+")");
@@ -1252,7 +1261,7 @@ function sauvegarderModif(IDTable){
 	if(titre[0]===undefined){
 		titre = emplacement.getElementsByClassName('nomTableErr');
 	}
-	if(titre[0].value.match(/^\w*$/)){
+if(titre[0].value.match(/^[A-Z0-9_]{1,20}$/)){
 		titre[0].className = 'nomTable';
 		titre = emplacement.getElementsByClassName('nomTable');
 		if(Tables.verifUnicite(titre[0].value,"table"+IDTable)){
@@ -1363,6 +1372,7 @@ function reduction(IDTable){
 	var divDrag = table.getElementsByClassName('drag');
 	divDrag[0].style.width = Tables["EnsembleTable"][ID].getTMin()+"px";
 	var btnReduc = divDrag[0].getElementsByClassName('btnReduc');
+	console.log(btnReduc[0]);
 	btnReduc[0].setAttribute('onclick',"agrandissement("+IDTable+")");
 }
 
@@ -1480,7 +1490,7 @@ function affichageModele() {
         var equiJointure = /^([A-Z0-9]{1,20})\s\[\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s=\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s\]\s([A-Z0-9]{1,20})$/;
         var tetaJointure = /^([A-Z0-9]{1,20})\s\[\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s!=\s([A-Z0-9]{1,20})\.([A-Za-z]+)\s\]\s([A-Z0-9]{1,20})$/;
         var projection = /^\[(.*)\]\s([A-Z0-9]{1,20})$/;
-        var selection = /^S\[\s([A-Za-z]+)\s?([<>]||[<>!=]=)\s?([0-9]*)\s\]\s([A-Z0-9]{1,20})$/;
+        var selection = /^S\[\s([A-Za-z]+)\s?([<>=]||[<>!]=)\s?([0-9]*)\s\]\s([A-Z0-9]{1,20})$/;
         var op =[intersection,union,diff,mult,div,jointureNat,equiJointure,tetaJointure,projection,selection];
         for(var i in op){
             var res = document.getElementById('requete').value.match(op[i]);
@@ -2151,7 +2161,7 @@ function appliqueFonction(a,operateur,b){
 		case ">": return a>b;
 		case "<=": return a<=b;
 		case ">=": return a>=b;
-		case "==": return a==b;
+		case "=": return a==b;
 		case "!=": return a!=b;
 	}
 	return true;

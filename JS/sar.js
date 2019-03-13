@@ -1479,8 +1479,8 @@ function affichageModele() {
 		listeModele.push(noms);
 	}
     document.getElementById('envReq').addEventListener('click',function(){
-        var intersection = /^([A-Z0-9]{1,20})\s(et)\s([A-Z0-9]{1,20})$/;
-        var union = /^([A-Z0-9]{1,20})\s(ou)\s([A-Z0-9]{1,20})$/;
+        var intersection = /^([A-Z0-9]{1,20})\s(inter)\s([A-Z0-9]{1,20})$/;
+        var union = /^([A-Z0-9]{1,20})\s(union)\s([A-Z0-9]{1,20})$/;
         var diff = /^([A-Z0-9]{1,20})\s(-)\s([A-Z0-9]{1,20})$/;
         var mult = /^([A-Z0-9]{1,20})\s(x)\s([A-Z0-9]{1,20})$/;
         var div = /^([A-Z0-9]{1,20})\s(\/)\s([A-Z0-9]{1,20})$/;

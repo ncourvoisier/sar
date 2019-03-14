@@ -1712,32 +1712,34 @@ function createProjection(table,tab_Entete) {
 	tableToHTML(TableProjection);
 }
 
-function createJointureNaturelle(table1,table2) {
-	
-	//ajouter l'attribut , dans le cas ou plusieurs attribut son identique
-	
+function createJointureNaturelle(table1, att, table2) {
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
         alert("Erreur jointure naturelle.");
         return false;
     }
-	
-	var colonnePourJointureNaturelle = "";
+	var colonnePourJointureNaturelle = att;
 	var positionTable1 = -1;
 	var positionTable2 = -1;
-	var boolJointurePossible=false;
+	var boolJointurePossible1=false;
+	var boolJointurePossible2=false;
 	for(var i in table1.Entete){
-		for(var j in table2.Entete){
-			if(table1.Entete[i] === table2.Entete[j]){
-				boolJointurePossible=true;
-				positionTable1 = i.toString();
-				positionTable2 = j.toString();
-				colonnePourJointureNaturelle = table1.Entete[i];
-			}
+		if(table1.Entete[i] === colonnePourJointureNaturelle){
+			positionTable1 = i.toString();
+			boolJointurePossible1 = true;
 		}
 	}
-	console.log(colonnePourJointureNaturelle);
-	if (!boolJointurePossible) {
-		alert("Erreur jointure naturelle : pas de ligne en commun");
+	for(var i in table2.Entete){
+		if(table2.Entete[i] === colonnePourJointureNaturelle){
+			positionTable2 = i.toString();
+			boolJointurePossible2 = true;
+		}
+	}
+	if (!boolJointurePossible1) {
+		alert("Erreur jointure naturelle : l'attribut "+colonnePourJointureNaturelle+" n'est pas dans la relation "+table1.Libelle+".");
+		return false;
+	}
+	if (!boolJointurePossible2) {
+		alert("Erreur jointure naturelle : l'attribut "+colonnePourJointureNaturelle+" n'est pas dans la relation "+table2.Libelle+".");
 		return false;
 	}
 	var TableJointureNaturelle = new Table();

@@ -1543,7 +1543,7 @@ function affichageModele() {
 				}
 					break;
 				case 5: {
-					createJointureNaturelle(Tables.getTableByLibelle(nomTable_1),Tables.getTableByLibelle(nomTable_2));
+					createJointureNaturelle(Tables.getTableByLibelle(nomTable_1),res[2],Tables.getTableByLibelle(nomTable_2));
 				}
 					break;
 				case 6: {
@@ -1713,6 +1713,9 @@ function createProjection(table,tab_Entete) {
 }
 
 function createJointureNaturelle(table1, att, table2) {
+	console.log(table1);
+	console.log(att);
+	console.log(table2);
 	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
         alert("Erreur jointure naturelle.");
         return false;

@@ -23,7 +23,26 @@ L'application web à été réalisé dans le cadre du module de projet tuteuré 
 
 ## Screenshots
 
-	A venir ...
-	
 
+	
+Voici les différents zones de l'application :
 ![Alt text](https://staamp.github.io/sar/doc/ExplicationFenetreSAR.png "Menu du site")
+
+
+Les différents opérateurs de l'application et leurs syntaxes pour le parser : 
+![Alt text](https://staamp.github.io/sar/doc/schemaOperationPSyntaxe.png "Opérateur de l'algbre relationelle")
+
+
+Divers screenshots de l'application :
+![Alt text](https://staamp.github.io/sar/doc/resultateoperation.png "Opérateur de l'algbre relationelle")
+![Alt text](https://staamp.github.io/sar/doc/schemaResultaCartesien.png "Opérateur de l'algbre relationelle")
+
+
+
+
+
+
+
+
+
+

@@ -24,3 +24,6 @@ L'application web à été réalisé dans le cadre du module de projet tuteuré 
 ## Screenshots
 
 	A venir ...
+	
+
+![Alt text](https://staamp.github.io/sar/doc/ExplicationFenetreSAR.png "Menu du site")

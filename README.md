@@ -1,6 +1,7 @@
 # SAR Site d'algèbre relationelle
 
-Encore en cours de développement.
+Le projet est considéré terminé.
+Il est possible de s'exercer à l'algèbre relationelle avec le lien de l'application disponible un peu plus bas dans le readme.
 
 
 ## Description :

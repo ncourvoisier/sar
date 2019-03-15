@@ -645,9 +645,11 @@ function createEquiJointure(table1,table2,e_table1,e_table2){
 	}
 
 	var entete2presente = false;
+	var positionAttTable2 = -1;
 	for (var i in table2.Entete) {
 		if (table2.Entete[i] === e_table2) {
 			entete2presente = true;
+			positionAttTable2 = i;
 		}
 	}
 	if (!entete2presente) {
@@ -656,8 +658,14 @@ function createEquiJointure(table1,table2,e_table1,e_table2){
 	}
 
     var tableEquiJointure = new Table();
-    tableEquiJointure.attribuerNom(table1.Libelle + " [ "+e_table1+" = "+e_table2+" ] "+table2.Libelle);
-
+    
+	if (createEquiJointure.caller.name === "createJointureNaturelle") {
+		tableEquiJointure.attribuerNom(table1.Libelle + " [ "+e_table1+" ] "+table2.Libelle);
+	} else {
+		tableEquiJointure.attribuerNom(table1.Libelle + " [ "+e_table1+" = "+e_table2+" ] "+table2.Libelle);
+	}
+	
+	
 
 	var nomTB1 = table1.Libelle;
 	var nomTB2 = table2.Libelle;
@@ -722,6 +730,13 @@ function createEquiJointure(table1,table2,e_table1,e_table2){
         lTab2 = 0;
         lTab1++;
     }
+	
+	if (createEquiJointure.caller.name === "createJointureNaturelle" ) {
+		var valeur = parseInt(positionAttTable2.substr(1,1));
+		var positionASupprimer  = valeur + table1.getNombreColonne();
+		tableEquiJointure.supprimerColonne(positionASupprimer);
+	}
+	
     Tables.AjoutTable(tableEquiJointure);
     NombreTable++;
     tableToHTML(tableEquiJointure);
@@ -1713,101 +1728,9 @@ function createProjection(table,tab_Entete) {
 }
 
 function createJointureNaturelle(table1, att, table2) {
-	console.log(table1);
-	console.log(att);
-	console.log(table2);
-	if(table1.constructor.name!="Table" || table2.constructor.name!="Table"){
-        alert("Erreur jointure naturelle.");
-        return false;
-    }
-	var colonnePourJointureNaturelle = att;
-	var positionTable1 = -1;
-	var positionTable2 = -1;
-	var boolJointurePossible1=false;
-	var boolJointurePossible2=false;
-	for(var i in table1.Entete){
-		if(table1.Entete[i] === colonnePourJointureNaturelle){
-			positionTable1 = i.toString();
-			boolJointurePossible1 = true;
-		}
-	}
-	for(var i in table2.Entete){
-		if(table2.Entete[i] === colonnePourJointureNaturelle){
-			positionTable2 = i.toString();
-			boolJointurePossible2 = true;
-		}
-	}
-	if (!boolJointurePossible1) {
-		alert("Erreur jointure naturelle : l'attribut "+colonnePourJointureNaturelle+" n'est pas dans la relation "+table1.Libelle+".");
-		return false;
-	}
-	if (!boolJointurePossible2) {
-		alert("Erreur jointure naturelle : l'attribut "+colonnePourJointureNaturelle+" n'est pas dans la relation "+table2.Libelle+".");
-		return false;
-	}
-	var TableJointureNaturelle = new Table();
-	var NomTable = table1.Libelle+"["+colonnePourJointureNaturelle+"]"+table2.Libelle;
-	var t1lght = Object.keys(table1.Entete).length;
-	var positionEnteteCommuneTable2 = -1;
 	
-	var nomTB1 = table1.Libelle;
-	var nomTB2 = table2.Libelle;
+	createEquiJointure(table1, table2, att, att);
 	
-	if (nomTB1 === nomTB2) {
-		var nomTB1 = nomTB1.substr(0,1)+"1";
-		var nomTB2 = nomTB2.substr(0,1)+"2";
-	}
-	
-	for (var i = 0; i < t1lght; i++) {
-		TableJointureNaturelle.Entete["E"+i] = nomTB1+"."+table1.Entete["E"+i];
-	}
-	for (var i = t1lght, j = 0, c = Object.keys(table2.Entete).length-1; i < t1lght + c; i++, j++) {
-		if (table2.Entete["E"+j] === colonnePourJointureNaturelle) {
-			i--;
-			positionEnteteCommuneTable2 = j;
-			continue;
-		}
-		TableJointureNaturelle.Entete["E"+i] = nomTB2+"."+table2.Entete["E"+j];
-	}
-	var tabR1 = [];
-	var tabR2 = [];
-	for (var i = 0, c = table1.getNombreLigne(); i < c; i++) {
-		for (var j = 0, z = table2.getNombreLigne(); j < z; j++) {
-			if (table1.Contenu[positionTable1][i] === table2.Contenu[positionTable2][j]) {
-				var l1 = recupereLigne(table1,i);
-				var l2 = recupereLigne(table2,j);
-				l2.splice(positionEnteteCommuneTable2,1); // Retire l'element en commun entre les deux relations
-				tabR1.push(l1);
-				tabR2.push(l2);
-			}
-		}
-	}
-	for (var i = 0, c = TableJointureNaturelle.getNombreColonne(); i < c; i++) {
-		TableJointureNaturelle.Contenu["E"+i] = [];
-	}
-	var table1Length = table1.getNombreColonne();
-	var tabR1Length = tabR1[0].length;
-	for (var i = 0; i < tabR1Length; i++) {
-		for (var j = 0; j < table1Length; j++) {
-			var tmp = tabR1[i][j];
-			TableJointureNaturelle.Contenu["E"+j][i]=tmp;
-		}
-	}
-	var TableJoitNatLenght = TableJointureNaturelle.getNombreColonne();
-	var tabR2Length = tabR2.length;
-	for (var i = table1Length; i < TableJoitNatLenght; i ++) {
-		for (var j = 0; j < tabR2Length; j++) {
-			var pos = i-table1Length;
-			var tmp = tabR2[j];
-			TableJointureNaturelle.Contenu["E"+i][j]=tmp;
-		}
-	}
-	TableJointureNaturelle.attribuerNom(NomTable);
-	
-	Tables.AjoutTable(TableJointureNaturelle);
-	NombreTable++;
-	tableToHTML(TableJointureNaturelle);
-	return true;
 }
 
 function createTetaJointure(table1,table2,e_table1,e_table2){
@@ -1906,7 +1829,7 @@ function createTetaJointure(table1,table2,e_table1,e_table2){
     NombreTable++;
     tableToHTML(tableTetaJointure);
 	if(tableTetaJointure.getNombreLigne() === 0) {
-		alert("Aucune ligne créé, elles sont toutes communes aux deux tables");
+		alert("Aucune ligne créé, elles sont toutes communes aux deux relations");
 	}
     return true;
 }

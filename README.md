@@ -9,7 +9,7 @@ L’algèbre relationnelle propose des opérateurs de base permettant de manipul
 	
 Ce projet à pour objectif de produire une application web pour appréhender plus facilement les opérateurs de la théorie relationnelle.
 
-L'application web à été réalisé dans le cadre du module de projet tuteuré à l'Université des Sciences et des Techniques de Besançon en troisième année de lience informatique.
+L'application web à été réalisé dans le cadre du module de projet tuteuré à l'Université des Sciences et des Techniques de Besançon en troisième année de licence informatique.
 
 ## Langages utilisés : 
 
